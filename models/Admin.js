@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("mongoose-type-email");
 const Schema = mongoose.Schema;
 //Admin schema
 var adminSchema = new Schema({
@@ -20,7 +21,7 @@ var adminSchema = new Schema({
     type: String
   },
   email: {
-    type: String,
+    type: mongoose.SchemaTypes.Email,
     unique: true
   },
   password: {
