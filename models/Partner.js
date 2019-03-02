@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("mongoose-type-email");
 const Schema = mongoose.Schema;
 //const Project= require(./../models/projects);
 //var projectSchema =require('mongoose').model('Project').schema;

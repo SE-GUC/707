@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+require("mongoose-type-email");
 const Schema = mongoose.Schema;
 //Project =require(/../models/Project)
 //var ProjectSchema=require('mongoose').model('project').Schema;
@@ -19,7 +20,7 @@ var candidateSchema = new Schema({
     default: Date.now
   },
   email: {
-    type: String,
+    type: mongoose.SchemaTypes.Email,
     unique: true
   },
   password: {
