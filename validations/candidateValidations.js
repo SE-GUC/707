@@ -12,7 +12,12 @@ module.exports = {
            address:Joi.string().min(10).required(),
            occupation:Joi.string().required(),
            languages:Joi.array().min(1).required(),
-           imageURL:Joi.string()
+           imageURL:Joi.string(),
+           skills:Joi.array().min(1).required(),
+           interests:Joi.array().min(1).required(),
+           education: Joi.string().required(),
+           CV:Joi.string().required()
+
            
 
             
@@ -28,7 +33,13 @@ module.exports = {
            address:Joi.string().min(10),
            occupation:Joi.string(),
            languages:Joi.array().min(1),
-           imageURL:Joi.string()
+           imageURL:Joi.string(),
+           skills:Joi.array().min(1),
+           interests:Joi.array().min(1),
+           education: Joi.string(),
+           certificates:Joi.array(),
+           masterClasses:Joi.array(),
+           cv:Joi.string()
         }
         return Joi.validate(request, updateSchema)
     },

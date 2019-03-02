@@ -15,6 +15,8 @@ module.exports = {
            imageURL:Joi.string()
            
 
+           
+
             
         }
         return Joi.validate(request, createSchema)
@@ -29,6 +31,7 @@ module.exports = {
            occupation:Joi.string(),
            languages:Joi.array().min(1),
            imageURL:Joi.string()
+          
         }
         return Joi.validate(request, updateSchema)
     },
