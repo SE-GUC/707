@@ -1,22 +1,24 @@
-
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 
-const Partner = require('../../models/Partner')
-const validator = require('../../validations/partnerValidations')
+const Admin = require('../../models/Admin')
+const validator = require('../../validations/adminValidations')
 
-//Create partner profile
-router.post('/register', async (req,res) => {
+//Create admin profile
+router.post('/register/:id', async (req,res) => {
     try {
+     const id = req.params.id
+    const admin = await Admin.findById(id)
+    if(!admin)return res.status(400).send({ error: 'This admin does not exist' })
      const isValidated = validator.createValidation(req.body)
      if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
      const salt = bcrypt.genSaltSync(10)
      req.body.age = getAge(req.body.birthdate)
      req.body.password= bcrypt.hashSync(req.body.password,salt)
-     const newPartner= await Partner.create(req.body)
-     res.json({msg:'Your profile was created successfully', data: newPartner})
+     const newAdmin= await Admin.create(req.body)
+     res.json({msg:'Your profile was created successfully', data: newAdmin})
     }
     catch(error) {
         res.json({msg: error.message})
@@ -35,35 +37,35 @@ router.post('/register', async (req,res) => {
     return age;
 }
 
-//View partners profiles
+//View admins profiles
 router.get('/', async (req,res) => {
-    const partners = await Partner.find()
-    res.json({data: partners})
+    const admins = await Admin.find()
+    res.json({data: admins})
 })
 
-//View partner profile by id
+//View admin profile by id
 router.get("/:id", async (req, res) => {
     try{
     const id = req.params.id
-    const partner = await Partner.findById(id)
-    if(!partner) return res.status(404).send({error: 'This profile does not exist'})
-    res.json({data: partner})}
+    const admin = await Admin.findById(id)
+    if(!admin) return res.status(404).send({error: 'This profile does not exist'})
+    res.json({data: admin})}
     catch(err){
         res.json({msg: err.message})
     }
 });
 
-//Update partner profile by id
+//Update admin profile by id
 router.put('/:id', async (req,res) => {
     try {
      const id = req.params.id
-     const partner = await Partner.findById(id)
-     if(!partner) return res.status(404).send({error: 'This profile does not exist'})
+     const admin = await Admin.findById(id)
+     if(!admin) return res.status(404).send({error: 'This profile does not exist'})
      const isValidated = validator.updateValidation(req.body)
      if (isValidated.error) return res.status(400).send({ error: isValidated.error.details[0].message })
-    Partner.findByIdAndUpdate(id,req.body, { 'new': true }, function(err, updatedPartner){
+      Admin.findByIdAndUpdate(id,req.body, { 'new': true }, function(err, updatedAdmin){
         if(!err)
-            res.json({msg: 'Your profile has been updated successfully',data: updatedPartner})
+            res.json({msg: 'Your profile has been updated successfully',data: updatedAdmin})
         else
             res.json({msg: err.message})
     })
@@ -78,16 +80,17 @@ router.put('/:id', async (req,res) => {
 
 
 
-//Delete partner profile by id
+//Delete admin profile by id
 router.delete('/:id', async (req,res) => {
     try {
      const id = req.params.id
      console.log(req.params.id)
-     const deletedPartner = await Partner.findByIdAndDelete(id)
-     res.json({msg:'Your account has been deleted successfully', data: deletedPartner})
+     const deletedAdmin = await Admin.findByIdAndDelete(id)
+     res.json({msg:'Your account has been deleted successfully', data: deletedAdmin})
     }
     catch(error) {
         
+        //console.log(error)
         res.json({msg: error.message})   
      }  
  })
