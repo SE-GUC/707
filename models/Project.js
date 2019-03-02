@@ -2,13 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // Partner=require('./../models/Partner');
 // var PartnerSchema=require('mongoose').model('partner').Schema;
-
 // Consultancy=require('./../models/Consultancy');
 // var ConsultancySchema=require('mongoose').model('consultancy').Schema;
-
 // Candidate=require('./../models/Candidate');
 // var CandidateSchema=require('mongoose').model('candidate').Schema;
-
 // lifeCycle=require('./../models/LifeCycle');
 // var lifeCycleSchema=require('mongoose').model('lifeCycle').Schema;
 
@@ -19,30 +16,30 @@ var projectSchema = new Schema({
   },
   effortLevel: {
     type: String,
-    default:null
+    default: null
   },
   deliveryTime: {
     type: Date,
-    default:null
+    default: null
   },
   commitmentLevel: {
     type: String,
-    default:null
+    default: null
   },
   experienceLevel: {
     type: String,
-    default:null
+    default: null
   },
   requiredSkills: {
     type: [String]
   },
   cost: {
     type: Number,
-    default:null
+    default: null
   },
   partnerID: {
     type: String,
-    default:null
+    default: null
     //type: PartnerSchema,
     //ref: 'Partner'
   },
@@ -53,20 +50,20 @@ var projectSchema = new Schema({
   },
   assignedCandidate: {
     type: String,
-    default:null
+    default: null
     //type: CandidateSchema,
     //ref: 'Candidate'
   },
   lifeCycle: {
     type: String,
-    default:null
+    default: null
     //type:lifeCycleSchema,
     //ref: 'lifeCycle'
   },
-  status:{
+  status: {
     type: String,
-    enum: ['PENDING','ACCEPTED','REJECTED'],
-    default:'PENDING'
+    enum: ["PENDING", "ACCEPTED", "REJECTED"],
+    default: "PENDING"
   }
 });
 module.exports = Project = mongoose.model("projects", projectSchema);

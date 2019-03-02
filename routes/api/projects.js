@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
 //View a project by its id
 router.get("/:id", async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const project = await Project.findById(id);
     if (!project)
       return res.status(404).send({ error: "This project does not exist" });
@@ -39,7 +39,7 @@ router.get("/:id", async (req, res) => {
 //Update project by its id
 router.put("/:id", async (req, res) => {
   try {
-    const id= req.params.id
+    const id = req.params.id;
     const project = await Project.findById(id);
     if (!project)
       return res.status(404).send({ error: "This project does not exist" });

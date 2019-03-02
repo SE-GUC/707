@@ -5,14 +5,13 @@ const Schema = mongoose.Schema;
 
 //Message schema
 var messageSchema = new Schema({
-  messageSubject:{
-    type:String,
-    default:"No Subject"
+  messageSubject: {
+    type: String,
+    default: "No Subject"
   },
   messageContent: {
     type: String,
-    default:null
-    //required: true
+    default: null
   },
   senderID: {
     type: String
