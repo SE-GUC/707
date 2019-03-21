@@ -5,13 +5,12 @@ const personalInformationSchema = require("../models/PersonalInformation").schem
 const conversationSchema = require("../models/Conversation").schema;
 const notificationSchema = require("../models/Notification").schema;
 const projectSchema = require("../models/Project").schema;
-//Admin schema
-var adminSchema = new Schema({
-  Credentials: credentialsSchema,
-  PersonalInformation: personalInformationSchema,
-  Converstaions: [conversationSchema],
-  Notifications: [notificationSchema],
-  AwaitingApprovalProjects: [projectSchema],
-  ApprovedProjects: [projectSchema]
-});
-module.exports = Admin = mongoose.model("admins", adminSchema);
+//Consultancy schema
+var consultancySchema = new Schema({
+    Credentials: credentialsSchema,
+    PersonalInformation: personalInformationSchema,
+    Converstaions: [conversationSchema],
+    Notifications: [notificationSchema],
+    AssignedProjects: [projectSchema]
+    });
+module.exports = Consultancy = mongoose.model("consultancies", consultancySchema);
