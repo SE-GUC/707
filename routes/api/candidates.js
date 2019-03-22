@@ -12,7 +12,6 @@ router.post("/register", async (req, res) => {
         .status(400)
         .send({ error: isValidated.error.details[0].message });
     const salt = bcrypt.genSaltSync(10);
-    req.body.age = getAge(req.body.birthdate);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
     const newCandidate = await Candidate.create(req.body);
     res.json({
@@ -23,16 +22,7 @@ router.post("/register", async (req, res) => {
     res.json({ msg: error.message });
   }
 });
-function getAge(dateString) {
-  var today = new Date();
-  var birthDate = new Date(dateString);
-  var age = today.getFullYear() - birthDate.getFullYear();
-  var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
-}
+
 //View candidates profiles
 router.get("/", async (req, res) => {
   const candidates = await Candidate.find();
@@ -62,6 +52,9 @@ router.put("/:id", async (req, res) => {
       return res
         .status(400)
         .send({ error: isValidated.error.details[0].message });
+    if(req.body.password != null){
+    const salt = bcrypt.genSaltSync(10);
+    req.body.password = bcrypt.hashSync(req.body.password, salt);}
     Candidate.findByIdAndUpdate(id, req.body, { new: true }, function(
       err,
       updatedCandidate

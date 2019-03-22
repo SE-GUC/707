@@ -1,50 +1,17 @@
 const mongoose = require("mongoose");
-require("mongoose-type-email");
 const Schema = mongoose.Schema;
-//const Project= require(./../models/projects);
-//var projectSchema =require('mongoose').model('Project').schema;
-
-//Partner profile schema
+const credentialsSchema = require("../models/Credentials").schema;
+const personalInformationSchema = require("../models/PersonalInformation").schema;
+const conversationSchema = require("../models/Conversation").schema;
+const notificationSchema = require("../models/Notification").schema;
+const projectSchema = require("../models/Project").schema;
+//Partner schema
 var partnerSchema = new Schema({
-  name: {
-    type: String
-  },
-  age: {
-    type: Number,
-    default: null
-  },
-  joinedSince: {
-    type: Date,
-    default: Date.now
-  },
-  email: {
-    type: mongoose.SchemaTypes.Email,
-    unique: true
-  },
-  password: {
-    type: String
-  },
-  address: {
-    type: String
-  },
-  occupation: {
-    type: String
-  },
-  languages: {
-    type: [String]
-  },
-  projectsSubmitted: {
-    type: [String],
-    default: null
-    //type: [projectSchema],
-    //ref: 'Project'
-  },
-  birthdate: {
-    type: Date
-  },
-  imageURL: {
-    type: String,
-    default: null
-  }
-});
+    Credentials: credentialsSchema,
+    PersonalInformation: personalInformationSchema,
+    Converstaions: [conversationSchema],
+    Notifications: [notificationSchema],
+    AwaitingApprovalProjects: [projectSchema],
+    ApprovedProjects: [projectSchema]
+    });
 module.exports = Partner = mongoose.model("partners", partnerSchema);
