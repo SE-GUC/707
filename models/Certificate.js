@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const evaluationSchema = require("../models/Evaluation").schema;
 //Certificate schema
 var certificateSchema = new Schema({
-    Description: String,
-    Organization: String,
-    Sponser: String
-    });
-module.exports = Certificate = mongoose.model("certificates", certificateSchema);
+  description: String,
+  category: String,
+  name: String,
+  evaluation: evaluationSchema
+});
+module.exports = Certificate = mongoose.model("certificates",certificateSchema);

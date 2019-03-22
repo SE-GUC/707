@@ -80,37 +80,40 @@ router.delete("/:id", async (req, res) => {
     res.json({ msg: error.message });
   }
 });
+//<<<<<<< Partner
 // create project
-router.post("/CreateProject", async (req, res) => {
-  try {
-    const isValidated = validator.createValidation(req.body);
-    if (isValidated.error)
-      return res
-        .status(400)
-        .send({ error: isValidated.error.details[0].message });
-    const newProject = [
-      {
-        type: req.body.type,
-        name: req.body.name,
-        description: req.body.description,
-        requireConsultancy: req.body. requireConsultancy,
-        lifecycle: { description: req.body.lifecycledes, status:req.body.status ,percentage:req.body.percentage},
-       tasks:[{name: req.body.taskname,
-        description: req.body.taskdesc,
-        effortLevel: req.body.effortLevel,
-        deliveryTime: req.body.deliveryTime,
-        commitmentLevel: req.body.commitmentLevel,
-        experienceLevel:req.body.experienceLevel ,
-        requiredSkills: req.body.requiredSkills,
-        monetaryCompensation: req.body.monetaryCompensation}]
+//router.post("/CreateProject", async (req, res) => {
+  //try {
+    //const isValidated = validator.createValidation(req.body);
+    //if (isValidated.error)
+      //return res
+        //.status(400)
+      //  .send({ error: isValidated.error.details[0].message });
+    //const newProject = [
+      //{
+        //type: req.body.type,
+        //name: req.body.name,
+        //description: req.body.description,
+        //requireConsultancy: req.body. requireConsultancy,
+        //lifecycle: { description: req.body.lifecycledes, status:req.body.status ,percentage:req.body.percentage},
+       //tasks:[{name: req.body.taskname,
+        //description: req.body.taskdesc,
+        //effortLevel: req.body.effortLevel,
+        //deliveryTime: req.body.deliveryTime,
+        //commitmentLevel: req.body.commitmentLevel,
+        //experienceLevel:req.body.experienceLevel ,
+        ///requiredSkills: req.body.requiredSkills,
+        //monetaryCompensation: req.body.monetaryCompensation}]
 
-      }]
-    res.json({
-      msg: "Your Project was created successfully",
-      data: newProject
-    });
-  } catch (error) {
-    res.json({ msg: error.message });
-  }
-});
+      //}]
+    //res.json({
+      //msg: "Your Project was created successfully",
+      //data: newProject
+    //});
+  //} catch (error) {
+    //res.json({ msg: error.message });
+  //}
+//});
+//=======
+//>>>>>>> Dev
 module.exports = router;
