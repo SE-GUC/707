@@ -4,7 +4,6 @@ require("mongoose-type-email");
 const personalInformationSchema = require("../models/PersonalInformation").schema;
 const conversationSchema = require("../models/Conversation").schema;
 const notificationSchema = require("../models/Notification").schema;
-const projectSchema = require("../models/Project").schema;
 const certificateSchema = require("../models/Certificate").schema;
 //Candidate schema
 var candidateSchema = new Schema({
