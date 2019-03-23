@@ -6,7 +6,10 @@ const conversationSchema = require("../models/Conversation").schema;
 const projectSchema = require("../models/Project").schema;
 //Partner schema
 var partnerSchema = new Schema({
-  email: { type: mongoose.SchemaTypes.Email, unique: true },
+  email: {
+    type: mongoose.SchemaTypes.Email,
+    unique: true
+  },
   password: String,
   personalInformation: personalInformationSchema,
   conversations: [conversationSchema],

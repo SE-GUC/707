@@ -8,4 +8,4 @@ var certificateSchema = new Schema({
   name: String,
   evaluation: evaluationSchema
 });
-module.exports = Certificate = mongoose.model("certificates",certificateSchema);
+module.exports = Certificate = mongoose.model("certificates", certificateSchema);

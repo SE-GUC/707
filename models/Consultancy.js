@@ -6,10 +6,13 @@ const conversationSchema = require("../models/Conversation").schema;
 const projectSchema = require("../models/Project").schema;
 //Consultancy schema
 var consultancySchema = new Schema({
-  email: { type: mongoose.SchemaTypes.Email, unique: true },
+  email: {
+    type: mongoose.SchemaTypes.Email,
+    unique: true
+  },
   password: String,
   personalInformation: personalInformationSchema,
   conversations: [conversationSchema],
   projects: [projectSchema]
 });
-module.exports = Consultancy = mongoose.model("consultancies",consultancySchema);
+module.exports = Consultancy = mongoose.model("consultancies", consultancySchema);

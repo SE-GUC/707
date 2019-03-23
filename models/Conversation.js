@@ -7,4 +7,4 @@ var conversationSchema = new Schema({
   receivedMessages: [messageSchema],
   receiverID: Schema.Types.ObjectId
 });
-module.exports = Conversation = mongoose.model("conversations",conversationSchema);
+module.exports = Conversation = mongoose.model("conversations", conversationSchema);

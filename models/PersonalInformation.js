@@ -13,4 +13,4 @@ var personalInformationSchema = new Schema({
   masterClasses: [String],
   education: String
 });
-module.exports = PersonalInformation = mongoose.model("personalInformations",personalInformationSchema);
+module.exports = PersonalInformation = mongoose.model("personalInformations", personalInformationSchema);

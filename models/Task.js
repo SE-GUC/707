@@ -10,6 +10,9 @@ var taskSchema = new Schema({
   experienceLevel: String,
   requiredSkills: [String],
   monetaryCompensation: Number,
-  assignedCandidate: { type: Schema.ObjectId, ref: "Candidate" }
+  assignedCandidate: {
+    type: Schema.ObjectId,
+    ref: "Candidate"
+  }
 });
 module.exports = Task = mongoose.model("tasks", taskSchema);

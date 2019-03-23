@@ -5,7 +5,13 @@ const admins = require("./routes/api/admins");
 const candidates = require("./routes/api/candidates");
 const partners = require("./routes/api/partners");
 const consultancies = require("./routes/api/consultancies");
-// express
+// Require Workflow
+const adminsConversations = require("./workflow/admin/conversations");
+const candidatesConversations = require("./workflow/candidate/conversations");
+const partnersConversations = require("./workflow/partner/conversations");
+const consultanciesConversations = require("./workflow/consultancy/conversations");
+const adminsMessages = require("./workflow/admin/messages");
+// express1
 const app = express();
 // DB Config
 const db = require("./config/keys").mongoURI;
@@ -16,7 +22,9 @@ mongoose
   .catch(err => console.log(err));
 // Init middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 // Entry point
 app.get("/", (req, res) => res.send(`<h1>Welcome to LirtenHub</h1>`));
 app.get("/test", (req, res) => res.send(`<h1>Deployed on Heroku</h1>`));
@@ -25,6 +33,12 @@ app.use("/api/partners", partners);
 app.use("/api/candidates", candidates);
 app.use("/api/admins", admins);
 app.use("/api/consultancies", consultancies);
+//Direct to workflow
+app.use("/workflow/admin/conversations", adminsConversations);
+app.use("/workflow/candidate/conversations", candidatesConversations);
+app.use("/workflow/partner/conversations", partnersConversations);
+app.use("/workflow/consultancy/conversations", consultanciesConversations);
+app.use("/workflow/admin/messages", adminsMessages);
 // wrong path
 app.use((req, res) =>
   res.status(404).send(`<h1>Can not find what you're looking for</h1>`)
