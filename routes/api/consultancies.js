@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const Candidate = require("../../models/Candidate");
-const validator = require("../../validations/candidateValidations");
-//Create candidate profile
+const Consultancy = require("../../models/Consultancy");
+const validator = require("../../validations/consultancyValidations");
+//Create consultancy profile
 router.post("/register", async (req, res) => {
   try {
     const isValidated = validator.createValidation(req.body);
@@ -15,10 +15,10 @@ router.post("/register", async (req, res) => {
         });
     const salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
-    const newCandidate = await Candidate.create(req.body);
+    const newConsultancy = await Consultancy.create(req.body);
     res.json({
       msg: "Your profile was created successfully",
-      data: newCandidate
+      data: newConsultancy
     });
   } catch (error) {
     res.json({
@@ -26,23 +26,23 @@ router.post("/register", async (req, res) => {
     });
   }
 });
-//View candidates profiles
+//View consultancies profiles
 router.get("/", async (req, res) => {
-  const candidates = await Candidate.find();
+  const consultancies = await Consultancy.find();
   res.json({
-    data: candidates
+    data: consultancies
   });
 });
-//View candidate profile by id
+//View consultancy profile by id
 router.get("/:id", async (req, res) => {
   try {
-    const candidate = await Candidate.findById(req.params.id);
-    if (!candidate)
+    const consultancy = await Consultancy.findById(req.params.id);
+    if (!consultancy)
       return res.status(404).send({
         error: "This profile does not exist"
       });
     res.json({
-      data: candidate
+      data: consultancy
     });
   } catch (err) {
     res.json({
@@ -50,11 +50,11 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
-//Update candidate profile by id
+//Update consultancy profile by id
 router.put("/:id", async (req, res) => {
   try {
-    const candidate = await Candidate.findById(req.params.id);
-    if (!candidate)
+    const consultancy = await Consultancy.findById(req.params.id);
+    if (!consultancy)
       return res.status(404).send({
         error: "This profile does not exist"
       });
@@ -69,16 +69,16 @@ router.put("/:id", async (req, res) => {
       const salt = bcrypt.genSaltSync(10);
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
-    Candidate.findByIdAndUpdate(
+    Consultancy.findByIdAndUpdate(
       req.params.id,
       req.body, {
         new: true
       },
-      function (err, updatedCandidate) {
+      function (err, updatedConsultancy) {
         if (!err)
           res.json({
             msg: "Your profile has been updated successfully",
-            data: updatedCandidate
+            data: updatedConsultancy
           });
         else res.json({
           msg: err.message
@@ -91,27 +91,20 @@ router.put("/:id", async (req, res) => {
     });
   }
 });
-//Delete candidate profile by id
+//Delete consultancy profile by id
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedCandidate = await Candidate.findByIdAndDelete(req.params.id);
+    const deletedConsultancy = await Consultancy.findByIdAndDelete(
+      req.params.id
+    );
     res.json({
       msg: "Your account has been deleted successfully",
-      data: deletedCandidate
+      data: deletedConsultancy
     });
   } catch (error) {
     res.json({
       msg: error.message
     });
   }
-});
-router.get("/getProjects/:id", async (req, res) => {
-  const projects = await Projects.find({
-    approveAdmin: true
-  });
-
-  res.json({
-    data: projects
-  });
 });
 module.exports = router;
