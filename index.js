@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const admins = require("./routes/api/admins");
 const candidates = require("./routes/api/candidates");
 const partners = require("./routes/api/partners");
-const certificates = require("./routes/api/certificates");
 const consultancies = require("./routes/api/consultancies");
 // express
 const app = express();
@@ -26,7 +25,6 @@ app.use("/api/partners", partners);
 app.use("/api/candidates", candidates);
 app.use("/api/admins", admins);
 app.use("/api/consultancies", consultancies);
-app.use("/api/certificates", certificates);
 // wrong path
 app.use((req, res) =>
   res.status(404).send(`<h1>Can not find what you're looking for</h1>`)
