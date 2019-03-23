@@ -65,7 +65,7 @@ router.put("/:id", async (req, res) => {
         .send({
           error: isValidated.error.details[0].message
         });
-    if (req.params.password != null) {
+    if (req.body.password != null) {
       const salt = bcrypt.genSaltSync(10);
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
