@@ -6,6 +6,8 @@ const conversationSchema = require("../models/Conversation").schema;
 const projectSchema = require("../models/Project").schema;
 //Consultancy schema
 var consultancySchema = new Schema({
+  name:String,
+
   email: {
     type: mongoose.SchemaTypes.Email,
     unique: true

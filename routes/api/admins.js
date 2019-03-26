@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+const passport = require('passport')
+const tokenKey = require('../../config/keys').secretOrKey
+require('../../config/passport')(passport)
 const Admin = require("../../models/Admin");
 const validator = require("../../validations/adminValidations");
+
 //Create admin profile
 router.post("/register", async (req, res) => {
   try {
@@ -22,17 +27,21 @@ router.post("/register", async (req, res) => {
     });
   } catch (error) {
     res.json({
-      msg: error.message
+      msg: error
     });
   }
 });
+
+
 //View admins profiles
-router.get("/", async (req, res) => {
-  const admins = await Admin.find();
-  res.json({
-    data: admins
-  });
+router.get('/',  async (req, res) => {
+    const admins = await Admin.find()
+    res.json({ data: admins })
 });
+
+
+
+
 //View admin profile by id
 router.get("/:id", async (req, res) => {
   try {
@@ -324,13 +333,7 @@ router.post("/createProjectAttributes/:id/:idpartner", async (req, res) => {
       },
       function () {}
     );
-    // partner.projects.findByIdAndUpdate(
-    //   project._id,{
-    //     $push:{
-    //       tasks:task
-    //     }
-    //   }, function() {}
-    // );
+   
     Partner.updateOne({
       _id: partner._id,
       "projects._id": project._id
@@ -340,25 +343,7 @@ router.post("/createProjectAttributes/:id/:idpartner", async (req, res) => {
       }
 
     })
-    // Partner.findByIdAndUpdate(
-    //   partner._id,{
-    //   $push: {
-    //     projects:{_id:project._id,
-    //       tasks:task
-    //       } }},
-    //   function() {}
-    // );
-    //   const admins = await Admin.find();
 
-    //   admins.projects.findByIdAndUpdate(
-    //     project._id,{
-    //       $push:{
-    //         tasks:task
-    //       }
-    //     }
-    //   ,
-    //   function() {}
-    // );
   } catch (error) {
     res.json({
       msg: error.message
