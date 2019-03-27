@@ -515,20 +515,7 @@ router.post("/createProject/:id", async (req, res) => {
       },
       function () {}
     );
-    Admin.updateMany({}, {
-        $push: {
-          projects: {
-            _id: newProject._id,
-            type: newProject.type,
-            name: newProject.name,
-            description: newProject.description,
-            requireConsultancy: newProject.requireConsultancy,
-            approveAdmin: false
-          }
-        }
-      },
-      function () {}
-    );
+   
   } catch (error) {
     res.json({
       msg: error.message
@@ -564,18 +551,7 @@ router.put("/updateProject/:id/:id2", async (req, res) => {
           },
           function () {}
         );
-        Admin.updateMany({}, {
-            $set: {
-              projects: {
-                type: req.body.type,
-                name: req.body.name,
-                description: req.body.description,
-                requireConsultancy: req.body.requireConsultancy
-              }
-            }
-          },
-          function () {}
-        );
+       
       }
     }
   } catch (error) {
@@ -631,19 +607,7 @@ router.delete("/deleteProject/:id/:id2", async (req, res) => {
           },
           function () {}
         );
-        Admin.updateMany({}, {
-            projects: {
-              $pull: {
-                _id: project.id,
-                type: "",
-                name: "",
-                description: "",
-                requireConsultancy: ""
-              }
-            }
-          },
-          function () {}
-        );
+       
       }
     }
   } catch (error) {

@@ -493,14 +493,14 @@ router.post("/conversation/email/:id", async (req, res) => {
 //admins view projects
 router.get("/viewProjects/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.params.id);
+    const projects = await Project.find();
     if (!admin) {
       return res.status(404).send({
         error: "This admin does not exsist"
       });
     }
     res.json({
-      data: admin.projects
+      data: projects
     });
   } catch (error) {
     res.json({
@@ -536,20 +536,7 @@ router.put("/acceptProjects/:id/:id2/:id3", async (req, res) => {
         },
         function () {}
       );
-      Admin.updateMany({}, {
-          $push: {
-            projects: {
-              _id: req.params.id2,
-              type: project.type,
-              name: project.name,
-              description: project.description,
-              requireConsultancy: project.requireConsultancy,
-              approveAdmin: true
-            }
-          }
-        },
-        function () {}
-      );
+     
     }
   } catch (error) {
     res.json({
@@ -585,20 +572,7 @@ router.put("/rejectProjects/:id/:id2/:id3", async (req, res) => {
         },
         function () {}
       );
-      Admin.updateMany({}, {
-          $push: {
-            projects: {
-              _id: req.params.id2,
-              type: project.type,
-              name: project.name,
-              description: project.description,
-              requireConsultancy: project.requireConsultancy,
-              approveAdmin: false
-            }
-          }
-        },
-        function () {}
-      );
+     
     }
   } catch (error) {
     res.json({

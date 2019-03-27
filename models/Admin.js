@@ -12,7 +12,7 @@ var adminSchema = new Schema({
   password: String,
   personalInformation: personalInformationSchema,
   conversations: [conversationSchema],
-  projects: [projectSchema],
+  //projects: [projectSchema],
   certificates: [certificateSchema]
 });
 module.exports = Admin = mongoose.model("admins", adminSchema);
