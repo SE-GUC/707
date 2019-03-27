@@ -7,10 +7,8 @@ const projectSchema = require("../models/Project").schema;
 const certificateSchema = require("../models/Certificate").schema;
 //Candidate schema
 var candidateSchema = new Schema({
-  email: {
-    type: mongoose.SchemaTypes.Email,
-    unique: true
-  },
+  name: String,
+  email: mongoose.SchemaTypes.Email,
   password: String,
   personalInformation: personalInformationSchema,
   conversations: [conversationSchema],

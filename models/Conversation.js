@@ -1,10 +1,22 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const messageSchema = require("../models/Message").schema;
+require("mongoose-type-email");
 //Conversation schema
 var conversationSchema = new Schema({
-  sentMessages: [messageSchema],
-  receivedMessages: [messageSchema],
-  receiverID: Schema.Types.ObjectId
+  sentEmails: [{
+    content: String,
+    emailType: {
+      type: String,
+      enum: ["Project Orintation Invitation", "Inquiry", "Issue", "Other"]
+    }
+  }],
+  receivedEmails: [{
+    content: String,
+    emailType: {
+      type: String,
+      enum: ["Project Orintation Invitation", "Inquiry", "Issue", "Other"]
+    }
+  }],
+  receiverEmail: mongoose.SchemaTypes.Email,
 });
 module.exports = Conversation = mongoose.model("conversations", conversationSchema);
