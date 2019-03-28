@@ -127,6 +127,10 @@ router.post('/', async (req, res) => {
                 }
             }
         }
-    } catch (e) {}
+    } catch (error) {
+        res.json({
+            msg: error.message
+        });
+    }
 });
 module.exports = router;

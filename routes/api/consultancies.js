@@ -6,6 +6,7 @@ const Admin = require("../../models/Admin");
 const Candidate = require("../../models/Candidate");
 const Consultancy = require("../../models/Consultancy");
 const Partner = require("../../models/Partner");
+const Project = require("../../models/Project");
 const validator = require("../../validations/consultancyValidations");
 //Create consultancy profile
 router.post("/register", async (req, res) => {
@@ -188,13 +189,15 @@ router.post("/conversation/:id", async (req, res) => {
     const receiverConversation = {
       receiverEmail: senderConsultancy.email
     };
-    Consultancy.update({
-      _id: senderID
-    }, {
-      $push: {
-        conversations: senderConversation
-      }
-    }, function () {});
+    if (receiverAdmin != null || receiverCandidate != null || receiverPartner != null || receiverConsultancy != null) {
+      Consultancy.update({
+        _id: senderID
+      }, {
+        $push: {
+          conversations: senderConversation
+        }
+      }, function () {});
+    }
     if (receiverAdmin != null) {
       Admin.update({
         email: receiverEmail
@@ -314,15 +317,17 @@ router.delete("/conversation/:id", async (req, res) => {
     const receiverConsultancy = await Consultancy.findOne({
       email: receiverEmail
     });
-    Consultancy.update({
-      _id: senderID
-    }, {
-      $pull: {
-        conversations: {
-          receiverEmail: receiverEmail
+    if (receiverAdmin != null || receiverCandidate != null || receiverPartner != null || receiverConsultancy != null) {
+      Consultancy.update({
+        _id: senderID
+      }, {
+        $pull: {
+          conversations: {
+            receiverEmail: receiverEmail
+          }
         }
-      }
-    }, function () {});
+      }, function () {});
+    }
     if (receiverAdmin != null) {
       Admin.update({
         email: receiverEmail
@@ -408,23 +413,25 @@ router.post("/conversation/email/:id", async (req, res) => {
     const receiverConsultancy = await Consultancy.findOne({
       email: receiverEmail
     });
-    Consultancy.update({
-      _id: senderID,
-      "conversations.receiverEmail": receiverEmail
-    }, {
-      $addToSet: {
-        "conversations.$.sentEmails": {
-          content: emailContent,
-          emailType: emailType
+    if (receiverAdmin != null || receiverCandidate != null || receiverPartner != null || receiverConsultancy != null) {
+      Consultancy.update({
+        _id: senderID,
+        "conversations.receiverEmail": receiverEmail
+      }, {
+        $push: {
+          "conversations.$.sentEmails": {
+            content: emailContent,
+            emailType: emailType
+          }
         }
-      }
-    }, function () {});
+      }, function () {});
+    }
     if (receiverAdmin != null) {
       Admin.update({
         _id: receiverAdmin._id,
         "conversations.receiverEmail": senderConsultancy.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -440,7 +447,7 @@ router.post("/conversation/email/:id", async (req, res) => {
         _id: receiverCandidate._id,
         "conversations.receiverEmail": senderConsultancy.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -456,7 +463,7 @@ router.post("/conversation/email/:id", async (req, res) => {
         _id: receiverPartner._id,
         "conversations.receiverEmail": senderConsultancy.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -472,7 +479,7 @@ router.post("/conversation/email/:id", async (req, res) => {
         _id: receiverConsultancy._id,
         "conversations.receiverEmail": senderConsultancy.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -485,6 +492,99 @@ router.post("/conversation/email/:id", async (req, res) => {
     }
     return res.status(404).send({
       error: "this user isnot found or this email is invalid"
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
+    });
+  }
+});
+//View all projects only that i can apply
+router.post('/projects', async (req, res) => {
+  const projects = await Project.find({
+    approveAdmin: true,
+    requireConsultancy: true
+  });
+  res.json({
+    data: projects
+  })
+});
+//View all projects i am assigned to
+router.get('/project/:id', async (req, res) => {
+  try {
+    const consultancy = await Consultancy.findById(req.params.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This consultancy does not exist"
+      });
+    res.json({
+      data: consultancy.projects
+    });
+  } catch (error) {
+    res.json({
+      msg: error
+    });
+  }
+});
+//update any project i am assigned to by its id
+router.put("/project/:projectID", async (req, res) => {
+  try {
+    Project.findByIdAndUpdate(req.params.projectID, req.body, {
+      new: true
+    }, function (err, updatedProject) {
+      if (!err) {
+        Consultancy.update({
+          "projects._id": req.params.projectID
+        }, {
+          "projects.$": updatedProject
+        }, {
+          new: true
+        }, function (err) {
+          if (!err)
+            res.json({
+              msg: "Consultancy updated the project successfully",
+              data: updatedProject
+            });
+          else res.json({
+            msg: err.message
+          });
+        });
+      } else res.json({
+        msg: err.message
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
+    });
+  }
+});
+//apply for a project by its id
+router.get("/project/:id/:projectID", async (req, res) => {
+  try {
+    Project.findById(req.params.projectID, function (err, foundProject) {
+      if (!err) {
+        Consultancy.findByIdAndUpdate(
+          req.params.id, {
+            $addToSet: {
+              projects: foundProject
+            }
+          }, {
+            new: true
+          },
+          function (err) {
+            if (!err)
+              res.json({
+                msg: "You have applied for this project successfully",
+                data: foundProject
+              });
+            else res.json({
+              msg: err.message
+            });
+          });
+      } else res.json({
+        msg: err.message
+      });
     });
   } catch (error) {
     res.json({
