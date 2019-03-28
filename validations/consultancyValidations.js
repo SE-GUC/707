@@ -4,7 +4,9 @@ module.exports = {
     const createSchema = {
       name: Joi.string().required(),
       email: Joi.string().required(),
-      password: Joi.string().required()
+      password: Joi.string().required(),
+      address: Joi.string(),
+      occupation: Joi.string()
     };
     return Joi.validate(request, createSchema);
   },
@@ -12,7 +14,9 @@ module.exports = {
     const updateSchema = {
       name: Joi.string(),
       email: Joi.string(),
-      password: Joi.string()
+      password: Joi.string(),
+      address: Joi.string(),
+      occupation: Joi.string()
     };
     return Joi.validate(request, updateSchema);
   }
