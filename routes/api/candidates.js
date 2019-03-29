@@ -6,6 +6,8 @@ const Admin = require("../../models/Admin");
 const Candidate = require("../../models/Candidate");
 const Consultancy = require("../../models/Consultancy");
 const Partner = require("../../models/Partner");
+const Project = require("../../models/Project");
+const Certificate = require("../../models/Certificate");
 const validator = require("../../validations/candidateValidations");
 //Create candidate profile
 router.post("/register", async (req, res) => {
@@ -41,13 +43,6 @@ router.post("/register", async (req, res) => {
       msg: error.message
     });
   }
-});
-//View candidates profiles
-router.get("/", async (req, res) => {
-  const candidates = await Candidate.find();
-  res.json({
-    data: candidates
-  });
 });
 //View candidate profile by id
 router.get("/:id", async (req, res) => {
@@ -186,13 +181,15 @@ router.post("/conversation/:id", async (req, res) => {
     const receiverConversation = {
       receiverEmail: senderCandidate.email
     };
-    Candidate.update({
-      _id: senderID
-    }, {
-      $push: {
-        conversations: senderConversation
-      }
-    }, function () {});
+    if (receiverAdmin != null || receiverCandidate != null || receiverPartner != null || receiverConsultancy != null) {
+      Candidate.update({
+        _id: senderID
+      }, {
+        $push: {
+          conversations: senderConversation
+        }
+      }, function () {});
+    }
     if (receiverAdmin != null) {
       Admin.update({
         email: receiverEmail
@@ -312,15 +309,17 @@ router.delete("/conversation/:id", async (req, res) => {
     const receiverConsultancy = await Consultancy.findOne({
       email: receiverEmail
     });
-    Candidate.update({
-      _id: senderID
-    }, {
-      $pull: {
-        conversations: {
-          receiverEmail: receiverEmail
+    if (receiverAdmin != null || receiverCandidate != null || receiverPartner != null || receiverConsultancy != null) {
+      Candidate.update({
+        _id: senderID
+      }, {
+        $pull: {
+          conversations: {
+            receiverEmail: receiverEmail
+          }
         }
-      }
-    }, function () {});
+      }, function () {});
+    }
     if (receiverAdmin != null) {
       Admin.update({
         email: receiverEmail
@@ -406,23 +405,25 @@ router.post("/conversation/email/:id", async (req, res) => {
     const receiverConsultancy = await Consultancy.findOne({
       email: receiverEmail
     });
-    Candidate.update({
-      _id: senderID,
-      "conversations.receiverEmail": receiverEmail
-    }, {
-      $addToSet: {
-        "conversations.$.sentEmails": {
-          content: emailContent,
-          emailType: emailType
+    if (receiverAdmin != null || receiverCandidate != null || receiverPartner != null || receiverConsultancy != null) {
+      Candidate.update({
+        _id: senderID,
+        "conversations.receiverEmail": receiverEmail
+      }, {
+        $push: {
+          "conversations.$.sentEmails": {
+            content: emailContent,
+            emailType: emailType
+          }
         }
-      }
-    }, function () {});
+      }, function () {});
+    }
     if (receiverAdmin != null) {
       Admin.update({
         _id: receiverAdmin._id,
         "conversations.receiverEmail": senderCandidate.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -438,7 +439,7 @@ router.post("/conversation/email/:id", async (req, res) => {
         _id: receiverCandidate._id,
         "conversations.receiverEmail": senderCandidate.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -454,7 +455,7 @@ router.post("/conversation/email/:id", async (req, res) => {
         _id: receiverPartner._id,
         "conversations.receiverEmail": senderCandidate.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -470,7 +471,7 @@ router.post("/conversation/email/:id", async (req, res) => {
         _id: receiverConsultancy._id,
         "conversations.receiverEmail": senderCandidate.email
       }, {
-        $addToSet: {
+        $push: {
           "conversations.$.receivedEmails": {
             content: emailContent,
             emailType: emailType
@@ -490,13 +491,281 @@ router.post("/conversation/email/:id", async (req, res) => {
     });
   }
 });
-//get all my projects by my id
-router.get("/getProjects/:id", async (req, res) => {
-  const projects = await Projects.find({
-    approveAdmin: true
+//View all projects only that i can apply
+router.get('/get/projects', async (req, res) => {
+  const projects = await Project.find({
+    approveAdmin: true,
+    assigned: false
+  });
+  res.json({
+    data: projects
+  })
+});
+//search projects only that i can apply by name not exact value (search engine)
+router.get('/searchProjects/:name', async (req, res) => {
+  const projects = await Project.find({
+    approveAdmin: true,
+    assigned: false,
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
   });
   res.json({
     data: projects
   });
+});
+//Get names of any json array
+function names(array) {
+  var names = [];
+  for (i = 0; i < array.length; i++)
+    names[i] = array[i].name;
+  return names;
+}
+//View all projects' names i applied for
+router.get('/appliedProjects/:id', async (req, res) => {
+  try {
+    const candidate = await Candidate.findById(req.params.id);
+    if (!candidate)
+      return res.status(404).send({
+        error: "This candidate does not exist"
+      });
+    res.json({
+      data: names(candidate.appliedProjects)
+    });
+  } catch (error) {
+    res.json({
+      msg: error
+    });
+  }
+});
+//View all projects' names i am approved to
+router.get('/approvedProjects/:id', async (req, res) => {
+  try {
+    const candidate = await Candidate.findById(req.params.id);
+    if (!candidate)
+      return res.status(404).send({
+        error: "This candidate does not exist"
+      });
+    res.json({
+      data: names(candidate.approvedProjects)
+    });
+  } catch (error) {
+    res.json({
+      msg: error
+    });
+  }
+});
+//Select a project by its id after viewing all my projects' names
+router.get("/project/select/:projectID", async (req, res) => {
+  try {
+    Project.findById(req.params.projectID, function (err, foundProject) {
+      if (!err) {
+        Candidate.updateMany({
+          "appliedProjects._id": req.params.projectID
+        }, {
+          "appliedProjects.$": foundProject
+        }, {
+          new: true
+        }, function (err) {
+          if (!err)
+            Candidate.updateMany({
+              "approvedProjects._id": req.params.projectID
+            }, {
+              "approvedProjects.$": foundProject
+            }, {
+              new: true
+            }, function (err) {
+              if (!err)
+                res.json({
+                  msg: "This is the selected project",
+                  data: foundProject
+                });
+              else res.json({
+                msg: err.message
+              });
+            });
+          else res.json({
+            msg: err.message
+          });
+        });
+      } else res.json({
+        msg: err.message
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
+    });
+  }
+});
+//apply for a project by its id
+router.post("/project/:id/:projectID", async (req, res) => {
+  try {
+    Project.findById(req.params.projectID, function (err, foundProject) {
+      if (!err) {
+        Candidate.findByIdAndUpdate(
+          req.params.id, {
+            $addToSet: {
+              appliedProjects: foundProject
+            }
+          }, {
+            new: true
+          },
+          function (err) {
+            if (!err)
+              res.json({
+                msg: "You have applied for this project successfully",
+                data: foundProject
+              });
+            else res.json({
+              msg: err.message
+            });
+          });
+      } else res.json({
+        msg: err.message
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
+    });
+  }
+});
+//disapply a project by its id if i am not assigned to
+router.delete("/project/:id/:projectID", async (req, res) => {
+  try {
+    Project.findById(req.params.projectID, function (err, foundProject) {
+      if (!err) {
+        Candidate.findByIdAndUpdate(
+          req.params.id, {
+            $pull: {
+              appliedProjects: foundProject
+            }
+          }, {
+            new: true
+          },
+          function (err, updatedCandidate) {
+            if (!err) {
+              var flag = false;
+              for (i = 0; i < updatedCandidate.approvedProjects.length; i++)
+                if (updatedCandidate.approvedProjects[i]._id.toString() === foundProject._id.toString())
+                  flag = true;
+              if (!flag)
+                res.json({
+                  msg: "You are no longer applied for this project",
+                  data: foundProject
+                });
+              else
+                res.json({
+                  msg: "You are already approved for this project that u cannot remove",
+                  data: foundProject
+                });
+            } else res.json({
+              msg: err.message
+            });
+          });
+      } else res.json({
+        msg: err.message
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
+    });
+  }
+});
+//View all certificates' names
+router.get('/get/certificates', async (req, res) => {
+  const certificates = await Certificate.find();
+  res.json({
+    data: names(certificates)
+  })
+});
+//search certificates by name not exact value (search engine)
+router.get('/searchCertificates/:name', async (req, res) => {
+  const certificates = await Certificate.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: certificates
+  });
+});
+//Select a certificate by its id after viewing all my certificates' names
+router.get("/certificate/select/:certificateID", async (req, res) => {
+  try {
+    Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
+      if (!err) {
+        Candidate.updateMany({
+          "appliedCertificates._id": req.params.certificateID
+        }, {
+          "appliedCertificates.$": foundCertificate
+        }, {
+          new: true
+        }, function (err) {
+          if (!err)
+            Candidate.updateMany({
+              "appliedCertificates._id": req.params.certificateID
+            }, {
+              "appliedCertificates.$": foundCertificate
+            }, {
+              new: true
+            }, function (err) {
+              if (!err)
+                res.json({
+                  msg: "This is the selected certificate",
+                  data: foundCertificate
+                });
+              else res.json({
+                msg: err.message
+              });
+            });
+          else res.json({
+            msg: err.message
+          });
+        });
+      } else res.json({
+        msg: err.message
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
+    });
+  }
+});
+//apply for a certificate by its id
+router.post("/certificate/:id/:certificateID", async (req, res) => {
+  try {
+    Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
+      if (!err) {
+        Candidate.findByIdAndUpdate(
+          req.params.id, {
+            $addToSet: {
+              appliedCertificates: foundCertificate
+            }
+          }, {
+            new: true
+          },
+          function (err) {
+            if (!err)
+              res.json({
+                msg: "You have applied for this certificate successfully",
+                data: foundCertificate
+              });
+            else res.json({
+              msg: err.message
+            });
+          });
+      } else res.json({
+        msg: err.message
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
+    });
+  }
 });
 module.exports = router;

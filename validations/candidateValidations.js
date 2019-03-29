@@ -1,10 +1,22 @@
-const Joi = require("joi");
+const BaseJoi = require('joi');
+const Extension = require('joi-date-extensions');
+const Joi = BaseJoi.extend(Extension);
 module.exports = {
   createValidation: request => {
     const createSchema = {
       name: Joi.string().required(),
       email: Joi.string().required(),
-      password: Joi.string().required()
+      password: Joi.string().required(),
+      birthdate: Joi.date().format(['YYYY/MM/DD', 'DD-MM-YYYY']),
+      address: Joi.string(),
+      occupation: Joi.string(),
+      languages: [Joi.string()],
+      setOfSkills: [Joi.string()],
+      interests: [Joi.string()],
+      certificates: [Joi.string()],
+      masterClasses: [Joi.string()],
+      education: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, createSchema);
   },
@@ -12,7 +24,17 @@ module.exports = {
     const updateSchema = {
       name: Joi.string(),
       email: Joi.string(),
-      password: Joi.string()
+      password: Joi.string(),
+      birthdate: Joi.date().format(['YYYY/MM/DD', 'DD-MM-YYYY']),
+      address: Joi.string(),
+      occupation: Joi.string(),
+      languages: [Joi.string()],
+      setOfSkills: [Joi.string()],
+      interests: [Joi.string()],
+      certificates: [Joi.string()],
+      masterClasses: [Joi.string()],
+      education: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, updateSchema);
   }
