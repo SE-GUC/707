@@ -44,13 +44,6 @@ router.post("/register", async (req, res) => {
     });
   }
 });
-//View admins profiles
-router.get('/', async (req, res) => {
-  const admins = await Admin.find()
-  res.json({
-    data: admins
-  })
-});
 //View admin profile by id
 router.get("/:id", async (req, res) => {
   try {
@@ -150,6 +143,132 @@ router.delete("/:id", async (req, res) => {
       msg: error.message
     });
   }
+});
+//View all admins profiles
+router.get("/get/admins", async (req, res) => {
+  const admins = await Admin.find();
+  res.json({
+    data: admins
+  });
+});
+//View all candidates profiles
+router.get("/get/candidates", async (req, res) => {
+  const candidates = await Candidate.find();
+  res.json({
+    data: candidates
+  });
+});
+//View all consultancies profiles
+router.get("/get/consultancies", async (req, res) => {
+  const consultancies = await Consultancy.find();
+  res.json({
+    data: consultancies
+  });
+});
+//View all partners profiles
+router.get("/get/partners", async (req, res) => {
+  const partners = await Partner.find();
+  res.json({
+    data: partners
+  });
+});
+//View all certificates
+router.get("/get/certificates", async (req, res) => {
+  const certificates = await Certificate.find();
+  res.json({
+    data: certificates
+  });
+});
+//View all projects
+router.get("/get/projects", async (req, res) => {
+  const projects = await Project.find();
+  res.json({
+    data: projects
+  });
+});
+//View all emails
+router.get("/get/emails", async (req, res) => {
+  const emails = await Email.find();
+  res.json({
+    data: emails
+  });
+});
+//search admins by name not exact value (search engine)
+router.get('/searchAdmins/:name', async (req, res) => {
+  const admins = await Admin.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: admins
+  });
+});
+//search candidates by name not exact value (search engine)
+router.get('/searchCandidates/:name', async (req, res) => {
+  const candidates = await Candidate.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: candidates
+  });
+});
+//search consultancies by name not exact value (search engine)
+router.get('/searchConsultancies/:name', async (req, res) => {
+  const consultancies = await Consultancy.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: consultancies
+  });
+});
+//search partners by name not exact value (search engine)
+router.get('/searchPartners/:name', async (req, res) => {
+  const partners = await Partner.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: partners
+  });
+});
+//search certificates by name not exact value (search engine)
+router.get('/searchCertificates/:name', async (req, res) => {
+  const certificates = await Certificate.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: certificates
+  });
+});
+//search projects by name not exact value (search engine)
+router.get('/searchProjects/:name', async (req, res) => {
+  const projects = await Project.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: projects
+  });
+});
+//search emails by name not exact value (search engine)
+router.get('/searchEmails/:name', async (req, res) => {
+  const emails = await Email.find({
+    email: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: emails
+  });
 });
 //Create a new conversation by stating receiver email
 router.post("/conversation/:id", async (req, res) => {
@@ -498,15 +617,8 @@ router.post("/conversation/email/:id", async (req, res) => {
     });
   }
 });
-//View all projects
-router.post("/projects", async (req, res) => {
-  const projects = await Project.find();
-  res.json({
-    data: projects
-  })
-});
 //View an existing project by its id
-router.post("/project/:id", async (req, res) => {
+router.get("/project/:id", async (req, res) => {
   try {
     const project = Project.findById(req.params.id);
     if (!project)
@@ -528,24 +640,12 @@ router.put("/project/:projectID", async (req, res) => {
     Project.findByIdAndUpdate(req.params.projectID, req.body, {
       new: true
     }, function (err, updatedProject) {
-      if (!err) {
-        Partner.update({
-          "projects._id": req.params.projectID
-        }, {
-          "projects.$": updatedProject
-        }, {
-          new: true
-        }, function (err) {
-          if (!err)
-            res.json({
-              msg: "Admin updated the project successfully",
-              data: updatedProject
-            });
-          else res.json({
-            msg: err.message
-          });
+      if (!err)
+        res.json({
+          msg: "Admin updated the project successfully",
+          data: updatedProject
         });
-      } else res.json({
+      else res.json({
         msg: err.message
       });
     });
@@ -559,7 +659,7 @@ router.put("/project/:projectID", async (req, res) => {
 router.delete("/project/:projectID", async (req, res) => {
   try {
     Project.findByIdAndDelete(req.params.projectID, function (err, deletedProject) {
-      if (!err) {
+      if (!err)
         Partner.update({
           "projects._id": req.params.projectID
         }, {
@@ -570,15 +670,54 @@ router.delete("/project/:projectID", async (req, res) => {
           new: true
         }, function (err) {
           if (!err)
-            res.json({
-              msg: "This project has been deleted successfully",
-              data: deletedProject
+            Consultancy.update({
+              "projects._id": req.params.projectID
+            }, {
+              $pull: {
+                projects: deletedProject
+              }
+            }, {
+              new: true
+            }, function (err) {
+              if (!err) {
+                Candidate.updateMany({
+                  "appliedProjects._id": req.params.projectID
+                }, {
+                  $pull: {
+                    projects: deletedProject
+                  }
+                }, {
+                  new: true
+                }, function (err) {
+                  if (!err)
+                    Candidate.updateMany({
+                      "approvedProjects._id": req.params.projectID
+                    }, {
+                      $pull: {
+                        projects: deletedProject
+                      }
+                    }, {
+                      new: true
+                    }, function (err) {
+                      if (!err)
+                        res.json({
+                          msg: "This project has been deleted successfully",
+                          data: deletedProject
+                        });
+                      else res.json({
+                        msg: err.message
+                      });
+                    });
+                  else res.json({
+                    msg: err.message
+                  });
+                });
+              } else res.json({
+                msg: err.message
+              });
             });
-          else res.json({
-            msg: err.message
-          });
         });
-      } else res.json({
+      else res.json({
         msg: err.message
       });
     });
@@ -589,7 +728,7 @@ router.delete("/project/:projectID", async (req, res) => {
   }
 });
 //View all candidates applying for a by project by its id
-router.get("/project2/:projectID", async (req, res) => {
+router.get("/projects/:projectID", async (req, res) => {
   try {
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
@@ -617,12 +756,13 @@ router.get("/project2/:projectID", async (req, res) => {
     });
   }
 });
-//Approve a candidate for a project he applied for by its id
-router.post("/project2/:projectID", async (req, res) => {
+//Approve a candidate by his id for a project he applied for by its id
+router.post("/project/:projectID/:candidateID", async (req, res) => {
   try {
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Candidate.update({
+            _id: req.params.candidateID,
             "appliedProjects._id": req.params.projectID
           }, {
             $pull: {
@@ -666,13 +806,6 @@ router.post("/certificate", async (req, res) => {
       msg: error
     });
   }
-});
-//View all certificates
-router.post('/certificates', async (req, res) => {
-  const certificates = await Certificate.find();
-  res.json({
-    data: certificates
-  })
 });
 //View an existing certificate by it's id
 router.get("/certificate/:id", async (req, res) => {
@@ -726,12 +859,13 @@ router.delete("/certificate/:id", async (req, res) => {
     });
   }
 });
-//Approve a candidate's evaluation for a certficate he passed by it's id
-router.post("/certificate2/:certificateID", async (req, res) => {
+//Approve a candidate's evaluation by his id for a certficate he passed by it's id
+router.post("/certificate/:certificateID/:candidateID", async (req, res) => {
   try {
     Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
       if (!err) {
         Candidate.update({
+            _id: req.params.candidateID,
             "appliedCertificates._id": req.params.certificateID
           }, {
             $pull: {

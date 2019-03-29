@@ -44,13 +44,6 @@ router.post("/register", async (req, res) => {
     });
   }
 });
-//View candidates profiles
-router.get("/", async (req, res) => {
-  const candidates = await Candidate.find();
-  res.json({
-    data: candidates
-  });
-});
 //View candidate profile by id
 router.get("/:id", async (req, res) => {
   try {
@@ -499,17 +492,37 @@ router.post("/conversation/email/:id", async (req, res) => {
   }
 });
 //View all projects only that i can apply
-router.post('/projects', async (req, res) => {
+router.get('/get/projects', async (req, res) => {
   const projects = await Project.find({
     approveAdmin: true,
-    requireConsultancy: false
+    assigned: false
   });
   res.json({
     data: projects
   })
 });
-//View all projects i applied for
-router.get('/project/:id', async (req, res) => {
+//search projects only that i can apply by name not exact value (search engine)
+router.get('/searchProjects/:name', async (req, res) => {
+  const projects = await Project.find({
+    approveAdmin: true,
+    assigned: false,
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: projects
+  });
+});
+//Get names of any json array
+function names(array) {
+  var names = [];
+  for (i = 0; i < array.length; i++)
+    names[i] = array[i].name;
+  return names;
+}
+//View all projects' names i applied for
+router.get('/appliedProjects/:id', async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.params.id);
     if (!candidate)
@@ -517,7 +530,7 @@ router.get('/project/:id', async (req, res) => {
         error: "This candidate does not exist"
       });
     res.json({
-      data: candidate.appliedProjects
+      data: names(candidate.appliedProjects)
     });
   } catch (error) {
     res.json({
@@ -525,8 +538,8 @@ router.get('/project/:id', async (req, res) => {
     });
   }
 });
-//View all projects i am assigned to
-router.get('/project/:id', async (req, res) => {
+//View all projects' names i am approved to
+router.get('/approvedProjects/:id', async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.params.id);
     if (!candidate)
@@ -534,11 +547,54 @@ router.get('/project/:id', async (req, res) => {
         error: "This candidate does not exist"
       });
     res.json({
-      data: candidate.approvedProjects
+      data: names(candidate.approvedProjects)
     });
   } catch (error) {
     res.json({
       msg: error
+    });
+  }
+});
+//Select a project by its id after viewing all my projects' names
+router.get("/project/select/:projectID", async (req, res) => {
+  try {
+    Project.findById(req.params.projectID, function (err, foundProject) {
+      if (!err) {
+        Candidate.updateMany({
+          "appliedProjects._id": req.params.projectID
+        }, {
+          "appliedProjects.$": foundProject
+        }, {
+          new: true
+        }, function (err) {
+          if (!err)
+            Candidate.updateMany({
+              "approvedProjects._id": req.params.projectID
+            }, {
+              "approvedProjects.$": foundProject
+            }, {
+              new: true
+            }, function (err) {
+              if (!err)
+                res.json({
+                  msg: "This is the selected project",
+                  data: foundProject
+                });
+              else res.json({
+                msg: err.message
+              });
+            });
+          else res.json({
+            msg: err.message
+          });
+        });
+      } else res.json({
+        msg: err.message
+      });
+    });
+  } catch (error) {
+    res.json({
+      msg: error.message
     });
   }
 });
@@ -618,34 +674,71 @@ router.delete("/project/:id/:projectID", async (req, res) => {
     });
   }
 });
-//View all certificates
-router.post('/certificates', async (req, res) => {
+//View all certificates' names
+router.get('/get/certificates', async (req, res) => {
   const certificates = await Certificate.find();
   res.json({
-    data: certificates
+    data: names(certificates)
   })
 });
-//View an existing certificate by it's id
-router.get("/certificate/:id", async (req, res) => {
+//search certificates by name not exact value (search engine)
+router.get('/searchCertificates/:name', async (req, res) => {
+  const certificates = await Certificate.find({
+    name: {
+      $regex: new RegExp(req.params.name)
+    },
+  });
+  res.json({
+    data: certificates
+  });
+});
+//Select a certificate by its id after viewing all my certificates' names
+router.get("/certificate/select/:certificateID", async (req, res) => {
   try {
-    const certificate = await Certificate.findById(req.params.id);
-    if (!certificate)
-      return res.status(404).send({
-        error: "This certificate does not exist"
+    Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
+      if (!err) {
+        Candidate.updateMany({
+          "appliedCertificates._id": req.params.certificateID
+        }, {
+          "appliedCertificates.$": foundCertificate
+        }, {
+          new: true
+        }, function (err) {
+          if (!err)
+            Candidate.updateMany({
+              "appliedCertificates._id": req.params.certificateID
+            }, {
+              "appliedCertificates.$": foundCertificate
+            }, {
+              new: true
+            }, function (err) {
+              if (!err)
+                res.json({
+                  msg: "This is the selected certificate",
+                  data: foundCertificate
+                });
+              else res.json({
+                msg: err.message
+              });
+            });
+          else res.json({
+            msg: err.message
+          });
+        });
+      } else res.json({
+        msg: err.message
       });
-    res.json({
-      data: certificate
     });
-  } catch (err) {
+  } catch (error) {
     res.json({
-      msg: err.message
+      msg: error.message
     });
   }
 });
 //apply for a certificate by its id
-router.post("/project/:id/:certificateID", async (req, res) => {
+router.post("/certificate/:id/:certificateID", async (req, res) => {
   try {
-    Certificate.findById(req.params.projectID, function (err, foundCertificate) {
+    Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
       if (!err) {
         Candidate.findByIdAndUpdate(
           req.params.id, {

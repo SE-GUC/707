@@ -2,14 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 //Project schema
 var projectSchema = new Schema({
-  type: String,
   name: String,
   description: String,
+  type: String,
   approveAdmin: {
     type: Boolean,
     default: false
   },
   requireConsultancy: {
+    type: Boolean,
+    default: false
+  },
+  assigned: {
     type: Boolean,
     default: false
   },
@@ -30,7 +34,11 @@ var projectSchema = new Schema({
     commitmentLevel: String,
     experienceLevel: String,
     requiredSkills: [String],
-    monetaryCompensation: Number
+    monetaryCompensation: Number,
+    candidateRole: String
   }]
+});
+projectSchema.index({
+  '$**': 'text'
 });
 module.exports = Project = mongoose.model("projects", projectSchema);

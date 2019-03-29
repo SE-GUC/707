@@ -25,4 +25,7 @@ var candidateSchema = new Schema({
   appliedCertificates: [certificateSchema],
   approvedCertificates: [certificateSchema]
 });
+candidateSchema.index({
+  '$**': 'text'
+});
 module.exports = Candidate = mongoose.model("candidates", candidateSchema);

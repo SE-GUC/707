@@ -14,4 +14,7 @@ var consultancySchema = new Schema({
   conversations: [conversationSchema],
   projects: [projectSchema]
 });
+consultancySchema.index({
+  '$**': 'text'
+});
 module.exports = Consultancy = mongoose.model("consultancies", consultancySchema);

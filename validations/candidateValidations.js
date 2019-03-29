@@ -15,7 +15,8 @@ module.exports = {
       interests: [Joi.string()],
       certificates: [Joi.string()],
       masterClasses: [Joi.string()],
-      education: Joi.string()
+      education: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, createSchema);
   },
@@ -32,7 +33,8 @@ module.exports = {
       interests: [Joi.string()],
       certificates: [Joi.string()],
       masterClasses: [Joi.string()],
-      education: Joi.string()
+      education: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, updateSchema);
   }

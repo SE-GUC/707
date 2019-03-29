@@ -9,7 +9,8 @@ module.exports = {
       password: Joi.string().required(),
       birthdate: Joi.date().format(['YYYY/MM/DD', 'DD-MM-YYYY']),
       address: Joi.string(),
-      occupation: Joi.string()
+      occupation: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, createSchema);
   },
@@ -20,7 +21,8 @@ module.exports = {
       password: Joi.string(),
       birthdate: Joi.date().format(['YYYY/MM/DD', 'DD-MM-YYYY']),
       address: Joi.string(),
-      occupation: Joi.string()
+      occupation: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, updateSchema);
   }

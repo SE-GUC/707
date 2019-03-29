@@ -15,4 +15,7 @@ var partnerSchema = new Schema({
   conversations: [conversationSchema],
   projects: [projectSchema]
 });
+partnerSchema.index({
+  '$**': 'text'
+});
 module.exports = Partner = mongoose.model("partners", partnerSchema);
