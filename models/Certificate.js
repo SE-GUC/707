@@ -18,4 +18,7 @@ var certificateSchema = new Schema({
     passed: Boolean
   }
 });
+certificateSchema.index({
+  '$**': 'text'
+});
 module.exports = Certificate = mongoose.model("certificates", certificateSchema);

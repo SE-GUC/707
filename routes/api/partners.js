@@ -43,13 +43,6 @@ router.post("/register", async (req, res) => {
     });
   }
 });
-//View partners profiles
-router.get("/", async (req, res) => {
-  const partners = await Partner.find();
-  res.json({
-    data: partners
-  });
-});
 //View partner profile by id
 router.get("/:id", async (req, res) => {
   try {
@@ -530,7 +523,14 @@ router.post("/project/:id", async (req, res) => {
     });
   }
 });
-//View all my projects
+//Get names of any json array
+function names(array) {
+  var names = [];
+  for (i = 0; i < array.length; i++)
+    names[i] = array[i].name;
+  return names;
+}
+//View all my projects' names
 router.get("/projects/:id", async (req, res) => {
   try {
     const partner = await Partner.findById(req.params.id);
@@ -540,7 +540,7 @@ router.get("/projects/:id", async (req, res) => {
       });
     }
     res.json({
-      data: partner.projects
+      data: names(partner.projects)
     });
   } catch (error) {
     res.json({
@@ -548,49 +548,50 @@ router.get("/projects/:id", async (req, res) => {
     });
   }
 });
-//View an existing project by its id
-router.get("/project/:id", async (req, res) => {
+//Select a project by its id after viewing all my projects' names
+router.get("/project/select/:projectID", async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
-    if (!project)
-      return res.status(404).send({
-        error: "This project does not exist"
+    Project.findById(req.params.projectID, function (err, foundProject) {
+      if (!err) {
+        Partner.update({
+          "projects._id": req.params.projectID
+        }, {
+          "projects.$": foundProject
+        }, {
+          new: true
+        }, function (err) {
+          if (!err)
+            res.json({
+              msg: "This is the selected project",
+              data: foundProject
+            });
+          else res.json({
+            msg: err.message
+          });
+        });
+      } else res.json({
+        msg: err.message
       });
-    res.json({
-      data: project
     });
-  } catch (err) {
+  } catch (error) {
     res.json({
-      msg: err.message
+      msg: error.message
     });
   }
 });
 //update an exisiting project by its id
-router.put("/project/:id/:projectID", async (req, res) => {
+router.put("/project/:projectID", async (req, res) => {
   try {
     if (!((await Project.findById(req.params.projectID)).approveAdmin)) {
       Project.findByIdAndUpdate(req.params.projectID, req.body, {
         new: true
       }, function (err, updatedProject) {
-        if (!err) {
-          Partner.update({
-            _id: req.params.id,
-            "projects._id": req.params.projectID
-          }, {
-            "projects.$": updatedProject
-          }, {
-            new: true
-          }, function (err) {
-            if (!err)
-              res.json({
-                msg: "Your project has been updated successfully",
-                data: updatedProject
-              });
-            else res.json({
-              msg: err.message
-            });
+        if (!err)
+          res.json({
+            msg: "Your project has been updated successfully",
+            data: updatedProject
           });
-        } else res.json({
+        else res.json({
           msg: err.message
         });
       });

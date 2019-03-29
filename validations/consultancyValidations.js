@@ -6,7 +6,8 @@ module.exports = {
       email: Joi.string().required(),
       password: Joi.string().required(),
       address: Joi.string(),
-      occupation: Joi.string()
+      occupation: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, createSchema);
   },
@@ -16,7 +17,8 @@ module.exports = {
       email: Joi.string(),
       password: Joi.string(),
       address: Joi.string(),
-      occupation: Joi.string()
+      occupation: Joi.string(),
+      phoneNumber: Joi.number()
     };
     return Joi.validate(request, updateSchema);
   }

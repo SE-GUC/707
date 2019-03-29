@@ -9,4 +9,7 @@ var adminSchema = new Schema({
   password: String,
   conversations: [conversationSchema]
 });
+adminSchema.index({
+  '$**': 'text'
+});
 module.exports = Admin = mongoose.model("admins", adminSchema);
