@@ -22,6 +22,7 @@ module.exports = passport => {
                 if (!consultancy) {
                     const candidate = await Candidate.findById(jwt_payload._id)
                     if (candidate) return done(null, candidate)
+                    
                 }
             }
         }
