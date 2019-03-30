@@ -9,7 +9,6 @@ const Partner = require("../../models/Partner");
 const Project = require("../../models/Project");
 const Certificate = require("../../models/Certificate");
 const validator = require("../../validations/adminValidations");
-const passport = require('passport')
 //Create admin profile
 router.post("/register", async (req, res) => {
   try {
@@ -45,10 +44,10 @@ router.post("/register", async (req, res) => {
     });
   }
 });
-//View my profile by id
-router.get("/profile", passport.authenticate('jwt', {session: false}), async (req, res) => {
+//View admin profile by id
+router.get("/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
+    const admin = await Admin.findById(req.params.id);
     if (!admin)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -63,9 +62,9 @@ router.get("/profile", passport.authenticate('jwt', {session: false}), async (re
   }
 });
 //Update admin profile by id
-router.put("/updateProfile",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
+    const admin = await Admin.findById(req.params.id);
     if (!admin)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -88,7 +87,7 @@ router.put("/updateProfile",passport.authenticate('jwt', {session: false}), asyn
         email: req.body.email
       }, function (err) {
         if (!err) {
-          Admin.findByIdAndUpdate(req.id, req.body, {
+          Admin.findByIdAndUpdate(req.params.id, req.body, {
             new: true
           }, function (
             err,
@@ -109,7 +108,7 @@ router.put("/updateProfile",passport.authenticate('jwt', {session: false}), asyn
           });
       });
     } else {
-      await Admin.findByIdAndUpdate(req.id, req.body, {
+      await Admin.findByIdAndUpdate(req.params.id, req.body, {
         new: true
       }, function (
         err,
@@ -132,13 +131,9 @@ router.put("/updateProfile",passport.authenticate('jwt', {session: false}), asyn
   }
 });
 //Delete admin profile by id
-router.delete("/delete",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    const deletedAdmin = await Admin.findByIdAndDelete(req.id);
-    if (!deletedAdmin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+    const deletedAdmin = await Admin.findByIdAndDelete(req.params.id);
     res.json({
       msg: "Your account has been deleted successfully",
       data: deletedAdmin
@@ -150,125 +145,56 @@ router.delete("/delete",passport.authenticate('jwt', {session: false}), async (r
   }
 });
 //View all admins profiles
-router.get("/get/admins",passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get("/get/admins", async (req, res) => {
   const admins = await Admin.find();
   res.json({
     data: admins
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //View all candidates profiles
-router.get("/get/candidates",passport.authenticate('jwt', {session: false}), async (req, res) => {
- try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get("/get/candidates", async (req, res) => {
   const candidates = await Candidate.find();
   res.json({
     data: candidates
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //View all consultancies profiles
-router.get("/get/consultancies",passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get("/get/consultancies", async (req, res) => {
   const consultancies = await Consultancy.find();
   res.json({
     data: consultancies
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //View all partners profiles
-router.get("/get/partners",passport.authenticate('jwt', {session: false}), async (req, res) => {
- try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get("/get/partners", async (req, res) => {
   const partners = await Partner.find();
   res.json({
     data: partners
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //View all certificates
-router.get("/get/certificates",passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get("/get/certificates", async (req, res) => {
   const certificates = await Certificate.find();
   res.json({
     data: certificates
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //View all projects
-router.get("/get/projects",passport.authenticate('jwt', {session: false}), async (req, res) => {
- try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get("/get/projects", async (req, res) => {
   const projects = await Project.find();
   res.json({
     data: projects
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //View all emails
-router.get("/get/emails",passport.authenticate('jwt', {session: false}), async (req, res) => {
- try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get("/get/emails", async (req, res) => {
   const emails = await Email.find();
   res.json({
     data: emails
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //search admins by name not exact value (search engine)
-router.get('/searchAdmins/:name',passport.authenticate('jwt', {session: false}), async (req, res) => {
-try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get('/searchAdmins/:name', async (req, res) => {
   const admins = await Admin.find({
     name: {
       $regex: new RegExp(req.params.name)
@@ -276,19 +202,10 @@ try{
   });
   res.json({
     data: admins
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //search candidates by name not exact value (search engine)
-router.get('/searchCandidates/:name',passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get('/searchCandidates/:name', async (req, res) => {
   const candidates = await Candidate.find({
     name: {
       $regex: new RegExp(req.params.name)
@@ -296,19 +213,10 @@ router.get('/searchCandidates/:name',passport.authenticate('jwt', {session: fals
   });
   res.json({
     data: candidates
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //search consultancies by name not exact value (search engine)
-router.get('/searchConsultancies/:name',passport.authenticate('jwt', {session: false}), async (req, res) => {
- try{
-  const admin = await Admin.findById(req.id);
-  if (!admin)
-    return res.status(404).send({
-      error: "This profile does not exist"
-    });
+router.get('/searchConsultancies/:name', async (req, res) => {
   const consultancies = await Consultancy.find({
     name: {
       $regex: new RegExp(req.params.name)
@@ -316,19 +224,10 @@ router.get('/searchConsultancies/:name',passport.authenticate('jwt', {session: f
   });
   res.json({
     data: consultancies
-  });}
-catch(err){
-  return res.json(err.message)
-}
+  });
 });
 //search partners by name not exact value (search engine)
-router.get('/searchPartners/:name',passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try{
-  const admin = await Admin.findById(req.id);
-  if (!admin)
-    return res.status(404).send({
-      error: "This profile does not exist"
-    });
+router.get('/searchPartners/:name', async (req, res) => {
   const partners = await Partner.find({
     name: {
       $regex: new RegExp(req.params.name)
@@ -336,19 +235,10 @@ router.get('/searchPartners/:name',passport.authenticate('jwt', {session: false}
   });
   res.json({
     data: partners
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //search certificates by name not exact value (search engine)
-router.get('/searchCertificates/:name',passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try{
-  const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get('/searchCertificates/:name', async (req, res) => {
   const certificates = await Certificate.find({
     name: {
       $regex: new RegExp(req.params.name)
@@ -356,19 +246,10 @@ router.get('/searchCertificates/:name',passport.authenticate('jwt', {session: fa
   });
   res.json({
     data: certificates
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //search projects by name not exact value (search engine)
-router.get('/searchProjects/:name',passport.authenticate('jwt', {session: false}),async (req, res) => {
-try{
-  const admin = await Admin.findById(req.id);
-  if (!admin)
-    return res.status(404).send({
-      error: "This profile does not exist"
-    });
+router.get('/searchProjects/:name', async (req, res) => {
   const projects = await Project.find({
     name: {
       $regex: new RegExp(req.params.name)
@@ -376,19 +257,10 @@ try{
   });
   res.json({
     data: projects
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //search emails by name not exact value (search engine)
-router.get('/searchEmails/:name',passport.authenticate('jwt', {session: false}), async (req, res) => {
-  try{
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
+router.get('/searchEmails/:name', async (req, res) => {
   const emails = await Email.find({
     email: {
       $regex: new RegExp(req.params.name)
@@ -396,20 +268,12 @@ router.get('/searchEmails/:name',passport.authenticate('jwt', {session: false}),
   });
   res.json({
     data: emails
-  });}
-  catch(err){
-    return res.json(err.message)
-  }
+  });
 });
 //Create a new conversation by stating receiver email
-router.post("/conversations/start", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.post("/conversation/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
-    const senderID = req.id;
+    const senderID = req.params.id;
     const receiverEmail = req.body.email;
     if (!receiverEmail)
       return res.status(404).send({
@@ -510,9 +374,9 @@ router.post("/conversations/start", passport.authenticate('jwt', {session: false
   }
 });
 //Get all my existing conversations
-router.get("/conversations/get", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.get("/conversation/:id", async (req, res) => {
   try {
-    const senderAdmin = await Admin.findById(req.id);
+    const senderAdmin = await Admin.findById(req.params.id);
     if (!senderAdmin)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -527,9 +391,9 @@ router.get("/conversations/get", passport.authenticate('jwt', {session: false}),
   }
 });
 //Get an existing conversation by stating receiver email
-router.get("/conversations/get/:email",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/conversation/:id/:email", async (req, res) => {
   try {
-    const senderAdmin = await Admin.findById(req.id);
+    const senderAdmin = await Admin.findById(req.params.id);
     if (!senderAdmin)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -546,14 +410,9 @@ router.get("/conversations/get/:email",passport.authenticate('jwt', {session: fa
   }
 });
 //Delete an existing conversation by stating receiver email
-router.delete("/conversations/delete",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/conversation/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
-    const senderID = req.id;
+    const senderID = req.params.id;
     const receiverEmail = req.body.email;
     if (!receiverEmail)
       return res.status(404).send({
@@ -653,14 +512,9 @@ router.delete("/conversations/delete",passport.authenticate('jwt', {session: fal
   }
 });
 //send an email inside an existing conversation by stating receiver email and email content and email type
-router.post("/conversations/send",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/conversation/email/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
-    const senderID = req.id;
+    const senderID = req.params.id;
     const receiverEmail = req.body.email;
     const emailContent = req.body.content;
     const emailType = req.body.type;
@@ -764,13 +618,8 @@ router.post("/conversations/send",passport.authenticate('jwt', {session: false})
   }
 });
 //View an existing project by its id
-router.get("/project/:id", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.get("/project/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     const project = Project.findById(req.params.id);
     if (!project)
       return res.status(404).send({
@@ -786,13 +635,8 @@ router.get("/project/:id", passport.authenticate('jwt', {session: false}),async 
   }
 });
 //(Accept/Reject) a submitted project after negotiating and update all its attributes
-router.put("/project/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put("/project/:projectID", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     Project.findByIdAndUpdate(req.params.projectID, req.body, {
       new: true
     }, function (err, updatedProject) {
@@ -812,13 +656,8 @@ router.put("/project/:projectID",passport.authenticate('jwt', {session: false}),
   }
 });
 //Delete a submitted project by project id
-router.delete("/project/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/project/:projectID", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     Project.findByIdAndDelete(req.params.projectID, function (err, deletedProject) {
       if (!err)
         Partner.update({
@@ -889,13 +728,8 @@ router.delete("/project/:projectID",passport.authenticate('jwt', {session: false
   }
 });
 //View all candidates applying for a by project by its id
-router.get("/projects/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/projects/:projectID", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Candidate.find({
@@ -923,13 +757,8 @@ router.get("/projects/:projectID",passport.authenticate('jwt', {session: false})
   }
 });
 //Approve a candidate by his id for a project he applied for by its id
-router.post("/project/:projectID/:candidateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/project/:projectID/:candidateID", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Candidate.update({
@@ -966,13 +795,8 @@ router.post("/project/:projectID/:candidateID",passport.authenticate('jwt', {ses
   }
 });
 //create a new certificate
-router.post("/certificate",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/certificate", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     const certificate = await Certificate.create(req.body);
     res.json({
       msg: certificate
@@ -984,13 +808,8 @@ router.post("/certificate",passport.authenticate('jwt', {session: false}), async
   }
 });
 //View an existing certificate by it's id
-router.get("/certificate/:id", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.get("/certificate/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     const certificate = await Certificate.findById(req.params.id);
     if (!certificate)
       return res.status(404).send({
@@ -1006,13 +825,8 @@ router.get("/certificate/:id", passport.authenticate('jwt', {session: false}),as
   }
 });
 //Update an existing certificate by it's id
-router.put("/certificate/:id", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.put("/certificate/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     Certificate.findByIdAndUpdate(req.params.id, req.body, {
       new: true
     }, function (err, updatedCertificate) {
@@ -1032,13 +846,8 @@ router.put("/certificate/:id", passport.authenticate('jwt', {session: false}),as
   }
 });
 //Delete an existing certificate by it's id
-router.delete("/certificate/:id", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.delete("/certificate/:id", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     const deletedCertificate = await Certificate.findByIdAndDelete(req.params.id);
     res.json({
       msg: "This certificate has been deleted successfully",
@@ -1051,13 +860,8 @@ router.delete("/certificate/:id", passport.authenticate('jwt', {session: false})
   }
 });
 //Approve a candidate's evaluation by his id for a certficate he passed by it's id
-router.post("/certificate/:certificateID/:candidateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/certificate/:certificateID/:candidateID", async (req, res) => {
   try {
-    const admin = await Admin.findById(req.id);
-    if (!admin)
-      return res.status(404).send({
-        error: "This profile does not exist"
-      });
     Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
       if (!err) {
         Candidate.update({

@@ -41,7 +41,9 @@ router.post('/', async (req, res) => {
                 res.json({
                     data: `Bearer ${token}`
                 })
-                return res
+                return res.json({
+                    data: 'Token'
+                })
             } else return res.status(400).send({
                 password: 'Wrong password'
             });
@@ -63,7 +65,9 @@ router.post('/', async (req, res) => {
                     res.json({
                         data: `Bearer ${token}`
                     })
-                    return res
+                    return res.json({
+                        data: 'Token'
+                    })
                 } else return res.status(400).send({
                     password: 'Wrong password'
                 });
@@ -85,7 +89,9 @@ router.post('/', async (req, res) => {
                         res.json({
                             data: `Bearer ${token}`
                         })
-                        return res
+                        return res.json({
+                            data: 'Token'
+                        })
                     } else return res.status(400).send({
                         password: 'Wrong password'
                     });
@@ -107,7 +113,9 @@ router.post('/', async (req, res) => {
                             res.json({
                                 data: `Bearer ${token}`
                             })
-                            return res
+                            return res.json({
+                                data: 'Token'
+                            })
                         } else return res.status(400).send({
                             password: 'Wrong password'
                         });

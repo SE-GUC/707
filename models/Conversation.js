@@ -7,14 +7,14 @@ var conversationSchema = new Schema({
     content: String,
     emailType: {
       type: String,
-      enum: ["Project Orientation Invitation", "Inquiry", "Issue", "Other"]
+      enum: ["Project Orintation Invitation", "Inquiry", "Issue", "Other"]
     }
   }],
   receivedEmails: [{
     content: String,
     emailType: {
       type: String,
-      enum: ["Project Orientation Invitation", "Inquiry", "Issue", "Other"]
+      enum: ["Project Orintation Invitation", "Inquiry", "Issue", "Other"]
     }
   }],
   receiverEmail: mongoose.SchemaTypes.Email,
