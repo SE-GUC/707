@@ -10,7 +10,6 @@ const adminsConversations = require("./workflow/admin/conversations");
 const candidatesConversations = require("./workflow/candidate/conversations");
 const partnersConversations = require("./workflow/partner/conversations");
 const consultanciesConversations = require("./workflow/consultancy/conversations");
-const adminsMessages = require("./workflow/admin/messages");
 // express1
 const app = express();
 // DB Config
@@ -38,7 +37,6 @@ app.use("/workflow/admin/conversations", adminsConversations);
 app.use("/workflow/candidate/conversations", candidatesConversations);
 app.use("/workflow/partner/conversations", partnersConversations);
 app.use("/workflow/consultancy/conversations", consultanciesConversations);
-app.use("/workflow/admin/messages", adminsMessages);
 // wrong path
 app.use((req, res) =>
   res.status(404).send(`<h1>Can not find what you're looking for</h1>`)
