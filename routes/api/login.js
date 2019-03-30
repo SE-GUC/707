@@ -10,6 +10,8 @@ const Admin = require("../../models/Admin");
 const Partner = require("../../models/Partner");
 const Consultancy = require("../../models/Consultancy");
 const Candidate = require("../../models/Candidate");
+const LoggedOutUser=require("../../models/LoggedOutUser");
+
 //login
 router.post('/', async (req, res) => {
     try {
@@ -35,6 +37,11 @@ router.post('/', async (req, res) => {
                     name: admin.name,
                     email: admin.email
                 }
+                LoggedOutUser.findOneAndDelete({id:admin._id},(err,succ) => {
+                    if(err){
+                     
+                    }
+                });
                 const token = jwt.sign(payload, tokenKey, {
                     expiresIn: '1h'
                 })
@@ -57,9 +64,14 @@ router.post('/', async (req, res) => {
                         name: partner.name,
                         email: partner.email
                     }
+                    LoggedOutUser.findOneAndDelete({id:partner._id},(err,succ) => {
+                        if(err){
+                        }
+                        });           
                     const token = jwt.sign(payload, tokenKey, {
                         expiresIn: '1h'
                     })
+                    
                     res.json({
                         data: `Bearer ${token}`
                     })
@@ -79,6 +91,10 @@ router.post('/', async (req, res) => {
                             name: consultancy.name,
                             email: consultancy.email
                         }
+                        LoggedOutUser.findOneAndDelete({id:consultancy._id},(err,succ) => {
+                            if(err){
+                            }
+                            });
                         const token = jwt.sign(payload, tokenKey, {
                             expiresIn: '1h'
                         })
@@ -101,7 +117,10 @@ router.post('/', async (req, res) => {
                                 name: candidate.name,
                                 email: candidate.email
                             }
-                            const token = jwt.sign(payload, tokenKey, {
+                            LoggedOutUser.findOneAndDelete({id:candidate._id},(err,succ) => {
+                                if(err){
+                                }
+                                });                            const token = jwt.sign(payload, tokenKey, {
                                 expiresIn: '1h'
                             })
                             res.json({

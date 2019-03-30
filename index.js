@@ -6,6 +6,7 @@ const candidates = require("./routes/api/candidates");
 const partners = require("./routes/api/partners");
 const consultancies = require("./routes/api/consultancies");
 const login = require("./routes/api/login");
+const logout = require("./routes/api/logout");
 const logger = require("./middleware/logger");
 const passport = require('passport')
 const cors = require('cors')
@@ -38,6 +39,8 @@ app.use("/api/candidates", candidates);
 app.use("/api/admins", admins);
 app.use("/api/consultancies", consultancies);
 app.use("/api/login", login);
+app.use("/api/logout", logout);
+
 
 // wrong path
 app.use((req, res) =>
