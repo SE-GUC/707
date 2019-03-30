@@ -16,7 +16,7 @@ const app = express();
 const db = require("./config/keys").mongoURI;
 // Connect to mongo
 mongoose
-  .connect(db)
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
 // Init middleware
@@ -43,4 +43,3 @@ app.use((req, res) =>
 );
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server on ${port}`));
-//
