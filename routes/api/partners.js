@@ -135,6 +135,10 @@ router.put("/updateProfile", async (req, res) => {
 router.delete("/delete",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
     const deletedPartner = await Partner.findByIdAndDelete(req.id);
+    if (!deletedPartner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     res.json({
       msg: "Your account has been deleted successfully",
       data: deletedPartner
@@ -148,6 +152,11 @@ router.delete("/delete",passport.authenticate('jwt', {session: false}), async (r
 //Create a new conversation by stating receiver email
 router.post("/conversations/start", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
+    const partner = await Partner.findById(req.id);
+    if (!partner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     const senderID = req.id;
     const receiverEmail = req.body.email;
     if (!receiverEmail)
@@ -287,6 +296,11 @@ router.get("/conversations/get/:email", passport.authenticate('jwt', {session: f
 //Delete an existing conversation by stating receiver email
 router.delete("/conversations/delete",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
+    const partner = await Partner.findById(req.id);
+    if (!partner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     const senderID = req.id;
     const receiverEmail = req.body.email;
     if (!receiverEmail)
@@ -389,6 +403,11 @@ router.delete("/conversations/delete",passport.authenticate('jwt', {session: fal
 //send an email inside an existing conversation by stating receiver email and email content and email type
 router.post("/conversations/send",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
+    const partner = await Partner.findById(req.id);
+    if (!partner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     const senderID = req.id;
     const receiverEmail = req.body.email;
     const emailContent = req.body.content;
@@ -493,12 +512,17 @@ router.post("/conversations/send",passport.authenticate('jwt', {session: false})
   }
 });
 //Submit a project by filling only (minimum) description and requireConsultancy
-router.post("/project/:id",passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.post("/project",passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
+    const partner = await Partner.findById(req.id);
+    if (!partner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     Project.create(req.body, function (err, createdProject) {
       if (!err) {
         Partner.findByIdAndUpdate(
-          req.params.id, {
+          req.id, {
             $push: {
               projects: createdProject
             }
@@ -533,12 +557,12 @@ function names(array) {
   return names;
 }
 //View all my projects' names
-router.get("/projects/:id",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/projects",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
-    const partner = await Partner.findById(req.params.id);
+    const partner = await Partner.findById(req.id);
     if (!partner) {
       return res.status(404).send({
-        error: "This partner does not exsist"
+        error: "This profile does not exsist"
       });
     }
     res.json({
@@ -553,6 +577,11 @@ router.get("/projects/:id",passport.authenticate('jwt', {session: false}), async
 //Select a project by its id after viewing all my projects' names
 router.get("/project/select/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
+    const partner = await Partner.findById(req.id);
+    if (!partner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Partner.update({
@@ -584,6 +613,11 @@ router.get("/project/select/:projectID",passport.authenticate('jwt', {session: f
 //update an exisiting project by its id
 router.put("/project/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
+    const partner = await Partner.findById(req.id);
+    if (!partner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     if (!((await Project.findById(req.params.projectID)).approveAdmin)) {
       Project.findByIdAndUpdate(req.params.projectID, req.body, {
         new: true
@@ -608,13 +642,18 @@ router.put("/project/:projectID", passport.authenticate('jwt', {session: false})
   }
 });
 //Delete a submitted project by project id
-router.delete("/project/:id/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.delete("/project/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
+    const partner = await Partner.findById(req.id);
+    if (!partner)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     if (!((await Project.findById(req.params.projectID)).approveAdmin)) {
       Project.findByIdAndDelete(req.params.projectID, function (err, deletedProject) {
         if (!err) {
           Partner.findByIdAndUpdate(
-            req.params.id, {
+            req.id, {
               $pull: {
                 projects: deletedProject
               }
