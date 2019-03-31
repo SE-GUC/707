@@ -1,5 +1,5 @@
 // db instance connection
-require("./config/db");
+require("./config/MongoDbAtlas");
 //express & bodyparser
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -16,8 +16,10 @@ const consultanciesConversations = require("./workflow/consultancy/conversations
 //Init express
 const app = express();
 // Init middleware
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 // Entry point
 app.get("/", (req, res) => res.send(`<h1>Welcome to LirtenHub</h1>`));
 app.get("/test", (req, res) => res.send(`<h1>Deployed on Heroku</h1>`));
