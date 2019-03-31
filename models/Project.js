@@ -1,23 +1,44 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const lifeCycleSchema = require("../models/Lifecycle").schema;
-const taskSchema = require("../models/Task").schema;
 //Project schema
 var projectSchema = new Schema({
-  type: String,
   name: String,
   description: String,
-  approveAdmin: Boolean,
-  requireConsultancy: Boolean,
-  lifecycle: lifeCycleSchema,
-  tasks: [taskSchema],
-  consultancy: {
-    type: Schema.ObjectId,
-    ref: "Consultancy"
+  type: String,
+  approveAdmin: {
+    type: Boolean,
+    default: false
   },
-  appliedCandidates: [{
-    type: Schema.ObjectId,
-    ref: "Candidate"
+  requireConsultancy: {
+    type: Boolean,
+    default: false
+  },
+  assigned: {
+    type: Boolean,
+    default: false
+  },
+  lifecycle: {
+    description: [String],
+    status: {
+      type: String,
+      enum: ["Proceeding", "Finished"],
+      default: "Proceeding"
+    },
+    percentage: [Number]
+  },
+  tasks: [{
+    name: String,
+    description: String,
+    effortLevel: String,
+    deliveryTime: Date,
+    commitmentLevel: String,
+    experienceLevel: String,
+    requiredSkills: [String],
+    monetaryCompensation: Number,
+    candidateRole: String
   }]
+});
+projectSchema.index({
+  '$**': 'text'
 });
 module.exports = Project = mongoose.model("projects", projectSchema);

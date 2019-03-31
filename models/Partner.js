@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 require("mongoose-type-email");
-const personalInformationSchema = require("../models/PersonalInformation").schema;
 const conversationSchema = require("../models/Conversation").schema;
 const projectSchema = require("../models/Project").schema;
 //Partner schema
 var partnerSchema = new Schema({
-  email: {
-    type: mongoose.SchemaTypes.Email,
-    unique: true
-  },
+  name: String,
+  email: mongoose.SchemaTypes.Email,
   password: String,
-  personalInformation: personalInformationSchema,
+  birthdate: Date,
+  address: String,
+  occupation: String,
+  phoneNumber: Number,
   conversations: [conversationSchema],
   projects: [projectSchema]
+});
+partnerSchema.index({
+  '$**': 'text'
 });
 module.exports = Partner = mongoose.model("partners", partnerSchema);
