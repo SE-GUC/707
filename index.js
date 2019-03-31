@@ -1,8 +1,5 @@
-// db instance connection
-require("./config/MongoDbAtlas");
-//express & bodyparser
 const express = require("express");
-const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 // Require Router Handlers
 const admins = require("./routes/api/admins");
 const candidates = require("./routes/api/candidates");
@@ -13,12 +10,21 @@ const adminsConversations = require("./workflow/admin/conversations");
 const candidatesConversations = require("./workflow/candidate/conversations");
 const partnersConversations = require("./workflow/partner/conversations");
 const consultanciesConversations = require("./workflow/consultancy/conversations");
-//Init express
+// express1
 const app = express();
+// DB Config
+const db = require("./config/keys").mongoURI;
+// Connect to mongo
+mongoose
+  .connect(db, {
+    useNewUrlParser: true
+  })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log(err));
 // Init middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: false
 }));
 // Entry point
 app.get("/", (req, res) => res.send(`<h1>Welcome to LirtenHub</h1>`));
@@ -39,6 +45,4 @@ app.use((req, res) =>
 );
 //port
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+app.listen(port, () => console.log(`Server on ${port}`));
