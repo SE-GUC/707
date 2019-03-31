@@ -10,7 +10,6 @@ const Project = require("../../models/Project");
 const Certificate = require("../../models/Certificate");
 const validator = require("../../validations/candidateValidations");
 const passport = require('passport')
-
 //Create candidate profile
 router.post("/register", async (req, res) => {
   try {
@@ -47,7 +46,9 @@ router.post("/register", async (req, res) => {
   }
 });
 //View candidate profile by id
-router.get("/profile",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/profile", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -64,7 +65,9 @@ router.get("/profile",passport.authenticate('jwt', {session: false}), async (req
   }
 });
 //Update candidate profile by id
-router.put("/updateProfile",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put("/updateProfile", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -133,7 +136,9 @@ router.put("/updateProfile",passport.authenticate('jwt', {session: false}), asyn
   }
 });
 //Delete candidate profile by id
-router.delete("/delete", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.delete("/delete", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const deletedCandidate = await Candidate.findByIdAndDelete(req.id);
     if (!deletedCandidate)
@@ -151,7 +156,9 @@ router.delete("/delete", passport.authenticate('jwt', {session: false}),async (r
   }
 });
 //Create a new conversation by stating receiver email
-router.post("/conversations/start",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/conversations/start", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -259,7 +266,9 @@ router.post("/conversations/start",passport.authenticate('jwt', {session: false}
   }
 });
 //Get all my existing conversations
-router.get("/conversations/get",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/conversations/get", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const senderCandidate = await Candidate.findById(req.id);
     if (!senderCandidate)
@@ -276,7 +285,9 @@ router.get("/conversations/get",passport.authenticate('jwt', {session: false}), 
   }
 });
 //Get an existing conversation by stating receiver email
-router.get("/conversations/get/:email",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/conversations/get/:email", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const senderCandidate = await Candidate.findById(req.id);
     if (!senderCandidate)
@@ -295,7 +306,9 @@ router.get("/conversations/get/:email",passport.authenticate('jwt', {session: fa
   }
 });
 //Delete an existing conversation by stating receiver email
-router.delete("/conversations/delete/:email",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/conversations/delete/:email", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -402,7 +415,9 @@ router.delete("/conversations/delete/:email",passport.authenticate('jwt', {sessi
   }
 });
 //send an email inside an existing conversation by stating receiver email and email content and email type
-router.post("/conversations/send",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/conversations/send", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -513,43 +528,47 @@ router.post("/conversations/send",passport.authenticate('jwt', {session: false})
   }
 });
 //View all projects only that i can apply
-router.get('/get/projects', passport.authenticate('jwt', {session: false}),async (req, res) => {
-  try{
-  const candidate = await Candidate.findById(req.id);
+router.get('/get/projects', passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
+  try {
+    const candidate = await Candidate.findById(req.id);
     if (!candidate)
       return res.status(404).send({
         error: "This profile does not exist"
       });
-  const projects = await Project.find({
-    approveAdmin: true,
-    assigned: false
-  });
-  res.json({
-    data: projects
-  })}
-  catch(err){
+    const projects = await Project.find({
+      approveAdmin: true,
+      assigned: false
+    });
+    res.json({
+      data: projects
+    })
+  } catch (err) {
     return res.json(err.message)
   }
 });
 //search projects only that i can apply by name not exact value (search engine)
-router.get('/searchProjects/:name', passport.authenticate('jwt', {session: false}),async (req, res) => {
-  try{
-  const candidate = await Candidate.findById(req.id);
+router.get('/searchProjects/:name', passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
+  try {
+    const candidate = await Candidate.findById(req.id);
     if (!candidate)
       return res.status(404).send({
         error: "This profile does not exist"
       });
-  const projects = await Project.find({
-    approveAdmin: true,
-    assigned: false,
-    name: {
-      $regex: new RegExp(req.params.name)
-    },
-  });
-  res.json({
-    data: projects
-  });}
-  catch(err){
+    const projects = await Project.find({
+      approveAdmin: true,
+      assigned: false,
+      name: {
+        $regex: new RegExp(req.params.name)
+      },
+    });
+    res.json({
+      data: projects
+    });
+  } catch (err) {
     return res.json(err.message)
   }
 });
@@ -561,7 +580,9 @@ function names(array) {
   return names;
 }
 //View all projects' names i applied for
-router.get('/appliedProjects',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/appliedProjects', passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -578,7 +599,9 @@ router.get('/appliedProjects',passport.authenticate('jwt', {session: false}), as
   }
 });
 //View all projects' names i am approved to
-router.get('/approvedProjects',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/approvedProjects', passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -595,7 +618,9 @@ router.get('/approvedProjects',passport.authenticate('jwt', {session: false}), a
   }
 });
 //Select a project by its id after viewing all my projects' names
-router.get("/project/select/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.get("/project/select/:projectID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -643,7 +668,9 @@ router.get("/project/select/:projectID", passport.authenticate('jwt', {session: 
   }
 });
 //apply for a project by its id
-router.post("/project/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/project/:projectID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -681,7 +708,9 @@ router.post("/project/:projectID",passport.authenticate('jwt', {session: false})
   }
 });
 //disapply a project by its id if i am not assigned to
-router.delete("/project/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/project/:projectID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -729,43 +758,49 @@ router.delete("/project/:projectID",passport.authenticate('jwt', {session: false
   }
 });
 //View all certificates' names
-router.get('/get/certificates',passport.authenticate('jwt', {session: false}), async (req, res) => {
- try{
-  const candidate = await Candidate.findById(req.id);
-  if (!candidate)
-    return res.status(404).send({
-      error: "This profile does not exist"
-    });
-  const certificates = await Certificate.find();
-  res.json({
-    data: names(certificates)
-  })}
-  catch(err){
-    return res.json(err.message)
-  }
-});
-//search certificates by name not exact value (search engine)
-router.get('/searchCertificates/:name', passport.authenticate('jwt', {session: false}),async (req, res) => {
- try{
-  const candidate = await Candidate.findById(req.id);
+router.get('/get/certificates', passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
+  try {
+    const candidate = await Candidate.findById(req.id);
     if (!candidate)
       return res.status(404).send({
         error: "This profile does not exist"
       });
-  const certificates = await Certificate.find({
-    name: {
-      $regex: new RegExp(req.params.name)
-    },
-  });
-  res.json({
-    data: certificates
-  });}
-  catch(err){
+    const certificates = await Certificate.find();
+    res.json({
+      data: names(certificates)
+    })
+  } catch (err) {
+    return res.json(err.message)
+  }
+});
+//search certificates by name not exact value (search engine)
+router.get('/searchCertificates/:name', passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
+  try {
+    const candidate = await Candidate.findById(req.id);
+    if (!candidate)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
+    const certificates = await Certificate.find({
+      name: {
+        $regex: new RegExp(req.params.name)
+      },
+    });
+    res.json({
+      data: certificates
+    });
+  } catch (err) {
     return res.json(err.message)
   }
 });
 //Select a certificate by its id after viewing all my certificates' names
-router.get("/certificate/select/:certificateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/certificate/select/:certificateID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)
@@ -813,7 +848,9 @@ router.get("/certificate/select/:certificateID",passport.authenticate('jwt', {se
   }
 });
 //apply for a certificate by its id
-router.post("/certificate/:certificateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/certificate/:certificateID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const candidate = await Candidate.findById(req.id);
     if (!candidate)

@@ -9,7 +9,6 @@ const Partner = require("../../models/Partner");
 const Project = require("../../models/Project");
 const validator = require("../../validations/partnerValidations");
 const passport = require('passport')
-
 //Create partner profile
 router.post("/register", async (req, res) => {
   try {
@@ -46,7 +45,9 @@ router.post("/register", async (req, res) => {
   }
 });
 //View partner profile by id
-router.get("/profile",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/profile", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
@@ -132,7 +133,9 @@ router.put("/updateProfile", async (req, res) => {
   }
 });
 //Delete partner profile by id
-router.delete("/delete",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/delete", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const deletedPartner = await Partner.findByIdAndDelete(req.id);
     if (!deletedPartner)
@@ -150,7 +153,9 @@ router.delete("/delete",passport.authenticate('jwt', {session: false}), async (r
   }
 });
 //Create a new conversation by stating receiver email
-router.post("/conversations/start", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.post("/conversations/start", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
@@ -258,7 +263,9 @@ router.post("/conversations/start", passport.authenticate('jwt', {session: false
   }
 });
 //Get all my existing conversations
-router.get("/conversations/get",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/conversations/get", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const senderPartner = await Partner.findById(req.id);
     if (!senderPartner)
@@ -275,7 +282,9 @@ router.get("/conversations/get",passport.authenticate('jwt', {session: false}), 
   }
 });
 //Get an existing conversation by stating receiver email
-router.get("/conversations/get/:email", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.get("/conversations/get/:email", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const senderPartner = await Partner.findById(req.id);
     if (!senderPartner)
@@ -294,7 +303,9 @@ router.get("/conversations/get/:email", passport.authenticate('jwt', {session: f
   }
 });
 //Delete an existing conversation by stating receiver email
-router.delete("/conversations/delete/:email",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/conversations/delete/:email", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
@@ -401,7 +412,9 @@ router.delete("/conversations/delete/:email",passport.authenticate('jwt', {sessi
   }
 });
 //send an email inside an existing conversation by stating receiver email and email content and email type
-router.post("/conversations/send",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/conversations/send", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
@@ -512,7 +525,9 @@ router.post("/conversations/send",passport.authenticate('jwt', {session: false})
   }
 });
 //Submit a project by filling only (minimum) description and requireConsultancy
-router.post("/project",passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.post("/project", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
@@ -557,7 +572,9 @@ function names(array) {
   return names;
 }
 //View all my projects' names
-router.get("/projects",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/projects", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner) {
@@ -575,7 +592,9 @@ router.get("/projects",passport.authenticate('jwt', {session: false}), async (re
   }
 });
 //Select a project by its id after viewing all my projects' names
-router.get("/project/select/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/project/select/:projectID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
@@ -611,7 +630,9 @@ router.get("/project/select/:projectID",passport.authenticate('jwt', {session: f
   }
 });
 //update an exisiting project by its id
-router.put("/project/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.put("/project/:projectID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
@@ -642,7 +663,9 @@ router.put("/project/:projectID", passport.authenticate('jwt', {session: false})
   }
 });
 //Delete a submitted project by project id
-router.delete("/project/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.delete("/project/:projectID", passport.authenticate('jwt', {
+  session: false
+}), async (req, res) => {
   try {
     const partner = await Partner.findById(req.id);
     if (!partner)
