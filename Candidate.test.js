@@ -30,7 +30,7 @@ let myCandidate = {
  }
 token = await funcs.login(x);
    expect.assertions(14);
-   const cand = await funcs.getCandidate(postedCandidate.data.data._id);
+   const cand = await funcs.getCandidate(token.data.data);
 
     expect(postedCandidate.data.data._id).toEqual(cand.data.data._id);
     expect(postedCandidate.data.data.name).toEqual(cand.data.data.name);
@@ -156,8 +156,8 @@ test('view all projects that i can apply', async()=>{
   token2= await funcs.login(x);
 
   expect.assertions(3);
-  const createdproject= await funcs.createProject(token2.data.data._id,project1);
-  const createdproject2= await funcs.createProject(token2.data.data._id,project2);
+  const createdproject= await funcs.createProject(token2.data.data,project1);
+  const createdproject2= await funcs.createProject(token2.data.data,project2);
   var names= await funcs.getProjects(token2.data.data._id);
   expect(names[0]).toEqual(token2.name);
   expect(names[1]).toEqual(token2.name);
@@ -187,7 +187,7 @@ let conversation2 ={
   token= await funcs.login(x);
      expect.assertions(1);
      
-     const cons = await funcs.postConversation(conversation,token.data.data._id);
+     const cons = await funcs.postConversation(conversation,token.data.data);
      let x2 = {
        email: "kk@gmail.com",
        password:"0"

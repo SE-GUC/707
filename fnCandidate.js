@@ -1,5 +1,13 @@
 const axios = require("axios");
+
 const functions = {
+  //login
+  login: async (user) =>{
+    const token = await axios.post(
+      "http://localhost:5000/api/login" , user
+    );
+    return token;
+  },
     //get candidate profile
     getCandidate: async(token) =>{
         const candidate = await axios.get(
