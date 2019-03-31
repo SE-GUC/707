@@ -296,7 +296,7 @@ router.get("/conversations/get/:email", passport.authenticate('jwt', {session: f
   }
 });
 //Delete an existing conversation by stating receiver email
-router.delete("/conversations/delete", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.delete("/conversations/delete/:email", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
     const consultancy = await Consultancy.findById(req.id);
     if (!consultancy)
@@ -304,7 +304,7 @@ router.delete("/conversations/delete", passport.authenticate('jwt', {session: fa
         error: "This profile does not exist"
       });
     const senderID = req.id;
-    const receiverEmail = req.body.email;
+    const receiverEmail = req.params.email;
     if (!receiverEmail)
       return res.status(404).send({
         error: "You have to enter an email to delete a conversation"
