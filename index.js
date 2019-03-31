@@ -14,7 +14,7 @@ const consultanciesConversations = require("./workflow/consultancy/conversations
 const app = express();
 // Connect to mongo
 mongoose
-  .connect(`mongodb://localhost:${process.env.PORT}/SE`, { useNewUrlParser: true })
+  .connect("mongodb://localhost/SE", { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log(err));
 // Init middleware
