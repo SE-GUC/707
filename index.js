@@ -12,11 +12,9 @@ const partnersConversations = require("./workflow/partner/conversations");
 const consultanciesConversations = require("./workflow/consultancy/conversations");
 // express1
 const app = express();
-// DB Config
-const db = require("./config/keys").mongoURI;
 // Connect to mongo
 mongoose
-  .connect(db, {
+  .connect("mongodb+srv://PeterAbdalla:LirtenHub707@lirtenhub-707-cluster-dmyn2.mongodb.net/test?retryWrites=true", {
     useNewUrlParser: true
   })
   .then(() => console.log("Connected to MongoDB"))
