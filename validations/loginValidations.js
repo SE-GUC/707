@@ -2,7 +2,6 @@ const Joi = require("joi");
 module.exports = {
   createValidation: request => {
     const createSchema = {
-      name: Joi.string().required(),
       email: Joi.string().required(),
       password: Joi.string().required()
     };

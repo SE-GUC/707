@@ -8,6 +8,8 @@ const Consultancy = require("../../models/Consultancy");
 const Partner = require("../../models/Partner");
 const Project = require("../../models/Project");
 const validator = require("../../validations/consultancyValidations");
+const passport = require('passport')
+
 //Create consultancy profile
 router.post("/register", async (req, res) => {
   try {
@@ -44,9 +46,9 @@ router.post("/register", async (req, res) => {
   }
 });
 //View consultancy profile by id
-router.get("/:id", async (req, res) => {
+router.get("/profile", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
-    const consultancy = await Consultancy.findById(req.params.id);
+    const consultancy = await Consultancy.findById(req.id);
     if (!consultancy)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -61,9 +63,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 //Update consultancy profile by id
-router.put("/:id", async (req, res) => {
+router.put("/updateProfile",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
-    const consultancy = await Consultancy.findById(req.params.id);
+    const consultancy = await Consultancy.findById(req.id);
     if (!consultancy)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -86,7 +88,7 @@ router.put("/:id", async (req, res) => {
         email: req.body.email
       }, function (err) {
         if (!err) {
-          Consultancy.findByIdAndUpdate(req.params.id, req.body, {
+          Consultancy.findByIdAndUpdate(req.id, req.body, {
             new: true
           }, function (
             err,
@@ -107,7 +109,7 @@ router.put("/:id", async (req, res) => {
           });
       });
     } else {
-      await Consultancy.findByIdAndUpdate(req.params.id, req.body, {
+      await Consultancy.findByIdAndUpdate(req.id, req.body, {
         new: true
       }, function (
         err,
@@ -130,11 +132,15 @@ router.put("/:id", async (req, res) => {
   }
 });
 //Delete consultancy profile by id
-router.delete("/:id", async (req, res) => {
+router.delete("/delete",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
     const deletedConsultancy = await Consultancy.findByIdAndDelete(
-      req.params.id
+      req.id
     );
+    if (!deletedConsultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     res.json({
       msg: "Your account has been deleted successfully",
       data: deletedConsultancy
@@ -146,9 +152,14 @@ router.delete("/:id", async (req, res) => {
   }
 });
 //Create a new conversation by stating receiver email
-router.post("/conversation/:id", async (req, res) => {
+router.post("/conversations/start",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
-    const senderID = req.params.id;
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
+    const senderID = req.id;
     const receiverEmail = req.body.email;
     if (!receiverEmail)
       return res.status(404).send({
@@ -249,9 +260,9 @@ router.post("/conversation/:id", async (req, res) => {
   }
 });
 //Get all my existing conversations
-router.get("/conversation/:id", async (req, res) => {
+router.get("/conversations/get",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
-    const senderConsultancy = await Consultancy.findById(req.params.id);
+    const senderConsultancy = await Consultancy.findById(req.id);
     if (!senderConsultancy)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -266,9 +277,9 @@ router.get("/conversation/:id", async (req, res) => {
   }
 });
 //Get an existing conversation by stating receiver email
-router.get("/conversation/:id/:email", async (req, res) => {
+router.get("/conversations/get/:email", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
-    const senderConsultancy = await Consultancy.findById(req.params.id);
+    const senderConsultancy = await Consultancy.findById(req.id);
     if (!senderConsultancy)
       return res.status(404).send({
         error: "This profile does not exist"
@@ -285,10 +296,15 @@ router.get("/conversation/:id/:email", async (req, res) => {
   }
 });
 //Delete an existing conversation by stating receiver email
-router.delete("/conversation/:id", async (req, res) => {
+router.delete("/conversations/delete/:email", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
-    const senderID = req.params.id;
-    const receiverEmail = req.body.email;
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
+    const senderID = req.id;
+    const receiverEmail = req.params.email;
     if (!receiverEmail)
       return res.status(404).send({
         error: "You have to enter an email to delete a conversation"
@@ -387,9 +403,14 @@ router.delete("/conversation/:id", async (req, res) => {
   }
 });
 //send an email inside an existing conversation by stating receiver email and email content and email type
-router.post("/conversation/email/:id", async (req, res) => {
+router.post("/conversations/send",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
-    const senderID = req.params.id;
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
+    const senderID = req.id;
     const receiverEmail = req.body.email;
     const emailContent = req.body.content;
     const emailType = req.body.type;
@@ -493,7 +514,12 @@ router.post("/conversation/email/:id", async (req, res) => {
   }
 });
 //View all projects only that i can apply
-router.get('/get/projects', async (req, res) => {
+router.get('/get/projects', passport.authenticate('jwt', {session: false}),async (req, res) => {
+  const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
   const projects = await Project.find({
     approveAdmin: true,
     requireConsultancy: true,
@@ -504,7 +530,12 @@ router.get('/get/projects', async (req, res) => {
   })
 });
 //search projects only that i can apply by name not exact value (search engine)
-router.get('/searchProjects/:name', async (req, res) => {
+router.get('/searchProjects/:name',passport.authenticate('jwt', {session: false}), async (req, res) => {
+  const consultancy = await Consultancy.findById(req.id);
+  if (!consultancy)
+    return res.status(404).send({
+      error: "This profile does not exist"
+    });
   const projects = await Project.find({
     approveAdmin: true,
     requireConsultancy: true,
@@ -525,12 +556,12 @@ function names(array) {
   return names;
 }
 //View all projects' names i am assigned to
-router.get('/projects/:id', async (req, res) => {
+router.get('/projects',passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
-    const consultancy = await Consultancy.findById(req.params.id);
+    const consultancy = await Consultancy.findById(req.id);
     if (!consultancy)
       return res.status(404).send({
-        error: "This consultancy does not exist"
+        error: "This profile does not exist"
       });
     res.json({
       data: names(consultancy.projects)
@@ -542,8 +573,13 @@ router.get('/projects/:id', async (req, res) => {
   }
 });
 //Select a project by its id after viewing all my projects' names
-router.get("/project/select/:projectID", async (req, res) => {
+router.get("/project/select/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
   try {
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Consultancy.update({
@@ -573,12 +609,17 @@ router.get("/project/select/:projectID", async (req, res) => {
   }
 });
 //apply for a project by its id
-router.get("/project/:id/:projectID", async (req, res) => {
+router.get("/project/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Consultancy.findByIdAndUpdate(
-          req.params.id, {
+          req.id, {
             $addToSet: {
               projects: foundProject
             }
@@ -606,8 +647,13 @@ router.get("/project/:id/:projectID", async (req, res) => {
   }
 });
 //Set project tasks and update all its attributes
-router.put("/project/:projectID", async (req, res) => {
+router.put("/project/:projectID", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     Project.findByIdAndUpdate(req.params.projectID, req.body, {
       new: true
     }, function (err, updatedProject) {
@@ -629,6 +675,11 @@ router.put("/project/:projectID", async (req, res) => {
 //View all candidates applying for a by project by its id
 router.get("/project/:projectID", async (req, res) => {
   try {
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Candidate.find({
@@ -656,8 +707,13 @@ router.get("/project/:projectID", async (req, res) => {
   }
 });
 //Approve a candidate by his id for a project he applied for by its id
-router.post("/project/:projectID/:candidateID", async (req, res) => {
+router.post("/project/:projectID/:candidateID", passport.authenticate('jwt', {session: false}),async (req, res) => {
   try {
+    const consultancy = await Consultancy.findById(req.id);
+    if (!consultancy)
+      return res.status(404).send({
+        error: "This profile does not exist"
+      });
     Project.findById(req.params.projectID, function (err, foundProject) {
       if (!err) {
         Candidate.update({
