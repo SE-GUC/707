@@ -1,188 +1,190 @@
 const axios = require("axios");
+const functions = {
 
-const functions = { 
-    login: async (user) => {
-        const token = await axios.post(
-          "http://localhost:5000/api/login" , user
+    createProject: async (id,project)=> {
+        const createdproject= await axios.post(
+            "http://localhost:5000/api/partners/project/"+id,project
         );
-        return token;
-      },
-      //saad consultancy
-  
-    
+        return createdproject;
+        },
 
 
 //consultancies
 postConsultancy: async (cons) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/consultancies/register",cons 
-  );
-  return response ;
-},
-
-//consultancies
-getConsultancy: async (token) => {
-  const response = await axios.get(
-    "http://localhost:5000/api/consultancies/profile", { headers: { Authorization: token }}
-  );
-  return response ;
+    const response = await axios.post(
+      "http://localhost:5000/api/consultancies/register",cons
+    );
+    return response ;
   },
 
 //consultancies
-      putConsultancy: async (cons,token) => {
-          const response = await axios.put(
-            "http://localhost:5000/api/consultancies/updateProfile",cons, { headers: { Authorization: token }}
-          );
-          return response ;
-        } ,
-         
-        //consultancies
-        deleteconsultancy: async (token) => {
-          const response = await axios.delete(
-            "http://localhost:5000/api/consultancies/delete",{ headers: { Authorization: token }}
-          );
-          return response ;
-        } ,
+getConsultancy: async (id) => {
+    const response = await axios.get(
+      "http://localhost:5000/api/consultancies/"+id
+    );
+    return response ;
+    },
+
+ //consultancies
+        putConsultancy: async (id,cons) => {
+            const response = await axios.put(
+              "http://localhost:5000/api/consultancies/"+id,cons
+            );
+            return response ;
+          } ,
+           
+          //consultancies
+          deleteconsultancy: async (id) => {
+            const response = await axios.delete(
+              "http://localhost:5000/api/consultancies/"+id
+            );
+            return response ;
+          } ,
 
 
-//consultancies
-postConversation: async (cons,token) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/consultancies/conversations/start",cons,{ headers: { Authorization: token }}
-  );
-  return response ;
-},
-
-//consultancies
-getConversationbyemail: async (token,email) => {
-  const response = await axios.get(
-    "http://localhost:5000/api/consultancies/conversations/get/"+email, { headers: { Authorization: token }}
-  );
-  return response ;
+  //consultancies
+  postConversation: async (cons,id) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/consultancies/conversation/"+id,cons
+    );
+    return response ;
   },
 
   //consultancies
-deleteConversation: async (email,token) => {
-  const response = await axios.delete(
-    "http://localhost:5000/api/consultancies/conversations/delete/"+email,{ headers: { Authorization: token }}
-  );
-  return response ;
+  getConversationbyemail: async (id,email) => {
+    const response = await axios.get(
+      "http://localhost:5000/api/consultancies/conversation/"+id+"/"+email
+    );
+    return response ;
+    },
 
-} ,
+    //consultancies
+  deleteConversation: async (email,id) => {
+    const response = await axios.delete(
+      "http://localhost:5000/api/consultancies/conversation/"+id+"/"+email
+    );
+    return response ;
+
+  } ,
 
 
-getAllCons: async (token) => {
-  const response = await axios.get(
-    "http://localhost:5000/api/consultancies/conversations/get",{ headers: { Authorization: token }}
-  );
-  return response;
-},
-
-
-
- //consultancies
- postemailConversation: async (cons,token) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/consultancies/conversations/send",cons,{ headers: { Authorization: token }}
-  );
-  return response ;
+  getAllCons: async (id) => {
+    const response = await axios.get(
+      "http://localhost:5000/api/consultancies/conversation/"+id
+    );
+    return response;
   },
 
-  getAllProjects: async (token) => {
-      const response = await axios.get(
-        "http://localhost:5000/api/consultancies/get/projects",{ headers: { Authorization: token }}
-      );
-      return response;
+   //consultancies
+   postemailConversation: async (cons,id) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/consultancies/conversation/email/"+id,cons
+    );
+    return response ;
     },
 
-    getProjectbyid: async (projectid,token) => {
-      const response = await axios.get(
-        "http://localhost:5000/api/consultancies/project/select/"+projectid,{ headers: { Authorization: token }}
-      );
-      return response;
-    },
-    getAssignedProjectbyid: async (projectid,token) => {
-      const response = await axios.get(
-        "http://localhost:5000/api/consultancies/project/"+projectid ,{ headers: { Authorization: token }}
-      );
-      return response;
-    },
+    getAllProjects: async () => {
+        const response = await axios.get(
+          "http://localhost:5000/api/consultancies/get/projects"
+        );
+        return response;
+      },
 
-    putProjectbyid: async (projectid,project,token) => {
-      const response = await axios.put(
-        "http://localhost:5000/api/consultancies/project/"+projectid,project,{ headers: { Authorization: token }}
-      );
-      return response;
-    },
-  
+      getProjectbyid: async (id) => {
+        const response = await axios.get(
+          "http://localhost:5000/api/consultancies/project/select/"+id
+        );
+        return response;
+      },
+      getAssignedProjectbyid: async (id,projectid) => {
+        const response = await axios.get(
+          "http://localhost:5000/api/consultancies/project/"+id+"/"+projectid
+        );
+        return response;
+      },
 
-    getAssignedCandidtesforProject: async (projectid,token) => {
-      const response = await axios.get(
-        "http://localhost:5000/api/consultancies/project/"+projectid,{ headers: { Authorization: token }}
-      );
-      return response;
-    },
+      putProjectbyid: async (projectid,project) => {
+        const response = await axios.put(
+          "http://localhost:5000/api/consultancies/project/"+projectid,project
+        );
+        return response;
+      },
+    
 
-    getProjectNamesIamAssignedTo: async (projectid,token) => {
-      const response = await axios.get(
-        "http://localhost:5000/api/consultancies/project/"+projectid, { headers: { Authorization: token }}
-      );
-      return response;
-    },
+      getAssignedCandidtesforProject: async (projectid) => {
+        const response = await axios.get(
+          "http://localhost:5000/api/consultancies/project/"+projectid
+        );
+        return response;
+      },
 
-    getprojectbyname: async (name,token) => {
-      const response = await axios.get(
-        "http://localhost:5000/api/consultancies/searchProjects/" + name,{ headers: { Authorization: token }}
-      );
-      return response;
-    },
+      getProjectNamesIamAssignedTo: async (id) => {
+        const response = await axios.get(
+          "http://localhost:5000/api/consultancies/projects/"+id
+        );
+        return response;
+      },
+
+      getprojectbyname: async (name) => {
+        const response = await axios.get(
+          "http://localhost:5000/api/consultancies/searchProjects/" + name
+        );
+        return response;
+      },
+      Approveacandidate: async (projectid,candidateid) => {
+        const response = await axios.post(
+          "http://localhost:5000/api/consultancies/project/"+projectid+"/"+candidateid
+        );
+        return response ;
+        },
+
+
+      
+
+        
 
 
 
 
 
-
-
-
-
+        
 
 
 
 
 //Islam 
 createPartner: async (partner) => {
+    const response = await axios.post(
+      "http://localhost:5000/api/partners/register",partner
+    );
+    return response ;
+  },
+  createProject: async (id,project)=> {
+    const createdproject= await axios.post(
+        "http://localhost:5000/api/partners/project/"+id,project
+    );
+    return createdproject;
+    },
+
+
+    //farah 
+    postCandidate: async(candidate) => {
+      const response = await axios.post(
+          "http://localhost:5000/api/candidates/register",candidate
+      );
+      return response;
+  } ,
+
+applyforProjectbyID : async(id, projectID)=>{
   const response = await axios.post(
-    "http://localhost:5000/api/partners/register",partner
+      "http://localhost:5000/api/candidates/project/"+id+"/"+projectID
   );
-  return response ;
-},
-createProject: async (project,token)=> {
-  const createdproject= await axios.post(
-      "http://localhost:5000/api/partners/project/",project,{ headers: { Authorization: token }}
-  );
-  return createdproject;
+  return response
   },
 
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-        ///////////////////////////////////////////////////////
-    logout: async(token)=> {
-        const loggedOutUser = await axios.get( 
-            "http://localhost:5000/api/logout", { headers: { Authorization: token } });
-        return loggedOutUser ;
-    }
-}
 
 
 module.exports = functions;
+

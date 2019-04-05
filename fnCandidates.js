@@ -1,20 +1,14 @@
 const axios = require("axios");
 
 const functions = {
-  //login
-  login: async (user) =>{
-    const token = await axios.post(
-      "http://localhost:5000/api/login" , user
-    );
-    return token;
-  },
+  
     //get candidate profile
-    getCandidate: async(token) =>{
-        const candidate = await axios.get(
-            "http://localhost:5000/api/candidates/profile",{headers: {Authorization: token}}
-            );
-            return candidate;
-        },
+    getCandidate: async (id) => {
+      const cand = await axios.get(
+        "http://localhost:5000/api/candidates/"+id
+      );
+      return cand;
+    },
         //create candidate profile
         postCandidate: async(candidate) => {
             const response = await axios.post(
@@ -22,67 +16,54 @@ const functions = {
             );
             return response;
         } ,
-//         //search project
-//         SearchProjectByName: async(name) =>{
-//            const cand = await axios.get(
-//        "http://localhost:5000/api/candidates/searchProjects/"+id
-//    );
-//    return cand;
-//         },
 
         //create conversation
-        postConversation: async (conv,token) => {
+        postConversation: async (conv,id) => {
             const response = await axios.post(
-              "http://localhost:5000/api/candidates/conversations/start",conv,{headers: {Authorization: token}}
+              "http://localhost:5000/api/candidates/conversation/"+id,conv
               
             );
             return response ;
           },
 
-          //get all candidates 
-          getCandidates: async () => {
-            const candidates = await axios.get(
-              "http://localhost:5000/api/candidates"
-            );
-            return candidates;
-          },
-        //get all conversations
-          getConversations: async (token)=>{
+          getConversations: async ()=>{
               const conversations = await axios.get(
-                  "http://localhost:5000/api/candidates/conversation/get",{headers: {Authorization: token}}
+                  "http://localhost:5000/api/candidates/conversation/"+id
               );
           },
         //Get an existing conversation by stating receiver email
-          getConversation: async(token,email) =>{
+          getConversation: async(id,email) =>{
               const conversation = await axios.get(
-                "http://localhost:5000/api/candidates/conversations/get/"+email,{headers: {Authorization: token}}
-              )
+                "http://localhost:5000/api/candidates/conversation/"+id+"/"+email
+               
+              );
+              return conversation;
           },
         //send an email inside conversation
-          postemailConversation: async (email,token) => {
+          postemailConversation: async (email,id) => {
             const response = await axios.post(
-              "http://localhost:5000/api/candidates/conversations/send",email,{headers: {Authorization: token}}
+              "http://localhost:5000/api/candidates/conversation/email/"+id,email
             );
             return response ;
             },
          //delete candidate
-          deleteCandidate: async (token) => {
+          deleteCandidate: async (id) => {
           const response = await axios.delete(
-            "http://localhost:5000/api/candidates/delete",{headers: {Authorization: token}}
+            "http://localhost:5000/api/candidates/"+id
             );
         return response ;
          }  ,
             //update candidate
-             putCandidate: async (token,candidate) => {
+             putCandidate: async (id,candidate) => {
              const response = await axios.put(
-               "http://localhost:5000/api/candidates/updateProfile",candidate,{headers: {Authorization: token}}
+               "http://localhost:5000/api/candidates/"+id,candidate
              );
               return response ;
             } ,
             //create project by description and consultancy requirement
-            createProject: async (token,project)=> {
+            createProject: async (id,project)=> {
              const createdproject= await axios.post(
-                "http://localhost:5000/api/partners/project/",project,{ headers: {Authorization:token}}
+                "http://localhost:5000/api/partners/project/"+id , project
                 );
               return createdproject;
                 },
@@ -123,24 +104,24 @@ const response = await axios.post(
 return response
 },
 //apply for project by id
-applyforProjectbyID : async(token, projectID)=>{
+applyforProjectbyID : async(id, projectID)=>{
   const response = await axios.post(
-      "http://localhost:5000/api/candidates/project/",{ headers: {Authorization:token}},"/"+projectID
+      "http://localhost:5000/api/candidates/project/"+id+"/"+projectID
   );
   return response
   },
   //Disapply for project by id
-  disapplyforProjectbyID : async(token, projectID)=>{
+  disapplyforProjectbyID : async(id, projectID)=>{
     const response = await axios.delete(
-        "http://localhost:5000/api/candidates/project/",{ headers: {Authorization:token}},"/"+projectID
+        "http://localhost:5000/api/candidates/project/"+id+"/"+projectID
     );
     return response
     },
 
     //view all projects that i can apply
-    getProjects: async (token) => {
+    getProjects: async () => {
       var projects = await axios.get(
-        "http://localhost:5000/api/candidates/get/projects/",{ headers: {Authorization:token}}
+        "http://localhost:5000/api/candidates/get/projects/"
       );
       return projects;
     },
@@ -153,13 +134,20 @@ applyforProjectbyID : async(token, projectID)=>{
     return names;
   },
   //View all projects' names i applied for
-  viewAllProjectsiAppliedFor: async(token)=>{
+  viewAllProjectsiAppliedFor: async(id)=>{
     var projects = await axios.get(
-      "http://localhost:5000/api/candidates/appliedProjects/",{ headers: {Authorization:token}}
+      "http://localhost:5000/api/candidates/appliedProjects/"+id
     );
     return projects
 
   },
+//delete conversation
+deleteConversation: async(id,email)=>{
+    const response = await axios.delete(
+       "http://localhost:5000/api/candidates/conversation/"+id+"/"+email
+    )
+    return response;
+},
 
 
   };

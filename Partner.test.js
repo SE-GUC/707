@@ -1,69 +1,9 @@
-const funcs = require("./fn");
+const funcs = require("./fnPartner");
 const bcrypt = require("bcryptjs");
-let myAdmin = {
-    email: "kariman-hossam@hotmail.com",
-    password: "anakarimanhossam"
-   
-  };
-
-  let myPartner = {
-    email:"shahd-wael@hotmail.com",
-    password:"anashahdwael"
-   
-  };
-
-  let myConsultancy = {
-    email:"omar-saad@hotmail.com",
-    password:"anaomarsaad"
-   
-  };
-  let myCandidate = {
-    email:"hana-kamal@hotmail.com",
-    password:"anahanakamal"
-   
-  };
-
-//   //testing login as an admin
-// test(`login admin `, async () => {
-//     expect.assertions(3);
-//     const token = await funcs.login(myAdmin)
-//     expect(token.status).toBe(200)
-//     expect(token.data.data).not.toEqual(null); 
-//     expect(token.data.data).toContain('Bearer ');
-    
-//   });
-
-//   test(`login partner `, async () => {
-//     expect.assertions(3);
-//     const token = await funcs.login(myPartner)
-//     expect(token.status).toBe(200)
-//     expect(token.data.data).not.toEqual(null); 
-//     expect(token.data.data).toContain('Bearer ');
-    
-//   });
-
-//   test(`login consultancy `, async () => {
-//     expect.assertions(3);
-//     const token = await funcs.login(myConsultancy)
-//     expect(token.status).toBe(200)
-//     expect(token.data.data).not.toEqual(null); 
-//     expect(token.data.data).toContain('Bearer ');
-    
-//   });
-
-//   test(`login candidate `, async () => {
-//     expect.assertions(3);
-//     const token = await funcs.login(myCandidate)
-//     expect(token.status).toBe(200)
-//     expect(token.data.data).not.toEqual(null); 
-//     expect(token.data.data).toContain('Bearer ');
-// });
-//partner tests 
-
 
 let partner1 = {
     name: "islam nasr",
-    email: "islam.nasr4@gmail.com",
+    email: "islam.nasr4yh7@gmail.com",
     password: "hello"
    
   };
@@ -123,9 +63,9 @@ let partner1 = {
     
   };
 
-  let partner11 = {
+  let partner11111 = {
     name: "Shahd Osman",
-    email: "Shahd.osman@gmail.com",
+    email: "Shahd.osman707@gmail.com",
     password: "707",
     
   };
@@ -177,8 +117,8 @@ let partner18 = {
   let conversation={
     email:"omar.saad1@gmail.com"
   };
-  let conversation1={
-    email:"islam.nasr4@gmail.com"
+  let conversation11111={
+    email:"islam.nasr4yh7@gmail.com"
   };
   let updatedata ={
     name:"kariman hossam",
@@ -242,12 +182,7 @@ test(`create partner profile `, async () => {
 test(`get partner by id`, async () => {
   expect.assertions(6);
   const newpartner= await funcs.createPartner(partner2);
-  let x={
-    email:newpartner.data.data.email,
-    password:partner2.password
-  }
-  const partnerToken = await funcs.login(x);
-  const partner = await funcs.getPartner(partnerToken.data.data);
+  const partner = await funcs.getPartner(newpartner.data.data._id);
   expect(newpartner.data.data._id).toEqual(partner.data.data._id);
   expect(newpartner.data.data.name).toEqual(partner.data.data.name);
   expect(newpartner.data.data.email).toEqual(partner.data.data.email);
@@ -256,23 +191,11 @@ test(`get partner by id`, async () => {
   expect(newpartner.data.data.projects).toEqual(partner.data.data.projects);
  
 });
-//testing getting all partners in the database
-// test(`get all partners in database`, async () => {
-//   expect.assertions(1);
-//   const newpartner2= await funcs.createPartner(partner3);
-//   const partners = await funcs. getPartners();
-//   expect(partners.data.data.length).toBe(3);
-// });
 //testing update partner by id
 test('update partner information',async() =>{
   expect.assertions(2);
   const newpartner3= await funcs.createPartner(partner4);
-  let x={
-    email:newpartner3.data.data.email,
-    password:partner4.password
-  }
-  const partnerToken = await funcs.login(x);  
-  const updatedpartner= await funcs.updatePartner(partnerToken.data.data,updatedata);
+  const updatedpartner= await funcs.updatePartner(newpartner3.data.data._id,updatedata);
   expect(updatedpartner.data.data.name).toEqual(updatedata.name);
   expect(updatedpartner.data.data._id).toEqual(newpartner3.data.data._id);
     expect(bcrypt.compareSync(updatedata.password,updatedpartner.data.data.password));
@@ -283,14 +206,8 @@ test('delete partner by id',async() =>{
   expect.assertions(6);
   
   const newpartner4= await funcs.createPartner(partner5);
-  let x={
-    email:newpartner4.data.data.email,
-    password:partner5.password
-  }
-  const partnerToken = await funcs.login(x);  
-  
  // const partners = await funcs. getPartners();
-  const deletedpartner= await funcs.deletePartner(partnerToken.data.data);
+  const deletedpartner= await funcs.deletePartner(newpartner4.data.data._id);
   expect(deletedpartner.data.data.name).toEqual(newpartner4.data.data.name);
   expect(deletedpartner.data.data.email).toEqual(newpartner4.data.data.email);
   expect(deletedpartner.data.data.password).toEqual(newpartner4.data.data.password);
@@ -307,32 +224,20 @@ test('delete partner by id',async() =>{
 // testing Create a new conversation by stating receiver email
 test('post partners conversation', async () => {
   expect.assertions(1);
-  const partner =  await funcs.createPartner(partner11);
-  let x={
-    email:partner.data.data.email,
-    password:partner11.password
-  }
-  const partnerToken = await funcs.login(x);  
-  
-  const conv = await funcs.postPartnerConversation(partnerToken.data.data,conversation1);
+  const partner =  await funcs.createPartner(partner11111);
+  const conv = await funcs.postPartnerConversation(conversation11111,partner.data.data._id);
   expect(conv.data.msg).toEqual("New partner conversation is created");
  
 
 
 });
-
 //testing getting partners conversation
 test('get partners conversation',async()=>{
 expect.assertions(1);
 const pa= await funcs.createPartner(partner12);
-let x={
-  email:pa.data.data.email,
-  password:partner12.password
-}
-const partnerToken = await funcs.login(x);  
-const conv=await funcs.postPartnerConversation(partnerToken.data.data,conversation);
-const conv1 = await funcs.postPartnerConversation(partnerToken.data.data,conversation1);
-const da= await funcs.getPartnerConversation(partnerToken.data.data);
+const conv=await funcs.postPartnerConversation(conversation,pa.data.data._id);
+const conv1 = await funcs.postPartnerConversation(conversation11111,pa.data.data._id);
+const da= await funcs.getPartnerConversation(pa.data.data._id);
 expect(da.data.data.length).toBe(2);
 var daarray=da.data.data;
 // console.log(daarray[0]._id);
@@ -342,22 +247,17 @@ var daarray=da.data.data;
 
 });
 
+
+
   //testing getting specific conversation by email
 test(`get partner conversation by email `, async () => {
-
   const partnera1 = await funcs.createPartner(partner13);
-  let x={
-    email:partnera1.data.data.email,
-    password:partner13.password
-  }
-  const partnerToken = await funcs.login(x);  
-   const partnera2 = await funcs.createPartner(partner14);
-   
+  const partnera2 = await funcs.createPartner(partner14);
   let conversation={
       email: partnera2.data.data.email
   }
-      const convers =await funcs.postPartnerConversation(partnerToken.data.data,conversation);
-      const conversa = await funcs.getPartnerConversationbyemail(partnerToken.data.data,partnera2.data.data.email);
+      const convers =await funcs.postPartnerConversation(conversation,partnera1.data.data._id);
+      const conversa = await funcs.getPartnerConversationbyemail(partnera1.data.data._id,partnera2.data.data.email);
       // console.log(cons.data.data.receiverEmail+" "+consss.data.data.email);
         expect.assertions(1);
       expect(conversa.data.data.receiverEmail).toEqual(partnera2.data.data.email);
@@ -370,20 +270,14 @@ test(`get partner conversation by email `, async () => {
 test('delete partners conversation', async () => {
   // expect.assertions(1);
   const partner =  await funcs.createPartner(partner17);
-  let x={
-    email:partner.data.data.email,
-    password:partner17.password
-  }
-  const partnerToken = await funcs.login(x);  
-  
   const partner2 =  await funcs.createPartner(partner18);
 
   let conversationx={
     email: "deleteconversation2@gmail.com"
   }
-  const conv = await funcs.postPartnerConversation(partnerToken.data.data,conversationx);
+  const conv = await funcs.postPartnerConversation(conversationx,partner.data.data._id);
 
-  const conv1 = await funcs.deletePartnerConversation(partnerToken.data.data,conversationx.email);
+  const conv1 = await funcs.deletePartnerConversation(partner.data.data._id,conversationx.email);
     expect.assertions(1);
     expect(conv1.data.msg).toEqual("Partner conversation is deleted");
 });
@@ -393,24 +287,18 @@ test('delete partners conversation', async () => {
 //send email in conversation
 test(`send an email inside an existing conversation `, async () => {
   const partner1 = await funcs.createPartner(partner15);
-  let x={
-    email:partner1.data.data.email,
-    password:partner15.password
-  }
-  const partnerToken = await funcs.login(x);  
-  
   const partner2 = await funcs.createPartner(partner16);
   let conservation={
       email: partner2.data.data.email
       }
-  const conversation =await funcs.postPartnerConversation(partnerToken.data.data,conservation);
+  const conversation =await funcs.postPartnerConversation(conservation,partner1.data.data._id);
       let mail={
           email: partner2.data.data.email,
           content:"hello",
           type:partner2.data.data.email
       }
       // console.log(conss.data.data._id);
-      const conversation2 = await funcs.postPartneremailConversation(partnerToken.data.data,mail);
+      const conversation2 = await funcs.postPartneremailConversation(mail,partner1.data.data._id);
       // console.log(con.data.msg);
       expect.assertions(1);
       expect(conversation2.data.msg).toEqual("Partner email is sent");
@@ -420,17 +308,11 @@ test(`send an email inside an existing conversation `, async () => {
 
 
 
-//testing create project for partner
+  //testing create project for partner
 test('creating project for partner', async()=>{
   expect.assertions(9);
-  const createdpartner = await funcs.createPartner(partner6);
-  let x={
-    email:createdpartner.data.data.email,
-    password:partner6.password
-  }
-  const partnerToken = await funcs.login(x);  
-  
-  const createdproject=await funcs.createProject(partnerToken.data.data,project);
+  const createdpartner = await funcs.createPartner(partner6);  
+  const createdproject=await funcs.createProject(createdpartner.data.data._id,project);
   expect(createdproject.data.data._id).not.toEqual(null);
   expect(createdproject.data.data.description).toEqual(project.description);
   expect(createdproject.data.data.requireConsultancy).toEqual(project.requireConsultancy);
@@ -447,15 +329,9 @@ test('creating project for partner', async()=>{
   test('get my projects names', async()=>{
     expect.assertions(3);
     const createdpartner= await funcs.createPartner(partner7);
-    let x={
-      email:createdpartner.data.data.email,
-      password:partner7.password
-    }
-    const partnerToken = await funcs.login(x);  
-    
-    const createdproject= await funcs.createProject(partnerToken.data.data,project1);
-    const createdproject2= await funcs.createProject(partnerToken.data.data,project2);
-    var names= await funcs.getmyProjects(partnerToken.data.data);
+    const createdproject= await funcs.createProject(createdpartner.data.data._id,project1);
+    const createdproject2= await funcs.createProject(createdpartner.data.data._id,project2);
+    var names= await funcs.getmyProjects(createdpartner.data.data._id);
     expect(names[0]).toEqual(createdproject.name);
     expect(names[1]).toEqual(createdproject2.name);
     expect(names.data.data.length).toBe(2);
@@ -465,13 +341,8 @@ test('creating project for partner', async()=>{
   test('select project by id', async()=>{
     expect.assertions(9);
     const createdpartner= await funcs.createPartner(partner8);
-    let x={
-      email:createdpartner.data.data.email,
-      password:partner8.password
-    }
-    const partnerToken = await funcs.login(x);     
-    const createdproject= await funcs.createProject(partnerToken.data.data,project3);
-    const selectedproject= await funcs.getProjectbyId(token,createdproject.data.data._id);
+    const createdproject= await funcs.createProject(createdpartner.data.data._id,project3);
+    const selectedproject= await funcs.getProjectbyId(createdproject.data.data._id);
     expect(selectedproject.data.data._id).toEqual(createdproject.data.data._id);
     expect(selectedproject.data.data.description).toEqual(createdproject.data.data.description);
     expect(selectedproject.data.data.requireConsultancy).toEqual(createdproject.data.data.requireConsultancy);
@@ -487,13 +358,8 @@ test('creating project for partner', async()=>{
   test('update project by id', async()=>{
     expect.assertions(9);
     const createdpartner= await funcs.createPartner(partner9);
-    let x={
-      email:createdpartner.data.data.email,
-      password:partner9.password
-    }
-    const partnerToken = await funcs.login(x);     
-    const createdproject= await funcs.createProject(partnerToken.data.data,project4);
-    const updatedproject= await funcs.updateProjectbyId(partnerToken.data.data,createdproject.data.data._id,updateprojectdata);
+    const createdproject= await funcs.createProject(createdpartner.data.data._id,project4);
+    const updatedproject= await funcs.updateProjectbyId(createdproject.data.data._id,updateprojectdata);
     expect(updatedproject.data.data._id).toEqual(createdproject.data.data._id);
     expect(updatedproject.data.data.description).toEqual(updateprojectdata.description);
     expect(updatedproject.data.data.name).toEqual(updateprojectdata.name);
@@ -511,16 +377,10 @@ test('creating project for partner', async()=>{
 test('delete project by id', async()=>{
   expect.assertions(10);
   const createdpartner= await funcs.createPartner(partner10);
-  let x={
-    email:createdpartner.data.data.email,
-    password:partner10.password
-  }
-  const partnerToken = await funcs.login(x);     
-  
-  const createdproject= await funcs.createProject(partnerToken.data.data, deletedproject);
-  var names= await funcs.getmyProjects(partnerToken.data.data);  
-  const del = await funcs.deleteProjectbyId(partnerToken.data.data, createdproject.data.data._id);
-  var names2= await funcs.getmyProjects(partnerToken.data.data);    
+  const createdproject= await funcs.createProject(createdpartner.data.data._id, deletedproject);
+  var names= await funcs.getmyProjects(createdpartner.data.data._id);  
+  const del = await funcs.deleteProjectbyId(createdpartner.data.data._id, createdproject.data.data._id);
+  var names2= await funcs.getmyProjects(createdpartner.data.data._id);    
   expect(del.data.data._id).toEqual(createdproject.data.data._id);
   expect(del.data.data.description).toEqual(createdproject.data.data.description);
   expect(del.data.data.name).toEqual(createdproject.data.data.name);
@@ -533,62 +393,3 @@ test('delete project by id', async()=>{
   expect(names.data.data.length-1).toEqual(names2.data.data.length);
   
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     test(`logout admin `, async () => {
-//         expect.assertions(6);
-//         adminToken = await funcs.login(myAdmin);
-//         const loggedOutUser = await funcs.logout(adminToken.data.data)
-//         expect(loggedOutUser.status).toBe(200)
-//         expect(loggedOutUser.data.msg).toEqual("You logged out successfully")
-//         expect(loggedOutUser.data.data).not.toEqual(null)
-//         expect(loggedOutUser.data.data._v).not.toEqual(null);
-//         expect(loggedOutUser.data.data._id).not.toEqual(null);
-//         expect(loggedOutUser.data.data.id).not.toEqual(null);
-//   });
-//   test(`logout partner `, async () => {
-//     expect.assertions(6);
-//     partnerToken = await funcs.login(myPartner);
-//     const loggedOutUser = await funcs.logout(partnerToken.data.data)
-//     expect(loggedOutUser.status).toBe(200)
-//     expect(loggedOutUser.data.msg).toEqual("You logged out successfully")
-//     expect(loggedOutUser.data.data).not.toEqual(null)
-//     expect(loggedOutUser.data.data._v).not.toEqual(null);
-//     expect(loggedOutUser.data.data._id).not.toEqual(null);
-//     expect(loggedOutUser.data.data.id).not.toEqual(null);
-// });
-
-// test(`logout consultancy `, async () => {
-//     expect.assertions(6);
-//     consultancyToken = await funcs.login(myConsultancy);
-//     const loggedOutUser = await funcs.logout(consultancyToken.data.data)
-//     expect(loggedOutUser.status).toBe(200)
-//     expect(loggedOutUser.data.msg).toEqual("You logged out successfully")
-//     expect(loggedOutUser.data.data).not.toEqual(null)
-//     expect(loggedOutUser.data.data._v).not.toEqual(null);
-//     expect(loggedOutUser.data.data._id).not.toEqual(null);
-//     expect(loggedOutUser.data.data.id).not.toEqual(null);
-// });
-
-// test(`logout candidate `, async () => {
-//     expect.assertions(6);
-//     candidateToken = await funcs.login(myCandidate);
-//     const loggedOutUser = await funcs.logout(candidateToken.data.data)
-//     expect(loggedOutUser.status).toBe(200)
-//     expect(loggedOutUser.data.msg).toEqual("You logged out successfully")
-//     expect(loggedOutUser.data.data).not.toEqual(null)
-//     expect(loggedOutUser.data.data._v).not.toEqual(null);
-//     expect(loggedOutUser.data.data._id).not.toEqual(null);
-//     expect(loggedOutUser.data.data.id).not.toEqual(null);
-// });

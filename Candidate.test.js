@@ -1,5 +1,5 @@
 var bodyParser = require('body-parser');
-const funcs = require("./fnCandidate");
+const funcs = require("./fnCandidates");
 const bcrypt=require("bcryptjs");
 
 let myCandidate = {
@@ -7,57 +7,13 @@ let myCandidate = {
   email:"faraah1@gmail.com",
   password:"yafarahyayasser"
 };
-
-  
-  let postedCandidate={
-    name:"farooha",
-    password:"faraah7"
-  }
   
   let myCandidate2 = {
     name :"farah",
-    email:"faraah@gmail.com",
+    email:"farooh@gmail.com",
     password:"yafarahyayasser"
    
   }
-
-//to get candidate
-  test('get candidate', async () => {
-    const postedCandidate= await funcs.postCandidate(myCandidate2);
- let x ={
-   email:"ayahgaa@yahoo.com",
-   password:"11"
- }
-token = await funcs.login(x);
-   expect.assertions(14);
-   const cand = await funcs.getCandidate(token.data.data);
-
-    expect(postedCandidate.data.data._id).toEqual(cand.data.data._id);
-    expect(postedCandidate.data.data.name).toEqual(cand.data.data.name);
-    expect(postedCandidate.data.data.password).toEqual(cand.data.data.password);
-    expect(postedCandidate.data.data.email).toEqual(cand.data.data.email);
-
-    expect(postedCandidate.data.data.languages).toEqual(cand.data.data.languages);
-    expect(postedCandidate.data.data.setOfSkills).toEqual(cand.data.data.setOfSkills);
-    expect(postedCandidate.data.data.interests).toEqual(cand.data.data.interests);
-    expect(postedCandidate.data.data.certificates).toEqual(cand.data.data.certificates);
-    expect(postedCandidate.data.data.masterClasses).toEqual(cand.data.data.masterClasses);
-    expect(postedCandidate.data.data.conversations).toEqual(cand.data.data.conversations);
-    expect(postedCandidate.data.data.appliedProjects).toEqual(cand.data.data.appliedProjects);
-    expect(postedCandidate.data.data.approvedProjects).toEqual(cand.data.data.approvedProjects);
-    expect(postedCandidate.data.data.appliedCertificates).toEqual(cand.data.data.appliedCertificates);
-    expect(postedCandidate.data.data.approvedCertificates).toEqual(cand.data.data.approvedCertificates);
-
-
-  });
-  //search projects only that i can apply by name not exact value (search engine)
-  // test('search projects', async () => {
-  //   expect.assertions();
-  //   const searchProj= await funcs.postProject(myCandidate2);
-  //   const cand = await funcs.getProject(SearchProj.data.data.name);
- 
-  // });
-
 //to post a candidate
 test('post candidates',async() => {
     const candidate = await funcs.postCandidate(myCandidate);
@@ -80,28 +36,39 @@ test('post candidates',async() => {
     expect(candidate.data.data.approvedProjects).toEqual([]);
     expect(candidate.data.data.appliedCertificates).toEqual([]);
     expect(candidate.data.data.approvedCertificates).toEqual([]);
-
-      
 });
-let partner6 = {
+//to get candidate
+
+  test('get candidate', async () => {
+   const postedCandidate= await funcs.postCandidate(myCandidate2);
+   expect.assertions(14);
+   const cand = await funcs.getCandidate(postedCandidate.data.data._id);
+
+    expect(postedCandidate.data.data._id).toEqual(cand.data.data._id);
+    expect(postedCandidate.data.data.name).toEqual(cand.data.data.name);
+    expect(postedCandidate.data.data.password).toEqual(cand.data.data.password);
+    expect(postedCandidate.data.data.email).toEqual(cand.data.data.email);
+
+    expect(postedCandidate.data.data.languages).toEqual(cand.data.data.languages);
+    expect(postedCandidate.data.data.setOfSkills).toEqual(cand.data.data.setOfSkills);
+    expect(postedCandidate.data.data.interests).toEqual(cand.data.data.interests);
+    expect(postedCandidate.data.data.certificates).toEqual(cand.data.data.certificates);
+    expect(postedCandidate.data.data.masterClasses).toEqual(cand.data.data.masterClasses);
+    expect(postedCandidate.data.data.conversations).toEqual(cand.data.data.conversations);
+    expect(postedCandidate.data.data.appliedProjects).toEqual(cand.data.data.appliedProjects);
+    expect(postedCandidate.data.data.approvedProjects).toEqual(cand.data.data.approvedProjects);
+    expect(postedCandidate.data.data.appliedCertificates).toEqual(cand.data.data.appliedCertificates);
+    expect(postedCandidate.data.data.approvedCertificates).toEqual(cand.data.data.approvedCertificates);
+
+
+  });
+
+let partnerxy = {
   name: "fatema abdelaziz",
-  email: "fatema.abdelaziz@gmail.com",
+  email: "fatema.abdelaziz1@gmail.com",
   password: "fatemaabdelaziz"
  
 };
-//testing register partner
-test(`create partner profile `, async () => {
-  expect.assertions(6);
- const createdpartner = await funcs.createPartner(partner6);
-
-  expect(createdpartner.data.data.name).toEqual(partner6.name);
-  expect(createdpartner.data.data.email).toEqual(partner6.email);
-  expect(bcrypt.compareSync(partner6.password,createdpartner.data.data.password));
-  expect(createdpartner.data.data._v).not.toEqual(null);
-  expect(createdpartner.data.data._id).not.toEqual(null);
-  expect(createdpartner.data.data.conversations).toEqual([]);
-  expect(createdpartner.data.data.projects).toEqual([]);
-});
 let partner7={
   name: "Youssef",
   email: "youssefyasser@gmail.com",
@@ -123,46 +90,13 @@ let project2 ={
   requireConsultancy:true,
   approveAdmin:true
 }
-  //testing create project for partner
-  test('creating project for partner', async()=>{
-    expect.assertions(9);
-    const createdpartner = await funcs.createPartner(partner7);  
-    const createdproject=await funcs.createProject(createdpartner.data.data._id,project);
-    expect(createdproject.data.data._id).not.toEqual(null);
-    expect(createdproject.data.data.description).toEqual(project.description);
-    expect(createdproject.data.data.requireConsultancy).toEqual(project.requireConsultancy);
-    expect(createdproject.data.data.approveAdmin).toEqual(false);
-    expect(createdproject.data.data.tasks).toEqual([]);
-    expect(createdproject.data.data.__v).not.toEqual(null);
-    expect(createdproject.data.data.lifecycle.description).toEqual([]);
-    expect(createdproject.data.data.lifecycle.status).toEqual("Proceeding");
-    expect(createdproject.data.data.lifecycle.percentage).toEqual([]);
-    
-    });
     let partner8={
       name: "Youssef",
       email: "youssefyasser2@gmail.com",
       password: "110"
      
     }
-//View all projects only that i can apply
-test('view all projects that i can apply', async()=>{
- 
-  const createdpartner= await funcs.createPartner(partner8);
-  let x= {
-    email:"hh@gmail.com",
-    password:"yy"
-  }
-  token2= await funcs.login(x);
 
-  expect.assertions(3);
-  const createdproject= await funcs.createProject(token2.data.data,project1);
-  const createdproject2= await funcs.createProject(token2.data.data,project2);
-  var names= await funcs.getProjects(token2.data.data._id);
-  expect(names[0]).toEqual(token2.name);
-  expect(names[1]).toEqual(token2.name);
-  expect(names.data.data.length).toBe(2);
-});
 
 //Create a new conversation by stating receiver email
 let myCandidate5 = {
@@ -171,90 +105,27 @@ let myCandidate5 = {
   password: "707",
   
 };
-let conversation={
-  email:"faraah@gmail.com"
+let conversationy={
+  email:"farooh@gmail.com"
 };
 let conversation2 ={
   email:"Shahd.osmann@gmail.com"
 }
+
+
 //Create a new conversation by stating receiver email
  test('post candidates conversation', async () => {
+    expect.assertions(1);
   const candidate =  await funcs.postCandidate(myCandidate5);
-  let x={
-    email:"hhhhh@gmail.com",
-    password:"kk"
-  }
-  token= await funcs.login(x);
-     expect.assertions(1);
-     
-     const cons = await funcs.postConversation(conversation,token.data.data);
-     let x2 = {
-       email: "kk@gmail.com",
-       password:"0"
-     }
-     token2 = await funcs.login(x2);
-     expect(token2.data.msg).toEqual("New candidate conversation is created");
+     const cons = await funcs.postConversation(conversationy,candidate.data.data._id);
+     expect(cons.data.msg).toEqual("New candidate conversation is created");
 });
-// let myCandidate6 ={
-//   name :"farooha",
-//   email:"farooha70@gmail.com",
-//   password:"zhe2tt" 
-// };
-
-// //Delete an existing conversation by stating receiver email
-// test('delete an existing conversation', async() =>{
-//   expect.assertions(5);
-//   const postedConversation= await funcs.postConversation(myCandidate6);
-//   const conversations = await funcs.getConversations();
-//   const deletedConversation= await funcs.deleteConversation(postedConversation.data.data._id);
-//   expect(deletedConversation.data.data.conversations).toEqual([]);
-//   expect(deletedConversation.data.data.name).toEqual(postedConversation.data.data.name);
-//   expect(deletedConversation.data.data.email).toEqual(postedConversation.data.data.email);
-//   expect(deletedConversation.data.data.password).toEqual(postedConversation.data.data.password);
-//   const conversations2 =await funcs.getConversations();
-//   expect(conversations2.data.data.length).toEqual(conversations.data.data.length-1);
-
-// });
 
 let myCandidate7 ={
   name :"farooha",
   email:"faroohaa@gmail.com",
   password:"zhe2tt" 
 };
-
-
- //get ALL candidates
- test('get all candidates', async () => {
-  expect.assertions(1);
-  const candidates = await funcs. getCandidates();
-  expect(candidates.data.data.length).toBe(3); 
-});
-
-// // Get ALL my existing conversations
-// test('get all conversations', async() =>{
-//   expect.assertions(1);
-//   const conversations = await funcs.getConversations();
-//   expect(conversations.data.data.length).toBe(1); 
-// });
-// let myCandidateforconv={
-// name:"ff",
-// email:"hi@gmail.com",
-// password:"77"
-// }
-
-// // Get conversation using receiver email
-// test('get conversation by stating receiver email', async() =>{
-//   expect.assertions(4);
-//   const candidate = await funcs.postCandidate(myCandidateforconv);
-//   const conversation= await funcs.postConversation(conversation2,candidate.data.data._id);
-//   const conv = await funcs.getConversation(candidate.data.data._id,conversation.data.msg.email);
-//   expect(conversation.data.data._id).toEqual(conv.data.data._id);
-//   expect(conversation.data.data.sentEmails).toEqual(conv.data.data.sentEmails);
-//   expect(conversation.data.data.receivedEmails).toEqual(conv.data.data.receivedEmails);
-//   expect(conversation.data.data.receiverEmail).toEqual(conv.data.data.receiverEmail);
-
-// });
-
 let certificate1 ={
   name: "se2",
   description: "balabezo",
@@ -272,11 +143,11 @@ let certificate1 ={
 test('post certificate', async () => {
   expect.assertions(5);
   const certificate = await funcs.postCertificate(certificate1);
-  expect(certificate.data.msg.description).toEqual(certificate1.description);
-  expect(certificate.data.msg._id).not.toEqual(null);
-  expect(certificate.data.msg.category).toEqual(certificate1.category);
-  expect(certificate.data.msg.name).toEqual(certificate1.name);
-  expect(certificate.data.msg.available).toEqual(certificate1.available);
+  expect(certificate.data.data.description).toEqual(certificate1.description);
+  expect(certificate.data.data._id).not.toEqual(null);
+  expect(certificate.data.data.category).toEqual(certificate1.category);
+  expect(certificate.data.data.name).toEqual(certificate1.name);
+  expect(certificate.data.data.available).toEqual(certificate1.available);
 });
 let postedAdmin4={
   name:"farah",
@@ -304,7 +175,6 @@ let FirstCertificate ={
 test('apply for certificate by ID',async()=>{
   const candidate =  await funcs.postCandidate(candidatex);
   const certificate = await funcs.postCertificate(FirstCertificate);
-  console.log("name of za certificaaate:"+certificate.data.msg.name);
   const appliedcertificate= await funcs.applyforCertificatebyID(candidate.data.data._id,certificate.data._id);
   expect(appliedcertificate.data._id).toEqual(certificate.data._id); 
   expect(appliedcertificate.data.name).toEqual(certificate.data.name);
@@ -317,7 +187,7 @@ test('apply for certificate by ID',async()=>{
   expect(appliedcertificate.data.passingScore).toEqual(certificate.data.passingScore);
   expect(appliedcertificate.data.candidateScore).toEqual(certificate.data.candidateScore);
   expect(appliedcertificate.data.passed).toEqual(certificate.data.passed);
-  // expect(appliedcertificate).toEqual(certificate);
+  
   
 
 
@@ -347,34 +217,44 @@ let SecondCertificate ={
 test('search certificate by name', async () => {
   expect.assertions(5);
   const certificate= await funcs.postCertificate(SecondCertificate);
-  console.log(certificate.data.msg.name);
-  const response = await funcs.getCertificatebyname(certificate.data.msg.name);
- console.log(response.data);
- console.log(response.data.data[0]);
-  expect(response.data.data[0]._id).toEqual(certificate.data.msg._id);
-  expect(response.data.data[0].name).toEqual(certificate.data.msg.name);
-  expect(response.data.data[0].available).toEqual(certificate.data.msg.available);
-  expect(response.data.data[0].description).toEqual(certificate.data.msg.description);
-  expect(response.data.data[0].category).toEqual(certificate.data.msg.category);
+  const response = await funcs.getCertificatebyname(certificate.data.data.name);
+  expect(response.data.data[0]._id).toEqual(certificate.data.data._id);
+  expect(response.data.data[0].name).toEqual(certificate.data.data.name);
+  expect(response.data.data[0].available).toEqual(certificate.data.data.available);
+  expect(response.data.data[0].description).toEqual(certificate.data.data.description);
+  expect(response.data.data[0].category).toEqual(certificate.data.data.category);
 });
 
 
-let myadmin3 = {
+let candidatab = {
     name: "Shahd Osman",
-    email: "Shahd.osman3@gmail.com",
+    email: "Shahd.osman31@gmail.com",
     password: "707"
     
   };
-  let myadmin4 = {
+  let candidatecd = {
     name: "Shahd Osman",
-    email: "Shahd.osman4@gmail.com",
+    email: "Shahd.osman41@gmail.com",
     password: "707"
     
   };
+  //View all projects only that i can apply
+test('view all projects that i can apply', async()=>{
+    
+     const createdpartner= await funcs.createPartner(partner8);
+   
+     expect.assertions(2);
+     const createdproject= await funcs.createProject(createdpartner.data.data._id,project1);
+     const createdproject2= await funcs.createProject(createdpartner.data.data._id,project2);
+     var names= await funcs.getProjects();
+     expect(names[0]).toEqual(createdpartner.name);
+     expect(names[1]).toEqual(createdpartner.name);
+     
+   });
 //sending  an email inside an exsiting conversation
 test('send an email', async () => {
-  const admin = await funcs.postCandidate(myadmin3);
-  const admin2 = await funcs.postCandidate(myadmin4);
+  const admin = await funcs.postCandidate(candidatab);
+  const admin2 = await funcs.postCandidate(candidatecd);
   let conversation3={
     email:admin2.data.data.email
   };
@@ -386,26 +266,25 @@ test('send an email', async () => {
 }
   const con = await funcs.postemailConversation(mail,admin.data.data._id);
       expect.assertions(1);
-      console.log(con.data.msg);
-      expect(con.data.msg).toEqual("Admin email is sent");
+      expect(con.data.msg).toEqual("Candidate email is sent");
 
 });
 let myadmin5 = {
   name: "Shahd Osman",
-  email: "Shahd.osman5@gmail.com",
+  email: "Shahd.osman5555@gmail.com",
   password: "707"
   
 };
 let myadmin6 = {
   name: "Shahd Osman",
-  email: "Shahd.osman6@gmail.com",
+  email: "Shahd.osman6666@gmail.com",
   password: "707"
   
 };
 
 let myCandidate3 = {
   name: "shahd41",
-  email: "shahd4100@guc.edu.eg",
+  email: "shahd41000@guc.edu.eg",
   password: "123"
  
 };
@@ -428,25 +307,24 @@ test('update candidate profile', async () => {
   expect(bcrypt.compareSync(candidate.data.data.password,updateCandidate.password));
 });
 
-let myCandidate4 = {
+let myCandidate41 = {
   name: "shahd411",
-  email: "shahd4110@guc.edu.eg",
+  email: "shahd011@guc.edu.eg",
   password: "1234"
 
 };
 
+
+
 // deleting candidateprofile by id
 test('delete candidate profile by id', async () => {
-  expect.assertions(5);
-  const postedCandidate= await funcs.postCandidate(myCandidate4);
-  const candidates = await funcs.getCandidates();
+  expect.assertions(4);
+  const postedCandidate= await funcs.postCandidate(myCandidate41);
   const deletedCandidate= await funcs.deleteCandidate(postedCandidate.data.data._id);
   expect(deletedCandidate.data.data.conversations).toEqual([]);
   expect(deletedCandidate.data.data.name).toEqual(postedCandidate.data.data.name);
   expect(deletedCandidate.data.data.email).toEqual(postedCandidate.data.data.email);
   expect(deletedCandidate.data.data.password).toEqual(postedCandidate.data.data.password);
-  const candidates2 =await funcs.getCandidates();
-  expect(candidates2.data.data.length).toEqual(candidates.data.data.length-1);
 });
 
 
@@ -469,19 +347,19 @@ test('get certificate by id', async()=>{
   expect.assertions(11);
 
   const createdCertificate= await funcs.postCertificate(myCertificate2);
-  const selectedCertificate= await funcs.getCertificatebyId(createdCertificate.data.msg._id);
+  const selectedCertificate= await funcs.getCertificatebyId(createdCertificate.data.data._id);
 
-  expect(selectedCertificate.data.data._id).toEqual(createdCertificate.data.msg._id);
-  expect(selectedCertificate.data.data.name).toEqual(createdCertificate.data.msg.name);
-  expect(selectedCertificate.data.data.description).toEqual(createdCertificate.data.msg.description);
-  expect(selectedCertificate.data.data.category).toEqual(createdCertificate.data.msg.category);
-  expect(selectedCertificate.data.data.available).toEqual(createdCertificate.data.msg.available);
-  expect(selectedCertificate.data.data.evaluationType).toEqual(createdCertificate.data.msg.evaluationType);
-  expect(selectedCertificate.data.data.evaluationContent).toEqual(createdCertificate.data.msg.evaluationContent);
-  expect(selectedCertificate.data.data.totalScore).toEqual(createdCertificate.data.msg.totalScore);
-  expect(selectedCertificate.data.data.passingScore).toEqual(createdCertificate.data.msg.passingScore);
-  expect(selectedCertificate.data.data.candidateScore).toEqual(createdCertificate.data.msg.candidateScore);
-  expect(selectedCertificate.data.data.passed).toEqual(createdCertificate.data.msg.passed);
+  expect(selectedCertificate.data.data._id).toEqual(createdCertificate.data.data._id);
+  expect(selectedCertificate.data.data.name).toEqual(createdCertificate.data.data.name);
+  expect(selectedCertificate.data.data.description).toEqual(createdCertificate.data.data.description);
+  expect(selectedCertificate.data.data.category).toEqual(createdCertificate.data.data.category);
+  expect(selectedCertificate.data.data.available).toEqual(createdCertificate.data.data.available);
+  expect(selectedCertificate.data.data.evaluationType).toEqual(createdCertificate.data.data.evaluationType);
+  expect(selectedCertificate.data.data.evaluationContent).toEqual(createdCertificate.data.data.evaluationContent);
+  expect(selectedCertificate.data.data.totalScore).toEqual(createdCertificate.data.data.totalScore);
+  expect(selectedCertificate.data.data.passingScore).toEqual(createdCertificate.data.data.passingScore);
+  expect(selectedCertificate.data.data.candidateScore).toEqual(createdCertificate.data.data.candidateScore);
+  expect(selectedCertificate.data.data.passed).toEqual(createdCertificate.data.data.passed);
 
 });
 
@@ -519,17 +397,13 @@ let myCertificate4={
 
 test('get certificates names', async()=>{
   expect.assertions(3);
-  // const candidate = await funcs.postCandidate(myCandidate50);
   const createdCertificate= await funcs.postCertificate(myCertificate3);
   const createdCertificate2= await funcs.postCertificate(myCertificate4);
-
-
-
   var names= await funcs.getCertificates();
+console.log(names.data.data[5]);
 
-
-  expect(names.data.data[4]).toEqual(createdCertificate.data.msg.name);
-  expect(names.data.data[5]).toEqual(createdCertificate2.data.msg.name);
+  expect(names.data.data[4]).toEqual(createdCertificate.data.data.name);
+  expect(names.data.data[5]).toEqual(createdCertificate2.data.data.name);
   expect(names.data.data.length).toBe(6);
 });
 
@@ -550,19 +424,6 @@ let project4={
   requireConsultancy:true,
   approveAdmin:true
 }
- //view all projects' names i applied for
-// test('view all projects that i applied for', async()=>{
-//   expect.assertions(3);
-//   const createdpartner= await funcs.createPartner(partner11);
-//   const createdproject= await funcs.createProject(createdpartner.data.data._id,project3);
-//   const createdproject2= await funcs.createProject(createdpartner.data.data._id,project4);
-//   var names= await funcs.viewAllProjectsiAppliedFor(createdpartner.data.data._id);
-//   expect(names[0]).toEqual(createdproject.name);
-//   expect(names[1]).toEqual(createdproject2.name);
-//   expect(names.data.data.length).toBe(2);
-// });
-
-
 //apply for a project by its id
 let project6={
   description:"my project is aa",
@@ -603,21 +464,109 @@ let project7={
   assigned:false
 
 }
-//disapply a project by its id if i am not assigned to
-// test('Disapply for a project', async()=>{
-//   expect.assertions(9);
+
+//View all projects' names i applied for
+let partner110 = {
+  name: "fatema abdelaziz",
+  email: "fato455@yahoo.com",
+  password: "fatemaabdelaziz"
+}
+let project50={
+    description:"my project is nnn",
+    requireConsultancy:true,
+    approveAdmin:true
   
-//   const candidatee =  await funcs.postCandidate(candidate101);
-//   const projecttt = await funcs.createProject(candidatee.data.data._id,project7);
-//   const appliedProject= await funcs.applyforProjectbyID(candidatee.data.data._id,projecttt.data._id);
+}
+
+let candidatexyz={
+ name:"ll",
+ email:"ppww@yahoo.com",
+ password:"11"
+}
+ //view all projects' names i applied for
+test('view all projects that i applied for', async()=>{
+  expect.assertions(2);
+  const candi = await funcs.postCandidate(candidatexyz);
+  const createdpartner= await funcs.createPartner(partner110);
+  const createdproject= await funcs.createProject(createdpartner.data.data._id,project50);
+  const proj = await funcs.applyforProjectbyID(candi.data.data._id,createdproject.data.data._id);
+  var names= await funcs.viewAllProjectsiAppliedFor(candi.data.data._id);
+
+  expect(names[0]).toEqual(createdproject.name);
+  expect(names.data.data.length).toBe(1);
+});
+let project51={
+  description:"my project is aqqqa",
+  requireConsultancy:true,
+  assigned:true
+}
+let partner123 = {
+  name: "fatema abdelaziz",
+  email: "fatlll@yahoo.com",
+  password: "fatemaabdelaziz"
+}
+let candxx={
+  name:"ll",
+  email:"Pp11a@gmail.com",
+  password: "kkkk"
+}
+//view all projects that i'm assigned to
+test('view all projects that im assigned to', async()=>{
+  expect.assertions();
+  const candi = await funcs.postCandidate(candxx);
+  const createdpartner= await funcs.createPartner(partner123);
+  const createdproject= await funcs.createProject(createdpartner.data.data._id,project51);
+
+
+
+
+
+});
+
+let mycanddd2 = {
+  name: "Shahd Osman",
+  email: "Shahd.osman2222@gmail.com",
+  password: "707",
   
-//   expect(appliedProject.data._id).toEqual(projecttt.data._id); 
-//   expect(appliedProject.data.name).toEqual(projecttt.data.name);
-//   expect(appliedProject.data.description).toEqual(projecttt.data.description);
-//   expect(appliedProject.data.type).toEqual(projecttt.data.type);
-//   expect(appliedProject.data.approveAdmin).toEqual(projecttt.data.approveAdmin);
-//   expect(appliedProject.data.requireConsultancy).toEqual(projecttt.data.requireConsultancy);
-//   expect(appliedProject.data.assigned).toEqual(projecttt.data.assigned);
-//   expect(appliedProject.data.lifecycle).toEqual(projecttt.data.lifecycle);
-//   expect(appliedProject.data.tasks).toEqual(projecttt.data.tasks);
-// });
+};
+let conversation10={
+  email:"fatlll@yahoo.com"
+};
+//get candidate conversation
+test('get candidate conversation', async () => {
+      const candi = await funcs.postCandidate(mycanddd2);
+      const con =await funcs.postConversation(conversation10,candi.data.data._id);
+      const cons = await funcs.getConversation(candi.data.data._id,conversation10.email);
+        expect.assertions(1);
+        console.log(cons);
+      expect(cons.data.data.receiverEmail).toEqual(conversation10.email);
+
+
+});
+
+//delete conversation
+test('delete candidate conversation', async () => {
+let cand13={
+name:"cann",
+email:"candrakam13@gmail.com", 
+password:"password13"
+}
+const candidate1 =  await funcs.postCandidate(cand13);
+
+  let candi14={
+name:"alls",
+email:"candiirakam14@gmail.com",
+password:"password14"
+}
+const candidate2 =  await funcs.postCandidate(candi14);
+
+let conversationx={
+  email: "candiirakam14@gmail.com"
+}
+const conv = await funcs.postConversation(conversationx,candidate1.data.data._id);
+const conv1 = await funcs.deleteConversation(candidate1.data.data._id,conversationx.email);
+  expect.assertions(1);
+  expect(conv1.data.msg).toEqual("Candidate conversation is deleted");
+});
+
+ 

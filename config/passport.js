@@ -11,25 +11,17 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 opts.secretOrKey = tokenKey
 module.exports = passport => {
     passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
-        const admin = await Admin.findById(jwt_payload._id)
-        if (admin) return done(null, admin)
-        if (!admin) {
-            const partner = await Partner.findById(jwt_payload._id)
-            if (partner) return done(null, partner)
-            if (!partner) {
-                const consultancy = await Consultancy.findById(jwt_payload._id)
-                if (consultancy) return done(null, consultancy)
-                if (!consultancy) {
-                    const candidate = await Candidate.findById(jwt_payload._id)
-                    if (candidate) return done(null, candidate)
-                    
+        const currentUser = await Admin.findById(jwt_payload._id)
+        if (!currentUser) {
+            const currentUser = await Partner.findById(jwt_payload._id)
+            if (!currentUser) {
+                const currentUser = await Consultancy.findById(jwt_payload._id)
+                if (!currentUser) {
+                    const currentUser = await Candidate.findById(jwt_payload._id)
                 }
             }
         }
-        
-       
-       
-       
+        if (currentUser) return done(null, currentUser)
         return done(null, false)
     }))
 }
