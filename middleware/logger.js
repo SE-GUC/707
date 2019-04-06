@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const LoggedOutUser = require("../models/LoggedOutUser");
 const logger = (req, res, next) => {
     if (!req.originalUrl.includes("api/login") && !req.originalUrl.includes("/register")) {
-        const token = (req.headers.authorization).replace("Bearer", "");
+        const token = (req.headers.authorization).replace("Bearer ", "");
         jwt.verify(token, 'verysecretkey', async (err, decodedToken) => {
             if (err) {
                 console.log(err)
