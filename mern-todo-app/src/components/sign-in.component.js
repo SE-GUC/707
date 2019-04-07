@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
+import Cookies from 'universal-cookie'; //npm i universal-cookie
 import CreateAccount from "./create-account.component.js";
+
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 export default class Loginuser extends Component {
@@ -46,7 +47,7 @@ export default class Loginuser extends Component {
         axios.post('https://lirtenhub-707.herokuapp.com/api/login', user)
             .then((res) =>{
                 console.log(res.data)
-                if(res.status==200){
+                if(res.status===200){
                     this.setState({redirect: true});
                     cookies.set('token', res.data, {path: '/'})}
                     
@@ -59,6 +60,7 @@ export default class Loginuser extends Component {
             })
             
     }
+
     renderRedirect = () => {
         if (this.state.redirect) {
           return(
@@ -105,7 +107,7 @@ export default class Loginuser extends Component {
                    
 
                     <div className="form-group">
-                        <input type="submit" value="Login" className="btn btn-primary" onClick={this.renderRedirect}/>
+                        <input type="submit" value="Login" className="btn btn-primary" onClick={this.renderRedirect()} />
                        
                     
                     </div>
