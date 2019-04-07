@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
+
 import ApprovedProjects from "./components/view-approved-projects.component.js";
 import availableprojects from "./components/view-projects.component.js";
+
+
+import getconsprof from "./components/getcons.component.js";
+import getallcertificates from "./components/getallcertificate.component.js";
 
 
 
@@ -33,8 +37,15 @@ class App extends Component {
                   <Link to="/login" className="nav-link">Login</Link>
                 </li>
                 <li className="navbar-item">
+
                   <Link to="/approvedprojects" className="nav-link">View Approved Projects</Link>
                   <Link to="/candidateproject" className="nav-link">View Candidate Project</Link>
+                 </li>
+                      <li className="navbar-item">
+                  <Link to="/showconsultancyprofile" className="nav-link">show consultancy profile</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/showallcertificates" className="nav-link">show all certificates</Link>
                 </li>
               </ul>
             </div>
@@ -46,6 +57,8 @@ class App extends Component {
           <Route path="/approvedprojects" component={ApprovedProjects}/>
           <Route path="/candidateproject" component={availableprojects} />
 
+          <Route path="/showconsultancyprofile" component={getconsprof}/>
+          <Route path="/showallcertificates" component={getallcertificates}/>
         </div>
       </Router>
     );
