@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Cookies from 'universal-cookie'; 
 
-export default class approvedprojects extends Component {
+export default class candidateAssignedProjects extends Component {
     state = {
-        approvedProjects: []
+        assignedProjects: []
     
       }
     componentDidMount(){
@@ -17,7 +17,7 @@ export default class approvedprojects extends Component {
           .then(res => {
             console.log(res)
             const assignedProjects = res.data.data;
-            this.setState({ approvedProjects: assignedProjects });
+            this.setState({  assignedProjects });
           })
 
     }
@@ -26,7 +26,7 @@ export default class approvedprojects extends Component {
         
         <div>
         <ul class="list-group">
-        { this.state.approvedProjects.map(project => 
+        { this.state.assignedProjects.map(project => 
        <li class="list-group-item disabled" aria-disabled="true" >
         <p>  My Projects<br></br>
             <br></br>

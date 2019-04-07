@@ -5,7 +5,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
-import ApprovedProjects from "./components/view-approved-projects.component.js";
+import CandidateAssignedProjects from "./components/view-candidate-assigned-projects.component.js";
+import ConsultancyAssignedProjects from "./components/view-consultancy-assigned-projects.component.js";
+
 import availableprojects from "./components/view-projects.component.js";
 
 
@@ -33,7 +35,9 @@ class App extends Component {
                   <Link to="/login" className="nav-link">Login</Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/approvedprojects" className="nav-link">View Approved Projects</Link>
+                  <Link to="/candidateassignedprojects" className="nav-link">View Candidate's Assigned Projects</Link>
+                  <Link to="/consultancyassignedprojects" className="nav-link">View Consultancy's Assigned Projects</Link>
+
                   <Link to="/candidateproject" className="nav-link">View Candidate Project</Link>
                 </li>
               </ul>
@@ -43,7 +47,8 @@ class App extends Component {
 
           <Route path="/createaccount" component={CreateAccount} />
           <Route path="/login" component={SignIn}/>
-          <Route path="/approvedprojects" component={ApprovedProjects}/>
+          <Route path="/candidateassignedprojects" component={CandidateAssignedProjects}/>
+          <Route path="/consultancyassignedprojects" component={ConsultancyAssignedProjects}/>
           <Route path="/candidateproject" component={availableprojects} />
 
         </div>
