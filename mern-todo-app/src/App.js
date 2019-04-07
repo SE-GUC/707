@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
+import getCandidate from "./components/showCandidateProfile.components.js";
 
 
 import getallCertificatesCandidate from "./components/View_certificates_candidate.component.js";
@@ -38,6 +39,11 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/login" className="nav-link">Login</Link>
                 </li>
+
+               
+                <li className="navbar-item">
+                  <Link to="/getCandidate" className="nav-link">Candidate Profile</Link>
+                    </li>
                 <li className="navbar-item">
                   <Link to="/showallcertificatesCandidate" className="nav-link">show all Candidate certificates</Link>
                   <Link to="/approvedprojects" className="nav-link">View Approved Projects</Link>
@@ -51,6 +57,7 @@ class App extends Component {
                 </li>
                 <li className="navbar-item">
                   <Link to="/showadminprofile" className="nav-link">show admin profile</Link>
+
                 </li>
               </ul>
             </div>
@@ -59,6 +66,7 @@ class App extends Component {
 
           <Route path="/createaccount" component={CreateAccount} />
           <Route path="/login" component={SignIn}/>
+          <Route path="/getCandidate" component={getCandidate}/>
           <Route path="/showallcertificatesCandidate" component={getallCertificatesCandidate}/>
           <Route path="/approvedprojects" component={ApprovedProjects}/>
           <Route path="/candidateproject" component={availableprojects} />
