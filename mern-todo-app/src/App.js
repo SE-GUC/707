@@ -4,8 +4,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
+import CandidateAssignedProjects from "./components/view-candidate-assigned-projects.component.js";
+import ConsultancyAssignedProjects from "./components/view-consultancy-assigned-projects.component.js";
 import getCandidate from "./components/showCandidateProfile.components.js";
 
+import availableprojects from "./components/view-projects.component.js";
 
 import getallCertificatesCandidate from "./components/View_certificates_candidate.component.js";
 
@@ -45,8 +48,10 @@ class App extends Component {
                   <Link to="/getCandidate" className="nav-link">Candidate Profile</Link>
                     </li>
                 <li className="navbar-item">
+                  <Link to="/candidateassignedprojects" className="nav-link">View Candidate's Assigned Projects</Link>
+                  <Link to="/consultancyassignedprojects" className="nav-link">View Consultancy's Assigned Projects</Link>
+
                   <Link to="/showallcertificatesCandidate" className="nav-link">show all Candidate certificates</Link>
-                  <Link to="/approvedprojects" className="nav-link">View Approved Projects</Link>
                   <Link to="/candidateproject" className="nav-link">View Candidate Project</Link>
                  </li>
                       <li className="navbar-item">
@@ -66,9 +71,10 @@ class App extends Component {
 
           <Route path="/createaccount" component={CreateAccount} />
           <Route path="/login" component={SignIn}/>
+          <Route path="/candidateassignedprojects" component={CandidateAssignedProjects}/>
+          <Route path="/consultancyassignedprojects" component={ConsultancyAssignedProjects}/>
           <Route path="/getCandidate" component={getCandidate}/>
           <Route path="/showallcertificatesCandidate" component={getallCertificatesCandidate}/>
-          <Route path="/approvedprojects" component={ApprovedProjects}/>
           <Route path="/candidateproject" component={availableprojects} />
           <Route path="/showadminprofile" component={getadminprof}/>
           <Route path="/showconsultancyprofile" component={getconsprof}/>
