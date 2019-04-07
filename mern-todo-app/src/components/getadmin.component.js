@@ -2,20 +2,19 @@ import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 const axios = require("axios");
 
-export default class getconsultancy extends Component {
+export default class getadmin extends Component {
 
 
 
 
     constructor(props) {
         super(props);
-    
+        
 
         this.state = {
             name:'',
-            email:'',
-            address:'',
-            occupation:''
+            email:''
+            
         }
     }
 
@@ -25,7 +24,7 @@ export default class getconsultancy extends Component {
     componentDidMount() {
          const cookies= new Cookies();
          const token= cookies.get('token')
-        axios.get("http://localhost:5000/api/consultancies/profile/", {  headers: {
+        axios.get("http://localhost:5000/api/admins/profile/", {  headers: {
             Authorization: token.data}
           })
           .then(res =>this.setState({ 
@@ -36,7 +35,7 @@ export default class getconsultancy extends Component {
         })) 
       }
 
-    
+   
 
     render() {
         return (
@@ -59,23 +58,9 @@ export default class getconsultancy extends Component {
                                 value={this.state.email}
                                 />
                     </div>
-                    <div className="form-group">
-                        <label>Address: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.address}
-                                />
-                    </div>
+                    
 
-                    <div className="form-group">
-                        <label>Occupation: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.occupation}
-                                />
-                    </div>
+                
                    
                 </form>
             </div>
