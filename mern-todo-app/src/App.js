@@ -1,9 +1,23 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
+import SignIn from "./components/sign-in.component.js";
+
+import availableprojects from "./components/view-projects.component.js";
+import candidatesconversations from "./components/candidates-conversations.component.js";
+import partnersconversations from "./components/partners-conversations.component.js";
+import adminsconversations from "./components/admins-conversations.component.js";
+import consultanciesconversations from "./components/consultancies-conversations.component.js";
+
+
+
+
+
+import getconsprof from "./components/getcons.component.js";
+import getallcertificates from "./components/getallcertificate.component.js";
+
 
 
 import logo from "./logo.png";
@@ -25,12 +39,46 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/createaccount" className="nav-link">Register to LirtenHub</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/login" className="nav-link">Login</Link>
+                </li>
+                <li className="navbar-item">
+
+                  <Link to="/candidateproject" className="nav-link">View Candidate Project</Link>
+                 </li>
+                      <li className="navbar-item">
+                  <Link to="/showconsultancyprofile" className="nav-link">show consultancy profile</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/showallcertificates" className="nav-link">show all certificates</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/candidatesconversations" className="nav-link">candidates conversations</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/partnersconversations" className="nav-link">partners conversations</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/adminsconversations" className="nav-link">admins conversations</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/consultanciesconversations" className="nav-link">consultancies conversations</Link>
+                </li>
               </ul>
             </div>
           </nav>
           <br/>
 
           <Route path="/createaccount" component={CreateAccount} />
+          <Route path="/login" component={SignIn}/>
+          <Route path="/candidateproject" component={availableprojects} />
+          <Route path="/candidatesconversations" component={candidatesconversations} />
+          <Route path="/partnersconversations" component={partnersconversations}/>
+          <Route path="/adminsconversations" component={adminsconversations} />
+          <Route path="/consultanciesconversations" component={consultanciesconversations}/>
+          <Route path="/showconsultancyprofile" component={getconsprof}/>
+          
+          <Route path="/showallcertificates" component={getallcertificates}/>
         </div>
       </Router>
     );
