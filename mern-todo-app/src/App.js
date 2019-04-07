@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
+import SignIn from "./components/sign-in.component.js";
+
+
 
 
 import logo from "./logo.png";
@@ -25,12 +28,16 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/createaccount" className="nav-link">Register to LirtenHub</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/login" className="nav-link">Login</Link>
+                </li>
               </ul>
             </div>
           </nav>
           <br/>
 
           <Route path="/createaccount" component={CreateAccount} />
+          <Route path="/login" component={SignIn}/>
         </div>
       </Router>
     );
