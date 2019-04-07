@@ -8,7 +8,7 @@ import SignIn from "./components/sign-in.component.js";
 import ApprovedProjects from "./components/view-approved-projects.component.js";
 import availableprojects from "./components/view-projects.component.js";
 
-
+import getadminprof from "./components/getadmin.component.js";
 import getconsprof from "./components/getcons.component.js";
 import getallcertificates from "./components/getallcertificate.component.js";
 
@@ -47,6 +47,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/showallcertificates" className="nav-link">show all certificates</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/showadminprofile" className="nav-link">show admin profile</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -56,7 +59,7 @@ class App extends Component {
           <Route path="/login" component={SignIn}/>
           <Route path="/approvedprojects" component={ApprovedProjects}/>
           <Route path="/candidateproject" component={availableprojects} />
-
+          <Route path="/showadminprofile" component={getadminprof}/>
           <Route path="/showconsultancyprofile" component={getconsprof}/>
           <Route path="/showallcertificates" component={getallcertificates}/>
         </div>
