@@ -3,26 +3,24 @@ import Cookies from 'universal-cookie';
 const axios = require("axios");
 
 
-export default class availableprojects extends Component {
+export default class AdminProjects extends Component {
     
     state = {
         projects: []
       }
    
-      componentDidMount() { 
-        const cookies = new Cookies();
-        const token= cookies.get('token');
-        console.log(token)
-        axios.get('https://lirtenhub-707.herokuapp.com/api/candidates/get/projects', { headers: {
+      componentDidMount() {
+         const cookies = new Cookies();
+         const token= cookies.get('token')
+        axios.get('https://lirtenhub-707.herokuapp.com/api/admins/get/projects', { headers: {
             Authorization: token.data}
           })
           .then(res => {
             const projects = res.data.data;
             this.setState({ projects });
-            console.log(projects);
           })
       }
-    
+   
       render() {
         return (
           <ul>

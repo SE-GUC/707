@@ -3,26 +3,24 @@ import Cookies from 'universal-cookie';
 const axios = require("axios");
 
 
-export default class availableprojects extends Component {
+export default class ConsultancyProjects extends Component {
     
     state = {
         projects: []
       }
    
-      componentDidMount() { 
-        const cookies = new Cookies();
-        const token= cookies.get('token');
-        console.log(token)
-        axios.get('https://lirtenhub-707.herokuapp.com/api/candidates/get/projects', { headers: {
+      componentDidMount() {
+         const cookies = new Cookies();
+         const token= cookies.get('token')
+        axios.get('https://lirtenhub-707.herokuapp.com/api/consultancies/get/projects', { headers: {
             Authorization: token.data}
           })
           .then(res => {
             const projects = res.data.data;
             this.setState({ projects });
-            console.log(projects);
           })
       }
-    
+   
       render() {
         return (
           <ul>
@@ -30,6 +28,7 @@ export default class availableprojects extends Component {
                 <p>Project Name: {project.name}<br></br>
                 Project Description: {project.description}<br></br>
                 Project Type: {project.type}<br></br>
+                RequireConsultancy: {project.requireConsultancy.toString()}<br></br>
                Tasks: {project.tasks}<br></br>
                
             </p>   </li>)}
