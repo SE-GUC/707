@@ -6,6 +6,7 @@ import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
 import CandidateAssignedProjects from "./components/view-candidate-assigned-projects.component.js";
 import ConsultancyAssignedProjects from "./components/view-consultancy-assigned-projects.component.js";
+import getCandidate from "./components/showCandidateProfile.components.js";
 
 import availableprojects from "./components/view-projects.component.js";
 
@@ -41,6 +42,11 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/login" className="nav-link">Login</Link>
                 </li>
+
+               
+                <li className="navbar-item">
+                  <Link to="/getCandidate" className="nav-link">Candidate Profile</Link>
+                    </li>
                 <li className="navbar-item">
                   <Link to="/candidateassignedprojects" className="nav-link">View Candidate's Assigned Projects</Link>
                   <Link to="/consultancyassignedprojects" className="nav-link">View Consultancy's Assigned Projects</Link>
@@ -56,6 +62,7 @@ class App extends Component {
                 </li>
                 <li className="navbar-item">
                   <Link to="/showadminprofile" className="nav-link">show admin profile</Link>
+
                 </li>
               </ul>
             </div>
@@ -66,6 +73,7 @@ class App extends Component {
           <Route path="/login" component={SignIn}/>
           <Route path="/candidateassignedprojects" component={CandidateAssignedProjects}/>
           <Route path="/consultancyassignedprojects" component={ConsultancyAssignedProjects}/>
+          <Route path="/getCandidate" component={getCandidate}/>
           <Route path="/showallcertificatesCandidate" component={getallCertificatesCandidate}/>
           <Route path="/candidateproject" component={availableprojects} />
           <Route path="/showadminprofile" component={getadminprof}/>
