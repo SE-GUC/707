@@ -27,9 +27,6 @@
     "mongoose-type-email": "^1.0.10",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "reactstrap": "^8.0.0",
     "request": "^2.88.0"
   },
   "devDependencies": {

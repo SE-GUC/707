@@ -30,9 +30,9 @@ export default class availableprojects extends Component {
                 <p>Project Name: {project.name}<br></br>
                 Project Description: {project.description}<br></br>
                 Project Type: {project.type}<br></br>
-               Tasks: {project.tasks}<br></br>
+                Tasks: {project.tasks}<br></br>
                
-            </p>   </li>)}
+                </p>   </li>)}
           </ul>
         )
       }

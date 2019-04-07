@@ -11,7 +11,7 @@ export default class getallcertificate extends Component {
       componentDidMount() {
         const cookies= new Cookies();
          const token= cookies.get('token')
-        axios.get("http://localhost:5000/api/admins/get/certificates", {  headers: {
+        axios.get("http://localhost:3000/api/admins/get/certificates", {  headers: {
           Authorization: token.data}
         })
           .then(res => {
