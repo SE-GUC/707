@@ -5,6 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
 
+import getPartner from "./components/showPartnerProfile.components.js";
+import AdminProjects  from "./components/ViewProjects.component.js";
+import ConsultancyProjects  from "./components/ConsultancyProject.component.js";
+import PartnerProjects  from "./components/Partner.component.js";
+import CandidateAssignedProjects from "./components/view-candidate-assigned-projects.component.js";
+import ConsultancyAssignedProjects from "./components/view-consultancy-assigned-projects.component.js";
+import getCandidate from "./components/showCandidateProfile.components.js";
+import getallCertificatesCandidate from "./components/View_certificates_candidate.component.js";
 import availableprojects from "./components/view-projects.component.js";
 import candidatesconversations from "./components/candidates-conversations.component.js";
 import partnersconversations from "./components/partners-conversations.component.js";
@@ -42,6 +50,7 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/login" className="nav-link">Login</Link>
                 </li>
+
                 <li className="navbar-item">
 
                   <Link to="/candidateproject" className="nav-link">View Candidate Project</Link>
@@ -64,6 +73,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/consultanciesconversations" className="nav-link">consultancies conversations</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/getPartner" className="nav-link">Partner Profile</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -71,6 +83,14 @@ class App extends Component {
 
           <Route path="/createaccount" component={CreateAccount} />
           <Route path="/login" component={SignIn}/>
+          <Route path="/getPartner" component={getPartner}/>
+          <Route path="/adminProject" component={AdminProjects}/>   
+          <Route path="/consultancyProject" component={ConsultancyProjects}/>   
+          <Route path="/partnerProject" component={PartnerProjects}/>   
+          <Route path="/candidateassignedprojects" component={CandidateAssignedProjects}/>
+          <Route path="/consultancyassignedprojects" component={ConsultancyAssignedProjects}/>
+          <Route path="/getCandidate" component={getCandidate}/>
+          <Route path="/showallcertificatesCandidate" component={getallCertificatesCandidate}/>
           <Route path="/candidateproject" component={availableprojects} />
           <Route path="/candidatesconversations" component={candidatesconversations} />
           <Route path="/partnersconversations" component={partnersconversations}/>
