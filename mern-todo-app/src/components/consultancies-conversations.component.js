@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 const axios = require("axios");
 
 
-export default class candidatesconversations extends Component {
+export default class consultanciesconversations extends Component {
     
     state = {
         conversations: []
@@ -13,7 +13,7 @@ export default class candidatesconversations extends Component {
         const cookies = new Cookies();
         const token= cookies.get('token');
         console.log(token)
-        axios.get('https://lirtenhub-707.herokuapp.com/api/candidates/conversations/get', { headers: {
+        axios.get('https://lirtenhub-707.herokuapp.com/api/consultancies/conversations/get', { headers: {
             Authorization: token.data}
           })
           .then(res => {
