@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
+import getPartner from "./components/showPartnerProfile.components.js";
 import AdminProjects  from "./components/ViewProjects.component.js";
 import ConsultancyProjects  from "./components/ConsultancyProject.component.js";
 import PartnerProjects  from "./components/Partner.component.js";
@@ -37,6 +38,7 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/login" className="nav-link">Login</Link>
                 </li>
+
                 <li className="navbar-item">
                   <Link to="/adminProject" className="nav-link">view all admin projects</Link>
                 </li>
@@ -65,6 +67,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/showadminprofile" className="nav-link">show admin profile</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/getPartner" className="nav-link">Partner Profile</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -72,6 +77,7 @@ class App extends Component {
 
           <Route path="/createaccount" component={CreateAccount} />
           <Route path="/login" component={SignIn}/>
+          <Route path="/getPartner" component={getPartner}/>
           <Route path="/adminProject" component={AdminProjects}/>   
           <Route path="/consultancyProject" component={ConsultancyProjects}/>   
           <Route path="/partnerProject" component={PartnerProjects}/>   

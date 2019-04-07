@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 const axios = require("axios");
 
-export default class getCandidate extends Component {
+export default class getPartner extends Component {
 
 
 
@@ -19,10 +19,13 @@ export default class getCandidate extends Component {
         }
     }
 
+
+    // onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
     componentDidMount() {
          const cookies= new Cookies();
          const token= cookies.get('token')
-        axios.get("http://localhost:5000/api/candidates/profile/", {  headers: {
+        axios.get("http://localhost:5000/api/partners/profile", {  headers: {
             Authorization: token.data}
           })
           .then(res =>this.setState({ 
@@ -31,13 +34,7 @@ export default class getCandidate extends Component {
               birthdate: res.data.data.birthdate,
               address: res.data.data.address,
               occupation: res.data.data.occupation,
-              languages: res.data.data.languages,
-              setOfSkills: res.data.data.setOfSKills,
-              interests: res.data.data.interests,
-              certificates: res.data.data.certificates,
-              masterClasses: res.data.data.masterClasses,
-              education: res.data.data.education,
-              phoneNumber: res.data.data.phoneNumber
+              phoneNumber: res.data.data.phoneNumber,
         })) 
       }
 
@@ -65,14 +62,6 @@ export default class getCandidate extends Component {
                                 />
                     </div>
                     <div className="form-group">
-                        <label>Address: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.address}
-                                />
-                    </div>
-                    <div className="form-group">
                         <label>birthdate: </label>
                         <input 
                                 type="text" 
@@ -81,6 +70,15 @@ export default class getCandidate extends Component {
                                 />
                     </div>
                     <div className="form-group">
+                        <label>Address: </label>
+                        <input 
+                                type="text" 
+                                className="form-control"
+                                value={this.state.address}
+                                />
+                    </div>
+
+                    <div className="form-group">
                         <label>Occupation: </label>
                         <input 
                                 type="text" 
@@ -88,54 +86,7 @@ export default class getCandidate extends Component {
                                 value={this.state.occupation}
                                 />
                     </div>
-                    <div className="form-group">
-                        <label>languages: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.languages}
-                                />
-                    </div>
-                    <div className="form-group">
-                        <label>setOfSkills: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.setOfSkills}
-                                />
-                    </div>
-                    <div className="form-group">
-                        <label>interests: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.interests}
-                                />
-                    </div>
-                    <div className="form-group">
-                        <label>certificates: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.certificates}
-                                />
-                    </div>
-                    <div className="form-group">
-                        <label>masterClasses: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.masterClasses}
-                                />
-                    </div>
-                    <div className="form-group">
-                        <label>education: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.education}
-                                />
-                    </div>
+                  
                     <div className="form-group">
                         <label>phoneNumber: </label>
                         <input 
