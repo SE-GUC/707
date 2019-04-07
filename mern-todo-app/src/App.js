@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
+//import AcceptRejectProject from "./components/View_Certificates_Admin.components.js";
+import getCandidate from "./components/showCandidateProfile.components.js";
 
 
 
@@ -31,6 +33,12 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/login" className="nav-link">Login</Link>
                 </li>
+                {/* <li className="navbar-item">
+                  <Link to="/ViewAdminCertificates" className="nav-link">Approve Projects</Link>
+                </li> */}
+                <li className="navbar-item">
+                  <Link to="/getCandidate" className="nav-link">Candidate Profile</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -38,6 +46,8 @@ class App extends Component {
 
           <Route path="/createaccount" component={CreateAccount} />
           <Route path="/login" component={SignIn}/>
+          {/* <Route path="/viewAdminCertificates" component={AcceptRejectProject}/> */}
+          <Route path="/getCandidate" component={getCandidate}/>
         </div>
       </Router>
     );
