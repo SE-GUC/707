@@ -45,6 +45,8 @@ export default class Loginuser extends Component {
         const cookies = new Cookies();
         axios.post('https://lirtenhub-707.herokuapp.com/api/login', user)
             .then((res) =>{
+                console.log(res.data);
+
                 if(res.status==200){
                     this.setState({redirect: true});
                     cookies.set('token', res.data, {path: '/'})}
