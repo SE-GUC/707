@@ -31,8 +31,6 @@ export default class getCandidate extends Component {
           .then(res =>this.setState({ 
               name: res.data.data.name,
               email:res.data.data.email,
-              name: res.data.data.name,
-              email: res.data.data.email,
               birthdate: res.data.data.birthdate,
               address: res.data.data.address,
               occupation: res.data.data.occupation,
@@ -43,7 +41,7 @@ export default class getCandidate extends Component {
               masterClasses: res.data.data.masterClasses,
               education: res.data.data.education,
               phoneNumber: res.data.data.phoneNumber,
-              occupation:res.data.data.occupation  
+
         })) 
       }
 

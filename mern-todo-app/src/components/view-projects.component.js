@@ -9,7 +9,7 @@ export default class availableprojects extends Component {
         projects: []
       }
    
-      componentDidMount() {
+      componentDidMount() { 
         const cookies = new Cookies();
         const token= cookies.get('token');
         console.log(token)
