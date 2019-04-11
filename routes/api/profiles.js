@@ -36,9 +36,9 @@ router.post("/admin/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/admin/:id", async (req, res) => {
+router.get("/admin",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Admin.findById(req.params.id, function (err, foundUser) {
+        Admin.findById(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -60,13 +60,13 @@ router.get("/admin/:id", async (req, res) => {
     }
 });
 //Update my profile by my id
-router.put("/admin/:id", async (req, res) => {
+router.put("/admin",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
             req.body.password = bcrypt.hashSync(req.body.password, salt);
         }
-        Admin.findByIdAndUpdate(req.params.id, req.body, {
+        Admin.findByIdAndUpdate(req.id, req.body, {
             new: true
         }, function (err, foundUser) {
             if (!err)
@@ -96,9 +96,9 @@ router.put("/admin/:id", async (req, res) => {
     }
 });
 //Delete my profile by my id
-router.delete("/admin/:id", async (req, res) => {
+router.delete("/admin",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Admin.findByIdAndDelete(req.params.id, function (err, foundUser) {
+        Admin.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -149,9 +149,9 @@ router.post("/candidate/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/candidate/:id", async (req, res) => {
+router.get("/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findById(req.params.id, function (err, foundUser) {
+        Candidate.findById(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -173,13 +173,13 @@ router.get("/candidate/:id", async (req, res) => {
     }
 });
 //Update my profile by my id
-router.put("/candidate/:id", async (req, res) => {
+router.put("/candidate", passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
             req.body.password = bcrypt.hashSync(req.body.password, salt);
         }
-        Candidate.findByIdAndUpdate(req.params.id, req.body, {
+        Candidate.findByIdAndUpdate(req.id, req.body, {
             new: true
         }, function (err, foundUser) {
             if (!err)
@@ -209,9 +209,9 @@ router.put("/candidate/:id", async (req, res) => {
     }
 });
 //Delete my profile by my id
-router.delete("/candidate/:id", async (req, res) => {
+router.delete("/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findByIdAndDelete(req.params.id, function (err, foundUser) {
+        Candidate.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -234,9 +234,9 @@ router.delete("/candidate/:id", async (req, res) => {
     }
 });
 //Set/Update my profile picture
-router.post("/profilePicture/candidate/:id", async (req, res) => {
+router.post("/profilePicture/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findByIdAndUpdate(req.params.id, {
+        Candidate.findByIdAndUpdate(req.id, {
             profilePhoto: {
                 data: fs.readFileSync(req.body.imagePath),
                 contentType: "image/jpg"
@@ -261,9 +261,9 @@ router.post("/profilePicture/candidate/:id", async (req, res) => {
     }
 });
 //Delete my profile picture
-router.delete("/profilePicture/candidate/:id", async (req, res) => {
+router.delete("/profilePicture/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findByIdAndUpdate(req.params.id, {
+        Candidate.findByIdAndUpdate(req.id, {
             profilePhoto: null
         }, {
             new: true
@@ -285,9 +285,9 @@ router.delete("/profilePicture/candidate/:id", async (req, res) => {
     }
 });
 //View my profile picture
-router.get("/profilePicture/candidate/:id", async (req, res) => {
+router.get("/profilePicture/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findById(req.params.id, function (err, foundUser) {
+        Candidate.findById(req.id, function (err, foundUser) {
             if (!err) {
                 res.contentType(foundUser.profilePhoto.contentType);
                 res.send(foundUser.profilePhoto.data);
@@ -330,9 +330,9 @@ router.post("/consultancy/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/consultancy/:id", async (req, res) => {
+router.get("/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -354,13 +354,13 @@ router.get("/consultancy/:id", async (req, res) => {
     }
 });
 //Update my profile by my id
-router.put("/consultancy/:id", async (req, res) => {
+router.put("/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
             req.body.password = bcrypt.hashSync(req.body.password, salt);
         }
-        Consultancy.findByIdAndUpdate(req.params.id, req.body, {
+        Consultancy.findByIdAndUpdate(req.id, req.body, {
             new: true
         }, function (err, foundUser) {
             if (!err)
@@ -390,9 +390,9 @@ router.put("/consultancy/:id", async (req, res) => {
     }
 });
 //Delete my profile by my id
-router.delete("/consultancy/:id", async (req, res) => {
+router.delete("/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findByIdAndDelete(req.params.id, function (err, foundUser) {
+        Consultancy.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -415,9 +415,9 @@ router.delete("/consultancy/:id", async (req, res) => {
     }
 });
 //Set/Update my profile picture
-router.post("/profilePicture/consultancy/:id", async (req, res) => {
+router.post("/profilePicture/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findByIdAndUpdate(req.params.id, {
+        Consultancy.findByIdAndUpdate(req.id, {
             profilePhoto: {
                 data: fs.readFileSync(req.body.imagePath),
                 contentType: "image/jpg"
@@ -442,9 +442,9 @@ router.post("/profilePicture/consultancy/:id", async (req, res) => {
     }
 });
 //Delete my profile picture
-router.delete("/profilePicture/consultancy/:id", async (req, res) => {
+router.delete("/profilePicture/consultancy",passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
-        Consultancy.findByIdAndUpdate(req.params.id, {
+        Consultancy.findByIdAndUpdate(req.id, {
             profilePhoto: null
         }, {
             new: true
@@ -466,9 +466,9 @@ router.delete("/profilePicture/consultancy/:id", async (req, res) => {
     }
 });
 //View my profile picture
-router.get("/profilePicture/consultancy/:id", async (req, res) => {
+router.get("/profilePicture/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err) {
                 res.contentType(foundUser.profilePhoto.contentType);
                 res.send(foundUser.profilePhoto.data);
@@ -511,9 +511,9 @@ router.post("/partner/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/partner/:id", async (req, res) => {
+router.get("/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Partner.findById(req.params.id, function (err, foundUser) {
+        Partner.findById(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -535,13 +535,13 @@ router.get("/partner/:id", async (req, res) => {
     }
 });
 //Update my profile by my id
-router.put("/partner/:id", async (req, res) => {
+router.put("/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
             req.body.password = bcrypt.hashSync(req.body.password, salt);
         }
-        Partner.findByIdAndUpdate(req.params.id, req.body, {
+        Partner.findByIdAndUpdate(req.id, req.body, {
             new: true
         }, function (err, foundUser) {
             if (!err)
@@ -571,9 +571,9 @@ router.put("/partner/:id", async (req, res) => {
     }
 });
 //Delete my profile by my id
-router.delete("/partner/:id", async (req, res) => {
+router.delete("/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Partner.findByIdAndDelete(req.params.id, function (err, foundUser) {
+        Partner.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
                 if (!foundUser)
                     res.status(404).send({
@@ -596,9 +596,9 @@ router.delete("/partner/:id", async (req, res) => {
     }
 });
 //Set/Update my profile picture
-router.post("/profilePicture/partner/:id", async (req, res) => {
+router.post("/profilePicture/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Partner.findByIdAndUpdate(req.params.id, {
+        Partner.findByIdAndUpdate(req.id, {
             profilePhoto: {
                 data: fs.readFileSync(req.body.imagePath),
                 contentType: "image/jpg"
@@ -623,9 +623,9 @@ router.post("/profilePicture/partner/:id", async (req, res) => {
     }
 });
 //Delete my profile picture
-router.delete("/profilePicture/partner/:id", async (req, res) => {
+router.delete("/profilePicture/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Partner.findByIdAndUpdate(req.params.id, {
+        Partner.findByIdAndUpdate(req.id, {
             profilePhoto: null
         }, {
             new: true
@@ -647,9 +647,9 @@ router.delete("/profilePicture/partner/:id", async (req, res) => {
     }
 });
 //View my profile picture
-router.get("/profilePicture/partner/:id", async (req, res) => {
+router.get("/profilePicture/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Partner.findById(req.params.id, function (err, foundUser) {
+        Partner.findById(req.id, function (err, foundUser) {
             if (!err) {
                 res.contentType(foundUser.profilePhoto.contentType);
                 res.send(foundUser.profilePhoto.data);

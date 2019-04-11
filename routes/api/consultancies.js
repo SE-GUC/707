@@ -12,9 +12,9 @@ const User = require("../../models/User").User;
 const Candidate = require("../../models/User").Candidate;
 const Consultancy = require("../../models/User").Consultancy;
 //Send&Receive emails
-router.post("/email/:id", async (req, res) => {
+router.post("/email",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        User.findByIdAndUpdate(req.params.id, {
+        User.findByIdAndUpdate(req.id, {
             $push: {
                 "inbox.sentEmails": {
                     subject: req.body.subject,
@@ -59,7 +59,7 @@ router.post("/email/:id", async (req, res) => {
     }
 });
 //View all projects
-router.get("/projects", async (req, res) => {
+router.get("/projects",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Project.find({}, function (err, foundProjects) {
             if (!err)
@@ -78,9 +78,9 @@ router.get("/projects", async (req, res) => {
     }
 });
 //View all projects only that i can apply
-router.get("/projects/:id", async (req, res) => {
+router.get("/projects",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err)
                 Project.find({
                     status: "RequireConsultancy",
@@ -108,9 +108,9 @@ router.get("/projects/:id", async (req, res) => {
     }
 });
 //View all my pending approval projects
-router.get('/pendingProjects/:id', async (req, res) => {
+router.get('/pendingProjects',passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err)
                 res.json({
                     msg: "Your pending approval projects information",
@@ -127,9 +127,9 @@ router.get('/pendingProjects/:id', async (req, res) => {
     }
 });
 //View all my approved projects
-router.get('/approvedProjects/:id', async (req, res) => {
+router.get('/approvedProjects',passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err)
                 res.json({
                     msg: "Your approved projects information",
@@ -146,7 +146,7 @@ router.get('/approvedProjects/:id', async (req, res) => {
     }
 });
 //apply for a project by its id
-router.post("/project/:id/:projectID", async (req, res) => {
+router.post("/project/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Project.findById(req.params.projectID, function (err, foundProject) {
             if (!err)
@@ -155,13 +155,13 @@ router.post("/project/:id/:projectID", async (req, res) => {
                         error: "This project does not exist"
                     });
                 else
-                    Consultancy.findById(req.params.id, function (err, foundUser) {
+                    Consultancy.findById(req.id, function (err, foundUser) {
                         if (!err) {
                             const requiredSkills = foundProject.requiredSkills;
                             const skills = foundUser.skills;
                             if (requiredSkills.every(val => skills.includes(val)))
                                 Consultancy.findByIdAndUpdate(
-                                    req.params.id, {
+                                    req.id, {
                                         $addToSet: {
                                             pendingProjects: foundProject
                                         }
@@ -196,7 +196,7 @@ router.post("/project/:id/:projectID", async (req, res) => {
     }
 });
 //disapply a project by its id if i am not assigned to
-router.delete("/project/:id/:projectID", async (req, res) => {
+router.delete("/project/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Project.findById(req.params.projectID, function (err, foundProject) {
             if (!err)
@@ -206,7 +206,7 @@ router.delete("/project/:id/:projectID", async (req, res) => {
                     });
                 else
                     Consultancy.findByIdAndUpdate(
-                        req.params.id, {
+                        req.id, {
                             $pull: {
                                 pendingProjects: foundProject
                             }
@@ -234,7 +234,7 @@ router.delete("/project/:id/:projectID", async (req, res) => {
     }
 });
 //Update my approved project that require a consultancy
-router.put("/project/:projectID", async (req, res) => {
+router.put("/project/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Project.findByIdAndUpdate(req.params.projectID, req.body, {
             new: true
@@ -260,7 +260,7 @@ router.put("/project/:projectID", async (req, res) => {
     }
 });
 //Create tasks for my approved project
-router.post("/project/tasks/:projectID", async (req, res) => {
+router.post("/project/tasks/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Task.create(req.body, function (err, createdTask) {
             if (!err)
@@ -298,7 +298,7 @@ router.post("/project/tasks/:projectID", async (req, res) => {
     }
 });
 //view my approved project's tasks by project's id
-router.get("/project/tasks/:projectID", async (req, res) => {
+router.get("/project/tasks/:projectID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Project.findById(
             req.params.projectID,
@@ -324,7 +324,7 @@ router.get("/project/tasks/:projectID", async (req, res) => {
     }
 });
 //Update my approved project's task by it's id
-router.put("/project/tasks/:projectID/:taskID", async (req, res) => {
+router.put("/project/tasks/:projectID/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Task.findByIdAndUpdate(req.params.taskID, req.body, {
             new: true
@@ -368,7 +368,7 @@ router.put("/project/tasks/:projectID/:taskID", async (req, res) => {
     }
 });
 //Delete my approved project's task by it's id
-router.delete("/project/tasks/:projectID/:taskID", async (req, res) => {
+router.delete("/project/tasks/:projectID/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Task.findByIdAndDelete(req.params.taskID, function (err, deletedTask) {
             if (!err)
@@ -409,7 +409,7 @@ router.delete("/project/tasks/:projectID/:taskID", async (req, res) => {
     }
 });
 //View all candidates applying for a task inside my approved project
-router.get("/candidate/pendingTasks/:taskID", async (req, res) => {
+router.get("/candidate/pendingTasks/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Candidate.find({
                 "pendingTasks._id": req.params.taskID
@@ -431,7 +431,7 @@ router.get("/candidate/pendingTasks/:taskID", async (req, res) => {
     }
 });
 //View the candidate processing a task inside my approved project
-router.get("/candidate/approvedTasks/:taskID", async (req, res) => {
+router.get("/candidate/approvedTasks/:taskID",passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Candidate.find({
                 "approvedTasks._id": req.params.taskID
@@ -453,7 +453,7 @@ router.get("/candidate/approvedTasks/:taskID", async (req, res) => {
     }
 });
 //Approve a candidate by his id for a task he applied for by its id
-router.post("/candidate/pendingTasks/:projectID/:taskID/:candidateID", async (req, res) => {
+router.post("/candidate/pendingTasks/:projectID/:taskID/:candidateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         if (await (Project.findById(req.params.projectID).status === "RequireCandidate" &&
                 Task.findById(req.params.taskID).status === "RequireCandidate"))
@@ -507,7 +507,7 @@ router.post("/candidate/pendingTasks/:projectID/:taskID/:candidateID", async (re
     }
 });
 //view the main project of any task
-router.get("/project/task/:taskID", async (req, res) => {
+router.get("/project/task/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Project.find({
             "tasks._id": req.params.taskID
@@ -528,7 +528,7 @@ router.get("/project/task/:taskID", async (req, res) => {
     }
 });
 //request a new certificate
-router.post("/certificate", async (req, res) => {
+router.post("/certificate",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Certificate.create(req.body, function (err, createdCertificate) {
             if (!err)
@@ -547,7 +547,7 @@ router.post("/certificate", async (req, res) => {
     }
 });
 //View all certificates
-router.get("/certificates", async (req, res) => {
+router.get("/certificates",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Certificate.find({
             available: true
@@ -568,7 +568,7 @@ router.get("/certificates", async (req, res) => {
     }
 });
 //View an existing certificate by it's id
-router.get("/certificate/:certificateID", async (req, res) => {
+router.get("/certificate/:certificateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
             if (!err)
@@ -592,7 +592,7 @@ router.get("/certificate/:certificateID", async (req, res) => {
     }
 });
 //apply for a certificate by its id
-router.post("/certificate/:id/:certificateID", async (req, res) => {
+router.post("/certificate/:certificateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
             if (!err)
@@ -602,7 +602,7 @@ router.post("/certificate/:id/:certificateID", async (req, res) => {
                     });
                 else
                     Consultancy.findByIdAndUpdate(
-                        req.params.id, {
+                        req.id, {
                             $addToSet: {
                                 pendingCertificates: foundCertificate
                             }
@@ -630,7 +630,7 @@ router.post("/certificate/:id/:certificateID", async (req, res) => {
     }
 });
 //View pending approval certificate evaluation tests to take
-router.get("/certificate/evaluationTests/:certificateID", async (req, res) => {
+router.get("/certificate/evaluationTests/:certificateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Certificate.findById(
             req.params.certificateID,
@@ -656,7 +656,7 @@ router.get("/certificate/evaluationTests/:certificateID", async (req, res) => {
     }
 });
 //Take the evaluation tests of pending approval certificate by evaluation test id
-router.get("/certificate/evaluationTest/:evaluationID", async (req, res) => {
+router.get("/certificate/evaluationTest/:evaluationID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Evaluation.findById(
             req.params.evaluationID,
@@ -682,7 +682,7 @@ router.get("/certificate/evaluationTest/:evaluationID", async (req, res) => {
     }
 });
 //Submit the evaluation test of pending approval certificate by evaluation test id and certificate id
-router.put("/certificate/evaluationTests/:certificateID/:evaluationID", async (req, res) => {
+router.put("/certificate/evaluationTests/:certificateID/:evaluationID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Evaluation.findByIdAndUpdate(req.params.evaluationID, req.body, {
             new: true
@@ -726,15 +726,15 @@ router.put("/certificate/evaluationTests/:certificateID/:evaluationID", async (r
     }
 });
 //Update my set of skills with the acquired certificates that i passed it's evaluation
-router.get("/acquiredCertificates/skills/:id", async (req, res) => {
+router.get("/acquiredCertificates/skills",passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err) {
                 var allAcquiredSkills = new Set();
                 for (i = 0; i < foundUser.acquiredCertificates.length; i++)
                     for (j = 0; j < foundUser.acquiredCertificates[i].skills.length; j++)
                         allAcquiredSkills.add(foundUser.acquiredCertificates[i].skills[j]);
-                Consultancy.findByIdAndUpdate(req.params.id, {
+                Consultancy.findByIdAndUpdate(req.id, {
                     skills: [...allAcquiredSkills]
                 }, {
                     new: true
@@ -761,16 +761,16 @@ router.get("/acquiredCertificates/skills/:id", async (req, res) => {
     }
 });
 //View all my recommended projects
-router.get("/recommendedProjects/:id", async (req, res) => {
+router.get("/recommendedProjects",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const foundUser = await Consultancy.findById(req.params.id);
+        const foundUser = await Consultancy.findById(req.id);
         Project.find({
             $expr: {
                 $setIsSubset: ["$requiredSkills", foundUser.skills]
             }
         }, function (err, foundProjects) {
             if (!err)
-                Consultancy.findByIdAndUpdate(req.params.id, {
+                Consultancy.findByIdAndUpdate(req.id, {
                     recommendedProjects: foundProjects
                 }, {
                     new: true
@@ -795,16 +795,16 @@ router.get("/recommendedProjects/:id", async (req, res) => {
     }
 });
 //View all my recommended certificates
-router.get("/recommendedCertificates/:id", async (req, res) => {
+router.get("/recommendedCertificates",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const foundUser = await Consultancy.findById(req.params.id);
+        const foundUser = await Consultancy.findById(req.id);
         Certificate.find({
             $expr: {
                 $setIntersection: ["$skills", foundUser.interests]
             }
         }, function (err, foundCertificates) {
             if (!err)
-                Consultancy.findByIdAndUpdate(req.params.id, {
+                Consultancy.findByIdAndUpdate(req.id, {
                     recommendedCertificates: foundCertificates
                 }, {
                     new: true
@@ -829,12 +829,12 @@ router.get("/recommendedCertificates/:id", async (req, res) => {
     }
 });
 //Create a new research
-router.post("/research/:id", async (req, res) => {
+router.post("/research",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Research.create(req.body, function (err, createdResearch) {
             if (!err)
                 Consultancy.findByIdAndUpdate(
-                    req.params.id, {
+                    req.id, {
                         $push: {
                             researches: createdResearch
                         }
@@ -862,9 +862,9 @@ router.post("/research/:id", async (req, res) => {
     }
 });
 //View all my researches
-router.get('/researches/:id', async (req, res) => {
+router.get('/researches',passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err)
                 res.json({
                     msg: "Your researches information",
@@ -881,7 +881,7 @@ router.get('/researches/:id', async (req, res) => {
     }
 });
 //View existing research by id
-router.get("/researches/:researchID", async (req, res) => {
+router.get("/researches/:researchID",passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Research.findById(req.params.researchID, function (err, foundResearch) {
             if (!err)
@@ -900,7 +900,7 @@ router.get("/researches/:researchID", async (req, res) => {
     }
 });
 //Update my research
-router.put("/research/:researchID", async (req, res) => {
+router.put("/research/:researchID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Research.findByIdAndUpdate(req.params.researchID, req.body, {
             new: true
@@ -926,7 +926,7 @@ router.put("/research/:researchID", async (req, res) => {
     }
 });
 //Delete my research
-router.delete("/research/:researchID", async (req, res) => {
+router.delete("/research/:researchID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Research.findByIdAndDelete(req.params.researchID, function (err, deletedResearch) {
             if (!err)
@@ -950,12 +950,12 @@ router.delete("/research/:researchID", async (req, res) => {
     }
 });
 //Create a new report
-router.post("/report/:id", async (req, res) => {
+router.post("/report",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Report.create(req.body, function (err, createdReport) {
             if (!err)
                 Consultancy.findByIdAndUpdate(
-                    req.params.id, {
+                    req.id, {
                         $push: {
                             reports: createdReport
                         }
@@ -983,9 +983,9 @@ router.post("/report/:id", async (req, res) => {
     }
 });
 //View all my reports
-router.get('/reports/:id', async (req, res) => {
+router.get('/reports',passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
-        Consultancy.findById(req.params.id, function (err, foundUser) {
+        Consultancy.findById(req.id, function (err, foundUser) {
             if (!err)
                 res.json({
                     msg: "Your reports information",
@@ -1002,7 +1002,7 @@ router.get('/reports/:id', async (req, res) => {
     }
 });
 //Update my report
-router.put("/report/:reportID", async (req, res) => {
+router.put("/report/:reportID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Report.findByIdAndUpdate(req.params.reportID, req.body, {
             new: true
@@ -1028,7 +1028,7 @@ router.put("/report/:reportID", async (req, res) => {
     }
 });
 //Delete my report
-router.delete("/report/:reportID", async (req, res) => {
+router.delete("/report/:reportID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Report.findByIdAndDelete(req.params.reportID, function (err, deletedReport) {
             if (!err)
@@ -1052,7 +1052,7 @@ router.delete("/report/:reportID", async (req, res) => {
     }
 });
 //View all announcements
-router.get("/announcements", async (req, res) => {
+router.get("/announcements",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Announcement.find({}, function (err, foundAnnouncements) {
             if (!err)
@@ -1071,7 +1071,7 @@ router.get("/announcements", async (req, res) => {
     }
 });
 //View an existing announcement by it's id
-router.get("/announcement/:announcementID", async (req, res) => {
+router.get("/announcement/:announcementID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Announcement.findById(req.params.announcementID, function (err, foundAnnouncement) {
             if (!err)
@@ -1095,9 +1095,9 @@ router.get("/announcement/:announcementID", async (req, res) => {
     }
 });
 //update my projects with the database
-router.put("/update/projects/:id", async (req, res) => {
+router.put("/update/projects",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const consultancy = await Consultancy.findById(req.params.id);
+        const consultancy = await Consultancy.findById(req.id);
         const projects = await Task.find({});
         var pendingProjects = [];
         var approvedProjects = [];
@@ -1109,7 +1109,7 @@ router.put("/update/projects/:id", async (req, res) => {
             for (j = 0; j < projects.length; j++)
                 if (consultancy.approvedProjects[i]._id.toString() === projects[j]._id.toString())
                     approvedProjects[i * projects.length + j] = projects[j];
-        Consultancy.findByIdAndUpdate(req.params.id, {
+        Consultancy.findByIdAndUpdate(req.id, {
             pendingProjects: pendingProjects,
             approvedProjects: approvedProjects
         }, {
@@ -1131,9 +1131,9 @@ router.put("/update/projects/:id", async (req, res) => {
     }
 });
 //update my certificates with the database
-router.put("/update/certificates/:id", async (req, res) => {
+router.put("/update/certificates",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const consultancy = await Consultancy.findById(req.params.id);
+        const consultancy = await Consultancy.findById(req.id);
         const certificates = await Certificate.find({});
         var pendingCertificates = [];
         var acquiredCertificates = [];
@@ -1145,7 +1145,7 @@ router.put("/update/certificates/:id", async (req, res) => {
             for (j = 0; j < certificates.length; j++)
                 if (consultancy.acquiredCertificates[i]._id.toString() === certificates[j]._id.toString())
                     acquiredCertificates[i * certificates.length + j] = certificates[j];
-        Consultancy.findByIdAndUpdate(req.params.id, {
+        Consultancy.findByIdAndUpdate(req.id, {
             acquiredCertificates: acquiredCertificates,
             acquiredCertificates: acquiredCertificates
         }, {

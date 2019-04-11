@@ -11,9 +11,9 @@ const Task = require("../../models/Task");
 const User = require("../../models/User").User;
 const Candidate = require("../../models/User").Candidate;
 //Send&Receive emails
-router.post("/email/:id", async (req, res) => {
+router.post("/email", passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
-        User.findByIdAndUpdate(req.params.id, {
+        User.findByIdAndUpdate(req.id, {
             $push: {
                 "inbox.sentEmails": {
                     subject: req.body.subject,
@@ -58,9 +58,9 @@ router.post("/email/:id", async (req, res) => {
     }
 });
 //View all tasks only that i can apply
-router.get("/tasks/:id", async (req, res) => {
+router.get("/tasks",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findById(req.params.id, function (err, foundUser) {
+        Candidate.findById(req.id, function (err, foundUser) {
             if (!err)
                 Task.find({
                     status: "RequireCandidate",
@@ -88,9 +88,14 @@ router.get("/tasks/:id", async (req, res) => {
     }
 });
 //View all my pending approval tasks
-router.get("/pendingTasks/:id", async (req, res) => {
+router.get("/pendingTasks",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findById(req.params.id, function (err, foundUser) {
+     const candidate = await Candidate.findById(req.id);
+    if (!candidate)
+      return res.status(404).send({
+        error: "You are not logged in"
+      });
+        Candidate.findById(req.id, function (err, foundUser) {
             if (!err)
                 res.json({
                     msg: "Your pending approval tasks information",
@@ -107,9 +112,9 @@ router.get("/pendingTasks/:id", async (req, res) => {
     }
 });
 //View all my approved tasks
-router.get("/approvedTasks/:id", async (req, res) => {
+router.get("/approvedTasks",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findById(req.params.id, function (err, foundUser) {
+        Candidate.findById(req.id, function (err, foundUser) {
             if (!err)
                 res.json({
                     msg: "Your approved tasks information",
@@ -126,7 +131,7 @@ router.get("/approvedTasks/:id", async (req, res) => {
     }
 });
 //View an existing task by its id
-router.get("/task/:taskID", async (req, res) => {
+router.get("/task/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Task.findById(req.params.taskID, function (err, foundTask) {
             if (!err)
@@ -150,7 +155,7 @@ router.get("/task/:taskID", async (req, res) => {
     }
 });
 //apply for a task by its id
-router.post("/task/:id/:taskID", async (req, res) => {
+router.post("/task/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Task.findById(req.params.taskID, function (err, foundTask) {
             if (!err)
@@ -159,13 +164,13 @@ router.post("/task/:id/:taskID", async (req, res) => {
                         error: "This task does not exist"
                     });
                 else
-                    Candidate.findById(req.params.id, function (err, foundUser) {
+                    Candidate.findById(req.id, function (err, foundUser) {
                         if (!err) {
                             const requiredSkills = foundTask.requiredSkills;
                             const skills = foundUser.skills;
                             if (requiredSkills.every(val => skills.includes(val)))
                                 Candidate.findByIdAndUpdate(
-                                    req.params.id, {
+                                    req.id, {
                                         $addToSet: {
                                             pendingTasks: foundTask
                                         }
@@ -200,7 +205,7 @@ router.post("/task/:id/:taskID", async (req, res) => {
     }
 });
 //disapply a task by its id if i am not assigned to
-router.delete("/task/:id/:taskID", async (req, res) => {
+router.delete("/task/:taskID", passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Task.findById(req.params.taskID, function (err, foundTask) {
             if (!err)
@@ -210,7 +215,7 @@ router.delete("/task/:id/:taskID", async (req, res) => {
                     });
                 else
                     Candidate.findByIdAndUpdate(
-                        req.params.id, {
+                        req.id, {
                             $pull: {
                                 pendingTasks: foundTask
                             }
@@ -238,7 +243,7 @@ router.delete("/task/:id/:taskID", async (req, res) => {
     }
 });
 //view the main project of my task
-router.get("/project/task/:taskID", async (req, res) => {
+router.get("/project/task/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Project.find({
             "tasks._id": req.params.taskID
@@ -259,7 +264,7 @@ router.get("/project/task/:taskID", async (req, res) => {
     }
 });
 //Update my task's taskcyle
-router.put("/project/tasks/:projectID/:taskID", async (req, res) => {
+router.put("/project/tasks/:projectID/:taskID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         const Candidate = await Candidate.find({
             "approvedTasks._id": req.params.taskID
@@ -313,7 +318,7 @@ router.put("/project/tasks/:projectID/:taskID", async (req, res) => {
     }
 });
 //request a new certificate
-router.post("/certificate", async (req, res) => {
+router.post("/certificate",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Certificate.create(req.body, function (err, createdCertificate) {
             if (!err)
@@ -332,7 +337,7 @@ router.post("/certificate", async (req, res) => {
     }
 });
 //View all certificates
-router.get("/certificates", async (req, res) => {
+router.get("/certificates", passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Certificate.find({
             available: true
@@ -353,7 +358,7 @@ router.get("/certificates", async (req, res) => {
     }
 });
 //View an existing certificate by it's id
-router.get("/certificate/:certificateID", async (req, res) => {
+router.get("/certificate/:certificateID", passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
             if (!err)
@@ -377,7 +382,7 @@ router.get("/certificate/:certificateID", async (req, res) => {
     }
 });
 //apply for a certificate by its id
-router.post("/certificate/:id/:certificateID", async (req, res) => {
+router.post("/certificate/:certificateID", passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Certificate.findById(req.params.certificateID, function (err, foundCertificate) {
             if (!err)
@@ -387,7 +392,7 @@ router.post("/certificate/:id/:certificateID", async (req, res) => {
                     });
                 else
                     Candidate.findByIdAndUpdate(
-                        req.params.id, {
+                        req.id, {
                             $addToSet: {
                                 pendingCertificates: foundCertificate
                             }
@@ -415,7 +420,7 @@ router.post("/certificate/:id/:certificateID", async (req, res) => {
     }
 });
 //View pending approval certificate evaluation tests to take
-router.get("/certificate/evaluationTests/:certificateID", async (req, res) => {
+router.get("/certificate/evaluationTests/:certificateID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Certificate.findById(
             req.params.certificateID,
@@ -441,7 +446,7 @@ router.get("/certificate/evaluationTests/:certificateID", async (req, res) => {
     }
 });
 //Take the evaluation tests of pending approval certificate by evaluation test id
-router.get("/certificate/evaluationTest/:evaluationID", async (req, res) => {
+router.get("/certificate/evaluationTest/:evaluationID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Evaluation.findById(
             req.params.evaluationID,
@@ -467,7 +472,7 @@ router.get("/certificate/evaluationTest/:evaluationID", async (req, res) => {
     }
 });
 //Submit the evaluation test of pending approval certificate by evaluation test id and certificate id
-router.put("/certificate/evaluationTests/:certificateID/:evaluationID", async (req, res) => {
+router.put("/certificate/evaluationTests/:certificateID/:evaluationID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Evaluation.findByIdAndUpdate(req.params.evaluationID, req.body, {
             new: true
@@ -511,15 +516,15 @@ router.put("/certificate/evaluationTests/:certificateID/:evaluationID", async (r
     }
 });
 //Update my set of skills with the acquired certificates that i passed it's evaluation
-router.get("/acquiredCertificates/skills/:id", async (req, res) => {
+router.get("/acquiredCertificates/skills",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        Candidate.findById(req.params.id, function (err, foundUser) {
+        Candidate.findById(req.id, function (err, foundUser) {
             if (!err) {
                 var allAcquiredSkills = new Set();
                 for (i = 0; i < foundUser.acquiredCertificates.length; i++)
                     for (j = 0; j < foundUser.acquiredCertificates[i].skills.length; j++)
                         allAcquiredSkills.add(foundUser.acquiredCertificates[i].skills[j]);
-                Candidate.findByIdAndUpdate(req.params.id, {
+                Candidate.findByIdAndUpdate(req.id, {
                     skills: [...allAcquiredSkills]
                 }, {
                     new: true
@@ -546,16 +551,16 @@ router.get("/acquiredCertificates/skills/:id", async (req, res) => {
     }
 });
 //View all my recommended tasks
-router.get("/recommendedTasks/:id", async (req, res) => {
+router.get("/recommendedTasks",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const foundUser = await Candidate.findById(req.params.id);
+        const foundUser = await Candidate.findById(req.id);
         Task.find({
             $expr: {
                 $setIsSubset: ["$requiredSkills", foundUser.skills]
             }
         }, function (err, foundTasks) {
             if (!err)
-                Candidate.findByIdAndUpdate(req.params.id, {
+                Candidate.findByIdAndUpdate(req.id, {
                     recommendedTasks: foundTasks
                 }, {
                     new: true
@@ -580,16 +585,16 @@ router.get("/recommendedTasks/:id", async (req, res) => {
     }
 });
 //View all recommended certificates
-router.get("/recommendedCertificates/:id", async (req, res) => {
+router.get("/recommendedCertificates",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const foundUser = await Candidate.findById(req.params.id);
+        const foundUser = await Candidate.findById(req.id);
         Certificate.find({
             $expr: {
                 $setIntersection: ["$skills", foundUser.interests]
             }
         }, function (err, foundCertificates) {
             if (!err)
-                Candidate.findByIdAndUpdate(req.params.id, {
+                Candidate.findByIdAndUpdate(req.id, {
                     recommendedCertificates: foundCertificates
                 }, {
                     new: true
@@ -614,7 +619,7 @@ router.get("/recommendedCertificates/:id", async (req, res) => {
     }
 });
 //View all announcements
-router.get("/announcements", async (req, res) => {
+router.get("/announcements", passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Announcement.find({}, function (err, foundAnnouncements) {
             if (!err)
@@ -633,7 +638,7 @@ router.get("/announcements", async (req, res) => {
     }
 });
 //View an existing announcement by it's id
-router.get("/announcement/:announcementID", async (req, res) => {
+router.get("/announcement/:announcementID",passport.authenticate('jwt', {session: false}),async (req, res) => {
     try {
         Announcement.findById(req.params.announcementID, function (err, foundAnnouncement) {
             if (!err)
@@ -657,7 +662,7 @@ router.get("/announcement/:announcementID", async (req, res) => {
     }
 });
 //View all researches
-router.get("/researches", async (req, res) => {
+router.get("/researches",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Research.find({}, function (err, foundResearches) {
             if (!err)
@@ -676,7 +681,7 @@ router.get("/researches", async (req, res) => {
     }
 });
 //View existing research by id
-router.get("/research/:researchID", async (req, res) => {
+router.get("/research/:researchID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Research.findById(req.params.researchID, function (err, foundResearch) {
             if (!err)
@@ -700,7 +705,7 @@ router.get("/research/:researchID", async (req, res) => {
     }
 });
 //View all reports
-router.get("/reports", async (req, res) => {
+router.get("/reports",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Report.find({}, function (err, foundReports) {
             if (!err)
@@ -719,7 +724,7 @@ router.get("/reports", async (req, res) => {
     }
 });
 //View existing report by id
-router.get("/report/:reportID", async (req, res) => {
+router.get("/report/:reportID",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
         Report.findById(req.params.reportID, function (err, foundReport) {
             if (!err)
@@ -743,9 +748,9 @@ router.get("/report/:reportID", async (req, res) => {
     }
 });
 //update my tasks with the database
-router.put("/update/tasks/:id", async (req, res) => {
+router.put("/update/tasks",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const candidate = await Candidate.findById(req.params.id);
+        const candidate = await Candidate.findById(req.id);
         const tasks = await Task.find({});
         var pendingTasks = [];
         var approvedTasks = [];
@@ -757,7 +762,7 @@ router.put("/update/tasks/:id", async (req, res) => {
             for (j = 0; j < tasks.length; j++)
                 if (candidate.approvedTasks[i]._id.toString() === tasks[j]._id.toString())
                     approvedTasks[i * tasks.length + j] = tasks[j];
-        Candidate.findByIdAndUpdate(req.params.id, {
+        Candidate.findByIdAndUpdate(req.id, {
             pendingTasks: pendingTasks,
             approvedTasks: approvedTasks
         }, {
@@ -779,9 +784,9 @@ router.put("/update/tasks/:id", async (req, res) => {
     }
 });
 //update my certificates with the database
-router.put("/update/certificates/:id", async (req, res) => {
+router.put("/update/certificates",passport.authenticate('jwt', {session: false}), async (req, res) => {
     try {
-        const candidate = await Candidate.findById(req.params.id);
+        const candidate = await Candidate.findById(req.id);
         const certificates = await Certificate.find({});
         var pendingCertificates = [];
         var acquiredCertificates = [];
@@ -793,7 +798,7 @@ router.put("/update/certificates/:id", async (req, res) => {
             for (j = 0; j < certificates.length; j++)
                 if (candidate.acquiredCertificates[i]._id.toString() === certificates[j]._id.toString())
                     acquiredCertificates[i * certificates.length + j] = certificates[j];
-        Candidate.findByIdAndUpdate(req.params.id, {
+        Candidate.findByIdAndUpdate(req.id, {
             acquiredCertificates: acquiredCertificates,
             acquiredCertificates: acquiredCertificates
         }, {
