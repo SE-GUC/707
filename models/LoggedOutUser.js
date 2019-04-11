@@ -1,7 +1,3 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-require("mongoose-type-email");
-var LoggedOutUserSchema = new Schema({
-    id: String
-});
+var LoggedOutUserSchema = new mongoose.Schema({});
 module.exports = LoggedOutUser = mongoose.model("loggedOutUsers", LoggedOutUserSchema);

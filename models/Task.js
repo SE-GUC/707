@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const taskSchema = require("../models/Task").schema;
-//Project schema
-var projectSchema = new Schema({
+//Task schema
+var taskSchema = new Schema({
     name: String,
     description: String,
     type: String,
@@ -13,14 +12,15 @@ var projectSchema = new Schema({
     chosenCreditHour: Number,
     creditsPenalty: Number,
     yearsOfExperience: Number,
+    candidateRole: String,
     contractSigned: Boolean,
     requiredSkills: [String],
     status: {
         type: String,
-        enum: ["Negotiation", "Approved", "RequireConsultancy", "RequireCandidate", "processing", "finished"],
-        default: "Negotiation"
+        enum: ["RequireCandidate", "processing", "finished"],
+        default: "RequireCandidate"
     },
-    projectcycle: [{
+    taskcycle: [{
         description: String,
         status: {
             type: String,
@@ -28,10 +28,9 @@ var projectSchema = new Schema({
             default: "Proceeding"
         },
         percentage: Number
-    }],
-    tasks: [taskSchema]
+    }]
 });
-projectSchema.index({
+taskSchema.index({
     '$**': 'text'
 });
-module.exports = Project = mongoose.model("projects", projectSchema);
+module.exports = Task = mongoose.model("tasks", taskSchema);

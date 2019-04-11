@@ -1,24 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const evaluationSchema = require("../models/Evaluation").schema;
 //Certificate schema
 var certificateSchema = new Schema({
-  name: String,
-  description: String,
-  category: String,
-  available: Boolean,
-  evaluationTest: {
-    evaluationType: {
-      type: String,
-      enum: ["MCQ", "Project", "Other"]
+    name: String,
+    description: String,
+    category: String,
+    skills: [String],
+    available: {
+        type: Boolean,
+        default: false
     },
-    evaluationContent: String,
-    totalScore: Number,
-    passingScore: Number,
-    candidateScore: Number,
-    passed: Boolean
-  }
+    evaluationTests: [evaluationSchema]
 });
 certificateSchema.index({
-  '$**': 'text'
+    '$**': 'text'
 });
 module.exports = Certificate = mongoose.model("certificates", certificateSchema);
