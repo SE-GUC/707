@@ -2,10 +2,14 @@
   "name": "lirtenhub-707",
   "version": "1.2.0",
   "description": "project",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index"
+    "client-install": "npm install --prefix client",
+    "start": "node server",
+    "server": "nodemon server",
+    "test": "jest",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "Peter Abdallah",
@@ -13,13 +17,17 @@
   "dependencies": {
     "bcrypt": "^3.0.4",
     "bcryptjs": "^2.4.3",
+    "bootstrap": "^4.3.1",
+    "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.15",
     "mongoose-type-email": "^1.0.10",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "react": "^16.8.6",
+    "react-scripts": "^2.1.8"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
