@@ -10,7 +10,7 @@ const Candidate = require("../../models/User").Candidate;
 const Consultancy = require("../../models/User").Consultancy;
 const Partner = require("../../models/User").Partner;
 //Search everything in the website
-router.post('/',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const certificates = await Certificate.find({
             name: {
@@ -69,7 +69,7 @@ router.post('/',passport.authenticate('jwt', {session: false}), async (req, res)
     }
 });
 //Filter certificates
-router.post('/certificates',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/certificates', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const certificates = await Certificate.find({
             name: {
@@ -86,7 +86,7 @@ router.post('/certificates',passport.authenticate('jwt', {session: false}), asyn
     }
 });
 //Filter projects
-router.post('/projects',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/projects', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const projects = await Project.find({
             name: {
@@ -103,7 +103,7 @@ router.post('/projects',passport.authenticate('jwt', {session: false}), async (r
     }
 });
 //Filter tasks
-router.post('/tasks',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/tasks', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const tasks = await Task.find({
             name: {
@@ -120,7 +120,7 @@ router.post('/tasks',passport.authenticate('jwt', {session: false}), async (req,
     }
 });
 //Filter reports
-router.post('/reports',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/reports', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const reports = await Report.find({
             title: {
@@ -137,7 +137,7 @@ router.post('/reports',passport.authenticate('jwt', {session: false}), async (re
     }
 });
 //Filter researches
-router.post('/researches',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/researches', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const researches = await Research.find({
             title: {
@@ -154,7 +154,7 @@ router.post('/researches',passport.authenticate('jwt', {session: false}), async 
     }
 });
 //Filter partners
-router.post('/partners',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/partners', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const partners = await Partner.find({
             name: {
@@ -171,7 +171,7 @@ router.post('/partners',passport.authenticate('jwt', {session: false}), async (r
     }
 });
 //Filter consultancies
-router.post('/consultancies',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/consultancies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const consultancies = await Consultancy.find({
             name: {
@@ -188,7 +188,7 @@ router.post('/consultancies',passport.authenticate('jwt', {session: false}), asy
     }
 });
 //Filter candidates
-router.post('/candidates',passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post('/candidates', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const candidates = await Candidate.find({
             name: {

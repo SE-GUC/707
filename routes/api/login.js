@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
                     res.status(404).json({
                         error: "Invalid email address"
                     });
-                else {
+                else
                     if (bcrypt.compareSync(req.body.password, foundUser.password))
                         LoggedOutUser.findByIdAndDelete(foundUser._id, function (err) {
                             if (!err)
@@ -34,7 +34,6 @@ router.post('/', async (req, res) => {
                         res.status(400).send({
                             error: "Wrong password"
                         });
-                }
             else res.json({
                 error: err.message
             });

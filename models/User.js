@@ -20,8 +20,8 @@ var userSchema = new Schema({
     },
     inbox: inboxSchema
 }, {
-    discriminatorKey: "usertype"
-});
+        discriminatorKey: "usertype"
+    });
 userSchema.index({
     '$**': 'text'
 });

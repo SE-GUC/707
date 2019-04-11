@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import logo from "./logo.png";
-
 class App extends Component {
   render() {
     return (
@@ -15,20 +13,16 @@ class App extends Component {
             </a>
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
-                <li className="navbar-item">  
+                <li className="navbar-item">
                   <Link to="/" className="nav-link">Home</Link>
                 </li>
-  
               </ul>
             </div>
           </nav>
-          <br/>
-
-
+          <br />
         </div>
       </Router>
     );
   }
 }
-
 export default App;

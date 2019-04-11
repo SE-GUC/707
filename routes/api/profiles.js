@@ -20,14 +20,14 @@ router.post("/admin/register", async (req, res) => {
                     data: newUser
                 });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -36,7 +36,7 @@ router.post("/admin/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/admin",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/admin", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Admin.findById(req.id, function (err, foundUser) {
             if (!err)
@@ -60,7 +60,7 @@ router.get("/admin",passport.authenticate('jwt', {session: false}), async (req, 
     }
 });
 //Update my profile by my id
-router.put("/admin",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put("/admin", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
@@ -80,14 +80,14 @@ router.put("/admin",passport.authenticate('jwt', {session: false}), async (req, 
                         data: foundUser
                     });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -96,7 +96,7 @@ router.put("/admin",passport.authenticate('jwt', {session: false}), async (req, 
     }
 });
 //Delete my profile by my id
-router.delete("/admin",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/admin", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Admin.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
@@ -133,14 +133,14 @@ router.post("/candidate/register", async (req, res) => {
                     data: newUser
                 });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -149,7 +149,7 @@ router.post("/candidate/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/candidate", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Candidate.findById(req.id, function (err, foundUser) {
             if (!err)
@@ -173,7 +173,7 @@ router.get("/candidate",passport.authenticate('jwt', {session: false}), async (r
     }
 });
 //Update my profile by my id
-router.put("/candidate", passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.put("/candidate", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
@@ -193,14 +193,14 @@ router.put("/candidate", passport.authenticate('jwt', {session: false}),async (r
                         data: foundUser
                     });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -209,7 +209,7 @@ router.put("/candidate", passport.authenticate('jwt', {session: false}),async (r
     }
 });
 //Delete my profile by my id
-router.delete("/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/candidate", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Candidate.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
@@ -234,7 +234,7 @@ router.delete("/candidate",passport.authenticate('jwt', {session: false}), async
     }
 });
 //Set/Update my profile picture
-router.post("/profilePicture/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/profilePicture/candidate", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Candidate.findByIdAndUpdate(req.id, {
             profilePhoto: {
@@ -242,18 +242,18 @@ router.post("/profilePicture/candidate",passport.authenticate('jwt', {session: f
                 contentType: "image/jpg"
             }
         }, {
-            new: true
-        }, function (err, foundUser) {
-            if (!err)
-                res.json({
-                    msg: "Your profile has been set successfully",
-                    data: foundUser.profilePhoto
-                });
-            else
-                res.json({
-                    error: err.message
-                });
-        });
+                new: true
+            }, function (err, foundUser) {
+                if (!err)
+                    res.json({
+                        msg: "Your profile has been set successfully",
+                        data: foundUser.profilePhoto
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
+            });
     } catch (error) {
         res.json({
             error: error.message
@@ -261,23 +261,23 @@ router.post("/profilePicture/candidate",passport.authenticate('jwt', {session: f
     }
 });
 //Delete my profile picture
-router.delete("/profilePicture/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/profilePicture/candidate", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Candidate.findByIdAndUpdate(req.id, {
             profilePhoto: null
         }, {
-            new: true
-        }, function (err, foundUser) {
-            if (!err)
-                res.json({
-                    msg: "Your profile has been set successfully",
-                    data: foundUser.profilePhoto
-                });
-            else
-                res.json({
-                    error: err.message
-                });
-        });
+                new: true
+            }, function (err, foundUser) {
+                if (!err)
+                    res.json({
+                        msg: "Your profile has been set successfully",
+                        data: foundUser.profilePhoto
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
+            });
     } catch (error) {
         res.json({
             error: error.message
@@ -285,7 +285,7 @@ router.delete("/profilePicture/candidate",passport.authenticate('jwt', {session:
     }
 });
 //View my profile picture
-router.get("/profilePicture/candidate",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/profilePicture/candidate", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Candidate.findById(req.id, function (err, foundUser) {
             if (!err) {
@@ -314,14 +314,14 @@ router.post("/consultancy/register", async (req, res) => {
                     data: newUser
                 });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -330,7 +330,7 @@ router.post("/consultancy/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/consultancy", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Consultancy.findById(req.id, function (err, foundUser) {
             if (!err)
@@ -354,7 +354,7 @@ router.get("/consultancy",passport.authenticate('jwt', {session: false}), async 
     }
 });
 //Update my profile by my id
-router.put("/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put("/consultancy", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
@@ -374,14 +374,14 @@ router.put("/consultancy",passport.authenticate('jwt', {session: false}), async 
                         data: foundUser
                     });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -390,7 +390,7 @@ router.put("/consultancy",passport.authenticate('jwt', {session: false}), async 
     }
 });
 //Delete my profile by my id
-router.delete("/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/consultancy", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Consultancy.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
@@ -415,7 +415,7 @@ router.delete("/consultancy",passport.authenticate('jwt', {session: false}), asy
     }
 });
 //Set/Update my profile picture
-router.post("/profilePicture/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/profilePicture/consultancy", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Consultancy.findByIdAndUpdate(req.id, {
             profilePhoto: {
@@ -423,18 +423,18 @@ router.post("/profilePicture/consultancy",passport.authenticate('jwt', {session:
                 contentType: "image/jpg"
             }
         }, {
-            new: true
-        }, function (err, foundUser) {
-            if (!err)
-                res.json({
-                    msg: "Your profile has been set successfully",
-                    data: foundUser.profilePhoto
-                });
-            else
-                res.json({
-                    error: err.message
-                });
-        });
+                new: true
+            }, function (err, foundUser) {
+                if (!err)
+                    res.json({
+                        msg: "Your profile has been set successfully",
+                        data: foundUser.profilePhoto
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
+            });
     } catch (error) {
         res.json({
             error: error.message
@@ -442,23 +442,23 @@ router.post("/profilePicture/consultancy",passport.authenticate('jwt', {session:
     }
 });
 //Delete my profile picture
-router.delete("/profilePicture/consultancy",passport.authenticate('jwt', {session: false}),async (req, res) => {
+router.delete("/profilePicture/consultancy", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Consultancy.findByIdAndUpdate(req.id, {
             profilePhoto: null
         }, {
-            new: true
-        }, function (err, foundUser) {
-            if (!err)
-                res.json({
-                    msg: "Your profile has been set successfully",
-                    data: foundUser.profilePhoto
-                });
-            else
-                res.json({
-                    error: err.message
-                });
-        });
+                new: true
+            }, function (err, foundUser) {
+                if (!err)
+                    res.json({
+                        msg: "Your profile has been set successfully",
+                        data: foundUser.profilePhoto
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
+            });
     } catch (error) {
         res.json({
             error: error.message
@@ -466,7 +466,7 @@ router.delete("/profilePicture/consultancy",passport.authenticate('jwt', {sessio
     }
 });
 //View my profile picture
-router.get("/profilePicture/consultancy",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/profilePicture/consultancy", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Consultancy.findById(req.id, function (err, foundUser) {
             if (!err) {
@@ -495,14 +495,14 @@ router.post("/partner/register", async (req, res) => {
                     data: newUser
                 });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -511,7 +511,7 @@ router.post("/partner/register", async (req, res) => {
     }
 });
 //View my profile by my id
-router.get("/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/partner", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Partner.findById(req.id, function (err, foundUser) {
             if (!err)
@@ -535,7 +535,7 @@ router.get("/partner",passport.authenticate('jwt', {session: false}), async (req
     }
 });
 //Update my profile by my id
-router.put("/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.put("/partner", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         if (req.body.password != null) {
             const salt = bcrypt.genSaltSync(10);
@@ -555,14 +555,14 @@ router.put("/partner",passport.authenticate('jwt', {session: false}), async (req
                         data: foundUser
                     });
             else
-            if ((err.message.split(" ", 1))[0] === "E11000")
-                res.json({
-                    error: "This emaill already exists"
-                });
-            else
-                res.json({
-                    error: err.message
-                });
+                if ((err.message.split(" ", 1))[0] === "E11000")
+                    res.json({
+                        error: "This emaill already exists"
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
         });
     } catch (error) {
         res.json({
@@ -571,7 +571,7 @@ router.put("/partner",passport.authenticate('jwt', {session: false}), async (req
     }
 });
 //Delete my profile by my id
-router.delete("/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/partner", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Partner.findByIdAndDelete(req.id, function (err, foundUser) {
             if (!err)
@@ -596,7 +596,7 @@ router.delete("/partner",passport.authenticate('jwt', {session: false}), async (
     }
 });
 //Set/Update my profile picture
-router.post("/profilePicture/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.post("/profilePicture/partner", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Partner.findByIdAndUpdate(req.id, {
             profilePhoto: {
@@ -604,18 +604,18 @@ router.post("/profilePicture/partner",passport.authenticate('jwt', {session: fal
                 contentType: "image/jpg"
             }
         }, {
-            new: true
-        }, function (err, foundUser) {
-            if (!err)
-                res.json({
-                    msg: "Your profile has been set successfully",
-                    data: foundUser.profilePhoto
-                });
-            else
-                res.json({
-                    error: err.message
-                });
-        });
+                new: true
+            }, function (err, foundUser) {
+                if (!err)
+                    res.json({
+                        msg: "Your profile has been set successfully",
+                        data: foundUser.profilePhoto
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
+            });
     } catch (error) {
         res.json({
             error: error.message
@@ -623,23 +623,23 @@ router.post("/profilePicture/partner",passport.authenticate('jwt', {session: fal
     }
 });
 //Delete my profile picture
-router.delete("/profilePicture/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.delete("/profilePicture/partner", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Partner.findByIdAndUpdate(req.id, {
             profilePhoto: null
         }, {
-            new: true
-        }, function (err, foundUser) {
-            if (!err)
-                res.json({
-                    msg: "Your profile has been set successfully",
-                    data: foundUser.profilePhoto
-                });
-            else
-                res.json({
-                    error: err.message
-                });
-        });
+                new: true
+            }, function (err, foundUser) {
+                if (!err)
+                    res.json({
+                        msg: "Your profile has been set successfully",
+                        data: foundUser.profilePhoto
+                    });
+                else
+                    res.json({
+                        error: err.message
+                    });
+            });
     } catch (error) {
         res.json({
             error: error.message
@@ -647,7 +647,7 @@ router.delete("/profilePicture/partner",passport.authenticate('jwt', {session: f
     }
 });
 //View my profile picture
-router.get("/profilePicture/partner",passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get("/profilePicture/partner", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Partner.findById(req.id, function (err, foundUser) {
             if (!err) {
