@@ -9,7 +9,6 @@ const logger = (req, res, next) => {
                 res.json(err.message);
             }
         });
-
     next();
 }
 module.exports = logger;
