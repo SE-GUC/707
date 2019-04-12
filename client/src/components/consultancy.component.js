@@ -19,7 +19,7 @@ export default class getconsultancy extends Component {
     }
 
 
-    // onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+   
 
     componentDidMount() {
          const cookies= new Cookies();
@@ -35,21 +35,65 @@ export default class getconsultancy extends Component {
         })) 
       }
 
-      onKeyPress = e => {
-        const regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
-        if (e.target.value === "" || !regEx.test(e.target.value)) {
-        
+      namechanged = e => {
+        if (e.target.value === "" ) {
         } else {
           this.setState({
-            name: e.target.value ,
-            email:this.state.email,
-          address:this.state.address,
-          type :this.state.type 
+          name: e.target.value  
           });
         }
       };
+
+      
+      emailchanged = e => {
     
+        if (e.target.value === "" ) {
+        
+        } else {
+          this.setState({
+              email:e.target.value 
+          });
+        }
+      };
+      addresschanged = e => {
+        if (e.target.value === "" ) {
+        } else {
+          this.setState({
+          address: e.target.value  
+          });
+        }
+      };
+
+
+
+      updateinfo = () => {
+          let updated={
+            name: this.state.name,
+            email:this.state.email,
+          address:this.state.address,
+          }
+          const cookies= new Cookies();
+         const token= cookies.get('token')
+        axios.put('http://localhost:5000/api/profiles/consultancy', updated ,{  headers: {
+            Authorization: token.data}
+          }).then(res =>this.setState({ 
+      })) 
+
+       alert('Updated successuflly');     
+        
+      }
+
+
+      deleteprofile = () => {
+        const cookies= new Cookies();
+       const token= cookies.get('token')
+      axios.delete('http://localhost:5000/api/profiles/consultancy' ,{  headers: {
+          Authorization: token.data}
+        }).then(res =>this.setState({ 
+    })) 
+    alert('deleted successuflly');  
+      
+    }
 
     render() {
         return (
@@ -62,7 +106,7 @@ export default class getconsultancy extends Component {
                         <input  type="text"
                                 className="form-control"
                                 value={this.state.name}
-                                onChange={e => this.onKeyPress(e)}
+                                onChange={e => this.namechanged(e)}
                                 />
                     </div>
                     <div className="form-group">
@@ -71,6 +115,7 @@ export default class getconsultancy extends Component {
                                 type="text" 
                                 className="form-control"
                                 value={this.state.email}
+                                onChange={e => this.emailchanged(e)}
                                 />
                     </div>
                     <div className="form-group">
@@ -79,49 +124,17 @@ export default class getconsultancy extends Component {
                                 type="text" 
                                 className="form-control"
                                 value={this.state.address}
+                                onChange={e => this.addresschanged(e)}
                                 />
                     </div>
-
+                    <div className="form-group">
+                        <input type="submit" value="Update info" className="btn btn-primary" onClick={this.updateinfo} />
+                    </div>
+                    <div className="form-group">
+                        <input type="submit" value="Delete my profile" className="btn btn-primary" onClick={this.deleteprofile} />
+                    </div>
                    
-                    {/* <div className="form-group">
-                        <div className="form-check form-check-inline">
-                            <input  className="form-check-input" 
-                                    type="radio" 
-                                    name="priorityOptions" 
-                                    id="priorityLow" 
-                                    value="Low"
-                                    checked={this.state.todo_priority==='Low'} 
-                                    onChange={this.onChangeTodoPriority}
-                                    />
-                            <label className="form-check-label">Low</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input  className="form-check-input" 
-                                    type="radio" 
-                                    name="priorityOptions" 
-                                    id="priorityMedium" 
-                                    value="Medium" 
-                                    checked={this.state.todo_priority==='Medium'} 
-                                    onChange={this.onChangeTodoPriority}
-                                    />
-                            <label className="form-check-label">Medium</label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <input  className="form-check-input" 
-                                    type="radio" 
-                                    name="priorityOptions" 
-                                    id="priorityHigh" 
-                                    value="High" 
-                                    checked={this.state.todo_priority==='High'} 
-                                    onChange={this.onChangeTodoPriority}
-                                    />
-                            <label className="form-check-label">High</label>
-                        </div> */}
-                    {/* </div> */}
-
-                    {/* <div className="form-group">
-                        <input type="submit" value="Create Todo" className="btn btn-primary" />
-                    </div> */}
+                    
                 </form>
             </div>
         )
