@@ -7,6 +7,8 @@ import SignIn from "./components/sign-in.component.js";
 import getAdmin from "./components/getadmin.component.js";
 import consultancy from "./components/consultancy.component.js";
 import awaitingprojects from "./components/viewawaitingapproval.component.js";
+import AdminProjects from "./components/admin-projects.component.js";
+
 
 class App extends Component {
   render() {
@@ -49,6 +51,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/awaitingprojects" className="nav-link">Awaiting Projects</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/adminprojects" className="nav-link">Admin Projects</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -58,6 +63,7 @@ class App extends Component {
           <Route path="/AdminProfile" component={getAdmin}/>
           <Route path="/consultancyProfile" component={consultancy}/>
           <Route path="/awaitingprojects" component={awaitingprojects}/>
+          <Route path="/adminprojects" component={AdminProjects}/>
 
         </div>
       </Router>
