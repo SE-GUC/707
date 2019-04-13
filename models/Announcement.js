@@ -7,6 +7,9 @@ var announcementSchema = new Schema({
   Content: String
 });
 announcementSchema.index({
-  '$**': 'text'
+  "$**": "text"
 });
-module.exports = Announcement = mongoose.model("announcements", announcementSchema);
+module.exports = Announcement = mongoose.model(
+  "announcements",
+  announcementSchema
+);

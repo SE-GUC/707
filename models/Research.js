@@ -7,6 +7,6 @@ var resarchSchema = new Schema({
   Content: String
 });
 resarchSchema.index({
-  '$**': 'text'
+  "$**": "text"
 });
 module.exports = Research = mongoose.model("researches", resarchSchema);

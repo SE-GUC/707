@@ -12,35 +12,53 @@ class App extends Component {
       <Router>
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="http://localhost:3000/" target="_blank">
-              <img src={logo} width="287px" height="100px" alt="LirtenHub-Logo" />
+            <a
+              class="navbar-brand"
+              href="http://localhost:3000/"
+              target="_blank"
+            >
+              <img
+                src={logo}
+                width="287px"
+                height="100px"
+                alt="LirtenHub-Logo"
+              />
             </a>
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
                 <li className="navbar-item">
-                  <Link to="/" className="nav-link">Home</Link>
+                  <Link to="/" className="nav-link">
+                    Home
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/createaccount" className="nav-link">Register to LirtenHub</Link>
+                  <Link to="/createaccount" className="nav-link">
+                    Register to LirtenHub
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/login" className="nav-link">Login</Link>
+                  <Link to="/login" className="nav-link">
+                    Login
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/AdminProfile" className="nav-link">Show Admin Profile</Link>
+                  <Link to="/AdminProfile" className="nav-link">
+                    Show Admin Profile
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/consultancyProfile" className="nav-link">Show consultancy Profile</Link>
+                  <Link to="/consultancyProfile" className="nav-link">
+                    Show consultancy Profile
+                  </Link>
                 </li>
-
               </ul>
             </div>
           </nav>
           <br />
           <Route path="/createaccount" component={CreateAccount} />
-          <Route path="/login" component={SignIn}/>
-          <Route path="/AdminProfile" component={getAdmin}/>
-          <Route path="/consultancyProfile" component={consultancy}/>
+          <Route path="/login" component={SignIn} />
+          <Route path="/AdminProfile" component={getAdmin} />
+          <Route path="/consultancyProfile" component={consultancy} />
         </div>
       </Router>
     );

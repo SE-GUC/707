@@ -1,35 +1,30 @@
 {
   "name": "lirtenhub-707",
-  "version": "1.2.0",
-  "description": "project",
+  "version": "1.0.0",
+  "description": "lirtenhub project",
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "node server",
-    "server": "nodemon server",
-    "test": "jest",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "keywords": [],
   "author": "Peter Abdallah",
-  "license": "ISC",
+  "license": "GUC",
   "dependencies": {
-    "bcrypt": "^3.0.4",
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^4.3.1",
-    "concurrently": "^4.1.0",
+    "concurrently": "^3.6.0",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.4.15",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.5.0",
+    "mongoose": "^5.1.6",
     "mongoose-type-email": "^1.0.10",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
-    "react": "^16.8.6",
-    "react-scripts": "^2.1.8"
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.17.5"
   }
 }

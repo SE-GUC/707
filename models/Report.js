@@ -7,6 +7,6 @@ var reportSchema = new Schema({
   Content: String
 });
 reportSchema.index({
-  '$**': 'text'
+  "$**": "text"
 });
 module.exports = Report = mongoose.model("reports", reportSchema);
