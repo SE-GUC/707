@@ -7,34 +7,38 @@ require("../../config/passport")(passport);
 const tokenKey = require("../../config/keys").secretOrKey;
 const User = require("../../models/User").User;
 //login
-router.post("/", (req, res) => {
-  const { email, password } = req.body;
-  // Simple validation
-  if (!email || !password) {
-    return res.status(400).json({ msg: "Please enter all fields" });
-  }
-  // Check for existing user
-  User.findOne({ email }).then(user => {
-    if (!user) return res.status(400).json({ msg: "User Does not exist" });
-    // Validate password
-    bcrypt.compare(password, user.password).then(isMatch => {
-      if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
-      jwt.sign(
-        { _id: user._id, email: user.email },
-        tokenKey,
-        { expiresIn: "1h" },
-        (err, token) => {
-          if (err) throw err;
-          res.json({
-            token,
-            user: {
-              id: user._id,
-              email: user.email
-            }
-          });
-        }
-      );
+router.post("/", async (req, res) => {
+  try {
+    const user = await User.find({
+      email: req.body.email
     });
-  });
+    User.findById(user, function(err, foundUser) {
+      if (!err)
+        if (!foundUser)
+          res.status(404).json({
+            error: "Invalid email address"
+          });
+        else if (bcrypt.compareSync(req.body.password, foundUser.password))
+          res.json({
+            data: `Bearer ${jwt.sign(
+              { _id: foundUser._id, email: foundUser.email },
+              tokenKey,
+              { expiresIn: "1h" }
+            )}`
+          });
+        else
+          res.status(400).send({
+            error: "Wrong password"
+          });
+      else
+        res.json({
+          error: err.message
+        });
+    });
+  } catch (error) {
+    res.json({
+      error: error.message
+    });
+  }
 });
 module.exports = router;
