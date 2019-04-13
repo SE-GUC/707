@@ -36,6 +36,7 @@ export default class Loginuser extends Component {
       if (res.status == 200) {
         this.setState({ redirect: true });
         cookies.set("token", res.data, { path: "/" });
+
       }
     });
     this.setState({
