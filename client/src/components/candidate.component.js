@@ -19,7 +19,8 @@ export default class getcandidate extends Component {
       skills:"",
       languages:"",
       education:"",
-      courses:""
+      courses:"",
+      password:""
     };
   }
   componentDidMount() {
@@ -65,6 +66,15 @@ export default class getcandidate extends Component {
     } else {
       this.setState({
         email: e.target.value
+      });
+    }
+  };
+
+  passwordchanged = e => {
+    if (e.target.value === "") {
+    } else {
+      this.setState({
+        password: e.target.value
       });
     }
   };
@@ -141,7 +151,8 @@ export default class getcandidate extends Component {
 
 
   updateinfo = () => {
-    let updated = {
+    if(this.state.password===""){
+    var updated = {
       name: this.state.name,
       email: this.state.email,
       address: this.state.address,
@@ -156,6 +167,24 @@ export default class getcandidate extends Component {
       languages:this.state.languages,
       courses:this.state.courses
     };
+}else{
+    var updated = {
+        name: this.state.name,
+        email: this.state.email,
+        address: this.state.address,
+        occupation: this.state.occupation,
+        contractSigned:this.state.contractSigned ,
+        contactNumbers:this.state.contactNumbers ,
+        interests:this.state.interests,
+        contactNumbers:this.state.contactNumbers,
+        yearsOfExperience: this.state.yearsOfExperience,
+        birthdate: this.state.birthdate,
+        education:this.state.education,
+        languages:this.state.languages,
+        courses:this.state.courses,
+        password:this.state.password
+      };
+}
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
@@ -203,6 +232,15 @@ export default class getcandidate extends Component {
               className="form-control"
               value={this.state.email}
               onChange={e => this.emailchanged(e)}
+            />
+          </div>
+          <div className="form-group">
+            <label>password: (type in case you want to update it) </label>
+            <input
+              type="password"
+              className="form-control"
+              value={this.state.password}
+              onChange={e => this.passwordchanged(e)}
             />
           </div>
           <div className="form-group">

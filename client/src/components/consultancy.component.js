@@ -16,7 +16,8 @@ export default class getconsultancy extends Component {
       establishmentDate: "",
       profession: "",
       yearsOfExperience: "",
-      skills:""
+      skills:"",
+      password:""
     };
   }
   componentDidMount() {
@@ -58,6 +59,15 @@ export default class getconsultancy extends Component {
     } else {
       this.setState({
         email: e.target.value
+      });
+    }
+  };
+
+  passwordchanged = e => {
+    if (e.target.value === "") {
+    } else {
+      this.setState({
+        password: e.target.value
       });
     }
   };
@@ -105,7 +115,8 @@ establishchanged = e => {
 };
 
   updateinfo = () => {
-    let updated = {
+    if(this.state.password===""){
+    var updated = {
       name: this.state.name,
       email: this.state.email,
       address: this.state.address,
@@ -117,6 +128,21 @@ establishchanged = e => {
       profession: this.state.profession,
       yearsOfExperience: this.state.yearsOfExperience,
     };
+  }else{
+    var updated = {
+      name: this.state.name,
+      email: this.state.email,
+      address: this.state.address,
+      contractSigned:this.state.contractSigned ,
+      contactNumbers:this.state.contactNumbers ,
+      interests:this.state.interests,
+      contactNumbers:this.state.contactNumbers,
+      establishmentDate: this.state.establishmentDate,
+      profession: this.state.profession,
+      yearsOfExperience: this.state.yearsOfExperience,
+      password:this.state.password
+    };
+  }
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
@@ -164,6 +190,15 @@ establishchanged = e => {
               className="form-control"
               value={this.state.email}
               onChange={e => this.emailchanged(e)}
+            />
+          </div>
+          <div className="form-group">
+            <label>password: (type in case you want to update it) </label>
+            <input
+              type="password"
+              className="form-control"
+              value={this.state.password}
+              onChange={e => this.passwordchanged(e)}
             />
           </div>
           <div className="form-group">

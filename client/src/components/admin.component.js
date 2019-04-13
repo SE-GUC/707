@@ -6,7 +6,8 @@ export default class getadmin extends Component {
     super(props);
     this.state = {
       name: "",
-      email: ""
+      email: "",
+      password:""
     };
   }
 
@@ -28,6 +29,15 @@ export default class getadmin extends Component {
     }
   };
 
+  passwordchanged = e => {
+    if (e.target.value === "") {
+    } else {
+      this.setState({
+        password: e.target.value
+      });
+    }
+  };
+
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
@@ -40,17 +50,25 @@ export default class getadmin extends Component {
       .then(res =>
         this.setState({
           name: res.data.data.name,
-          email: res.data.data.email
+          email: res.data.data.email,
         })
       );
   }
   
 
   updateinfo = () => { 
-    let updated = {
+    if(this.state.password===""){
+    var updated = {
       name: this.state.name,
       email: this.state.email
     };
+  }else {
+    var updated = {
+      name: this.state.name,
+      email: this.state.email,
+      password:this.state.password
+    };
+  }
     const cookies = new Cookies();
     const token = cookies.get("token");
 
@@ -97,6 +115,15 @@ export default class getadmin extends Component {
               className="form-control"
               value={this.state.email}
               onChange={e => this.emailchanged(e)}
+            />
+          </div>
+          <div className="form-group">
+            <label>password: (type in case you want to update it) </label>
+            <input
+              type="password"
+              className="form-control"
+              value={this.state.password}
+              onChange={e => this.passwordchanged(e)}
             />
           </div>
           <div className="form-group">

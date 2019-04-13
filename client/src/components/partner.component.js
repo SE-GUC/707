@@ -15,6 +15,7 @@ export default class getpartner extends Component {
   contactNumbers: "",
   interests: "",
   credits:"",
+  password:""
     };
   }
   componentDidMount() {
@@ -41,6 +42,14 @@ export default class getpartner extends Component {
         })
       );
   }
+  passwordchanged = e => {
+    if (e.target.value === "") {
+    } else {
+      this.setState({
+        password: e.target.value
+      });
+    }
+  };
   namechanged = e => {
     if (e.target.value === "") {
     } else {
@@ -100,7 +109,8 @@ export default class getpartner extends Component {
   };
 
   updateinfo = () => { 
-    let updated = {
+    if(this.state.password===""){
+    var updated = {
       name: this.state.name,
       email: this.state.email,
       address: this.state.address,
@@ -112,6 +122,20 @@ export default class getpartner extends Component {
       contactNumbers:this.state.contactNumbers,
       
     };
+  }else {
+    var updated = {
+      name: this.state.name,
+      email: this.state.email,
+      address: this.state.address,
+      birthdate: this.state.birthdate,
+      occupation: this.state.occupation,
+      contractSigned:this.state.contractSigned ,
+      contactNumbers:this.state.contactNumbers ,
+      interests:this.state.interests,
+      contactNumbers:this.state.contactNumbers,
+      password:this.state.password
+    };
+  }
     const cookies = new Cookies();
     const token = cookies.get("token");
 
@@ -205,6 +229,15 @@ export default class getpartner extends Component {
               className="form-control"
               value={this.state.contactNumbers}
               onChange={e => this.contactnumberschanged(e)}
+            />
+          </div>
+          <div className="form-group">
+            <label>password: (type in case you want to update it) </label>
+            <input
+              type="password"
+              className="form-control"
+              value={this.state.password}
+              onChange={e => this.passwordchanged(e)}
             />
           </div>
           <div className="form-group">
