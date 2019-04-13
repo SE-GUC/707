@@ -78,7 +78,7 @@ router.get("/projects", passport.authenticate('jwt', { session: false }), async 
     }
 });
 //View all pending approval projects
-router.get("/projects", passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get("/awaitingprojects", passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         Project.find({
             status: "Negotiation"
@@ -138,10 +138,10 @@ router.put("/project/:projectID", passport.authenticate('jwt', { session: false 
                         "pendingProjects._id": req.params.projectID
                     }, {
                             $pull: {
-                                pendingProjects: foundProject
+                                pendingProjects: updatedProject
                             },
                             $push: {
-                                approvedProjects: foundProject
+                                approvedProjects: updatedProject
                             }
                         }, {
                             new: true

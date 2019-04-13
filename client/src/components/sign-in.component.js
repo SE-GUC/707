@@ -46,7 +46,7 @@ export default class Loginuser extends Component {
         axios.post('http://localhost:5000/api/login', user)
             .then((res) =>{
                 console.log(res.data)
-                if(res.status==200){
+                if(res.status===200){
                     this.setState({redirect: true});
                     cookies.set('token', res.data, {path: '/'})}
                     

@@ -60,8 +60,9 @@ export default class Createuser extends Component {
         // axios.post('http://localhost:5000/api/'+this.state.type+'/register', user)
 //https://lirtenhub-707.herokuapp.com/api/
         console.log(this.state.type)
-        axios.post('https://localhost:5000/api/profiles/'+this.state.type+'/register', user)
+        axios.post('http://localhost:5000/api/profiles/'+this.state.type+'/register', user)
             .then(res => console.log(res.data));
+           // <Redirect to="/register"/>
             this.setState({
                 name: '',
                 email: '',
@@ -107,8 +108,8 @@ export default class Createuser extends Component {
                                 <input  className="form-check-input" 
                                         type="radio" 
                                         name="priorityOptions" 
-                                        id="candidates" 
-                                        value="candidates"
+                                        id="candidate" 
+                                        value="candidate"
                                         checked={this.state.type==='candidate'} 
                                         onChange={this.onChangeType}
                                         />
@@ -118,8 +119,8 @@ export default class Createuser extends Component {
                                 <input  className="form-check-input" 
                                         type="radio" 
                                         name="priorityOptions" 
-                                        id="partners" 
-                                        value="partners" 
+                                        id="partner" 
+                                        value="partner" 
                                         checked={this.state.type==='partner'} 
                                         onChange={this.onChangeType}
                                         />
@@ -129,8 +130,8 @@ export default class Createuser extends Component {
                                 <input  className="form-check-input" 
                                         type="radio" 
                                         name="priorityOptions" 
-                                        id="consultancies" 
-                                        value="consultancies" 
+                                        id="consultancy" 
+                                        value="consultancy" 
                                         checked={this.state.type==='consultancy'} 
                                         onChange={this.onChangeType}
                                         />
