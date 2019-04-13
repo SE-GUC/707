@@ -4,27 +4,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "./logo.png";
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
-import getAdmin from "./components/admin.component.js";
+import Admin from "./components/admin.component.js";
 import consultancy from "./components/consultancy.component.js";
 import partner from "./components/partner.component.js";
 import candidate from "./components/candidate.component.js";
+import awaitingprojects from "./components/viewawaitingapproval.component.js";
+
 class App extends Component {
   render() {
     return (
       <Router>
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a
-              class="navbar-brand"
-              href="http://localhost:3000/"
-              target="_blank"
-            >
-              <img
-                src={logo}
-                width="287px"
-                height="100px"
-                alt="LirtenHub-Logo"
-              />
+
+            <a className="navbar-brand" href="http://localhost:3000/" target="_blank">
+              <img src={logo} width="287px" height="100px" alt="LirtenHub-Logo" />
+
             </a>
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
@@ -62,6 +57,7 @@ class App extends Component {
                   <Link to="/candidateProfile" className="nav-link">
                     Show candidate Profile
                   </Link>
+                  <Link to="/awaitingprojects" className="nav-link">Awaiting Projects</Link>
                 </li>
               </ul>
             </div>
@@ -69,10 +65,12 @@ class App extends Component {
           <br />
           <Route path="/createaccount" component={CreateAccount} />
           <Route path="/login" component={SignIn} />
-          <Route path="/AdminProfile" component={getAdmin} />
+          <Route path="/AdminProfile" component={Admin} />
           <Route path="/consultancyProfile" component={consultancy} />
           <Route path="/partnerProfile" component={partner} />
           <Route path="/candidateProfile" component={candidate} />
+          <Route path="/awaitingprojects" component={awaitingprojects}/>
+
         </div>
       </Router>
     );
