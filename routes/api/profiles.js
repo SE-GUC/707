@@ -13,9 +13,28 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    User.findById(req.id)
-      .select("-password")
-      .then(user => res.json(user));
+    try {
+      User.findById(req.id, function(err, foundUser) {
+        if (!err)
+          if (!foundUser)
+            res.status(404).send({
+              error: "This profile does not exist"
+            });
+          else
+            res.json({
+              msg: "Your profile information",
+              data: foundUser
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
   }
 );
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Admin~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

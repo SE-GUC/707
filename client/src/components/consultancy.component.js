@@ -15,7 +15,7 @@ export default class getconsultancy extends Component {
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
-      .get("http://localhost:5000/api/profiles/consultancy", {
+      .get("http://localhost:5000/api/profiles", {
         headers: {
           Authorization: token.data
         }
