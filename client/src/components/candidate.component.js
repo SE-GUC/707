@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 const axios = require("axios");
-export default class getconsultancy extends Component {
+export default class getcandidate extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -9,14 +9,17 @@ export default class getconsultancy extends Component {
       email: "",
       address: "",
       type: "",
+      birthdate: "",
+      occupation: "",
       contractSigned:"" ,
       contactNumbers:"" ,
       interests:"",
       credits:"",
-      establishmentDate: "",
-      profession: "",
       yearsOfExperience: "",
-      skills:""
+      skills:"",
+      languages:"",
+      education:"",
+      courses:""
     };
   }
   componentDidMount() {
@@ -34,14 +37,18 @@ export default class getconsultancy extends Component {
           email: res.data.data.email,
           address: res.data.data.address,
           type: res.data.data.usertype,
+          occupation: res.data.data.occupation,
+          education:res.data.data.education,
           contractSigned:res.data.data.contractSigned ,
           contactNumbers:res.data.data.contactNumbers ,
           interests:res.data.data.interests,
           credits:res.data.data.credits,
-          establishmentDate: res.data.data.establishmentDate,
-          profession: res.data.data.profession,
           yearsOfExperience: res.data.data.yearsOfExperience,
-          skills:res.data.data.skills
+          skills:res.data.data.skills,
+          languages:res.data.data.languages,
+          birthdate: res.data.data.birthdate,
+          courses: res.data.data.courses
+
         })
       );
   }
@@ -70,6 +77,22 @@ export default class getconsultancy extends Component {
     }
   };
   
+  occupationchanged = e => {
+    if (e.target.value === "") {
+    } else {
+      this.setState({
+        occupation: e.target.value
+      });
+    }
+  };
+  birthdatechanged = e => {
+    if (e.target.value === "") {
+    } else {
+      this.setState({
+        birthdate: e.target.value
+      });
+    }
+  };
   interestschanged = e => {
     var interest =  e.target.value.split(',');
       this.setState({
@@ -77,6 +100,24 @@ export default class getconsultancy extends Component {
       });
     
   };
+
+  languageschanged = e => {
+    var language =  e.target.value.split(',');
+      this.setState({
+        languages: language
+      });
+    
+  };
+
+
+  courseschanged = e => {
+    var course =  e.target.value.split(',');
+      this.setState({
+        courses: course
+      });
+    
+  };
+
   contactnumberschanged = e => {
     var contactnumber =  e.target.value.split(',');
       this.setState({
@@ -86,41 +127,39 @@ export default class getconsultancy extends Component {
   };
 
 
+  educationchanged = e => {
+    this.setState({
+      education: e.target.value
+    });
+};
+
   yofchanged = e => {
       this.setState({
         yearsOfExperience: e.target.value
       });
   };
 
-  professionchanged = e => {
-    this.setState({
-      profession: e.target.value
-    });
-};
-
-establishchanged = e => {
-  this.setState({
-    establishmentDate: e.target.value
-  });
-};
 
   updateinfo = () => {
     let updated = {
       name: this.state.name,
       email: this.state.email,
       address: this.state.address,
+      occupation: this.state.occupation,
       contractSigned:this.state.contractSigned ,
       contactNumbers:this.state.contactNumbers ,
       interests:this.state.interests,
       contactNumbers:this.state.contactNumbers,
-      establishmentDate: this.state.establishmentDate,
-      profession: this.state.profession,
       yearsOfExperience: this.state.yearsOfExperience,
+      birthdate: this.state.birthdate,
+      education:this.state.education,
+      languages:this.state.languages,
+      courses:this.state.courses
     };
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
-      .put("http://localhost:5000/api/profiles/consultancy", updated, {
+      .put("http://localhost:5000/api/profiles/candidate", updated, {
         headers: {
           Authorization: token.data
         }
@@ -132,7 +171,7 @@ establishchanged = e => {
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
-      .delete("http://localhost:5000/api/profiles/consultancy", {
+      .delete("http://localhost:5000/api/profiles/candidate", {
         headers: {
           Authorization: token.data
         }
@@ -185,21 +224,30 @@ establishchanged = e => {
             />
           </div>
           <div className="form-group">
-            <label>Profession: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.profession}
-              onChange={e => this.professionchanged(e)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Establishment date: {this.state.establishmentDate}</label>
+            <label>Birthdate: {this.state.birthdate}</label>
             <input
               type="date"
               className="form-control"
-              value={this.state.establishmentDate}
-              onChange={e => this.establishchanged(e)}
+              value={Date(this.state.birthdate)}
+              onChange={e => this.birthdatechanged(e)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Occupation: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.occupation}
+              onChange={e => this.occupationchanged(e)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Education: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.education}
+              onChange={e => this.educationchanged(e)}
             />
           </div>
           <div className="form-group">
@@ -211,6 +259,16 @@ establishchanged = e => {
               onChange={e => this.interestschanged(e)}
             />
           </div>
+          <div className="form-group">
+          <label>Courses: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.courses}
+              onChange={e => this.courseschanged(e)}
+            />
+          </div>
+          
           <div className="form-group">
           <label>Contact numbers: </label>
             <input
@@ -226,6 +284,15 @@ establishchanged = e => {
               type="text"
               className="form-control"
               value={this.state.skills}
+            />
+          </div>
+          <div className="form-group">
+          <label>Languages: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.languages}
+              onChange={e => this.languageschanged(e)}
             />
           </div>
           <div className="form-group">

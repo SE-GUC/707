@@ -14,7 +14,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      User.findById(req.id, function(err, foundUser) {
+      User.findById(req.id, function (err, foundUser) {
         if (!err)
           if (!foundUser)
             res.status(404).send({
@@ -43,7 +43,7 @@ router.post("/admin/register", async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
-    User.create(req.body, function(err, newUser) {
+    User.create(req.body, function (err, newUser) {
       if (!err)
         res.json({
           msg: "Your profile has been created successfully",
@@ -64,13 +64,86 @@ router.post("/admin/register", async (req, res) => {
     });
   }
 });
+//Update my profile by my id
+router.put(
+  "/admin",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      if (req.body.password != null) {
+        const salt = bcrypt.genSaltSync(10);
+        req.body.password = bcrypt.hashSync(req.body.password, salt);
+      }
+      User.findByIdAndUpdate(
+        req.id,
+        req.body,
+        {
+          new: true
+        },
+        function (err, foundUser) {
+          if (!err)
+            if (!foundUser)
+              res.status(404).send({
+                error: "This profile does not exist"
+              });
+            else
+              res.json({
+                msg: "Your profile has been updated successfully",
+                data: foundUser
+              });
+          else if (err.message.split(" ", 1)[0] === "E11000")
+            res.json({
+              error: "This emaill already exists"
+            });
+          else
+            res.json({
+              error: err.message
+            });
+        }
+      );
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//Delete my profile by my id
+router.delete(
+  "/admin",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.findByIdAndDelete(req.id, function (err, foundUser) {
+        if (!err)
+          if (!foundUser)
+            res.status(404).send({
+              error: "This profile does not exist"
+            });
+          else
+            res.json({
+              msg: "Your profile has been deleted successfully",
+              data: foundUser
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Candidate~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Register a candidate
 router.post("/candidate/register", async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
-    Candidate.create(req.body, function(err, newUser) {
+    Candidate.create(req.body, function (err, newUser) {
       if (!err)
         res.json({
           msg: "Your profile has been created successfully",
@@ -107,7 +180,7 @@ router.put(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             if (!foundUser)
               res.status(404).send({
@@ -141,7 +214,7 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Candidate.findByIdAndDelete(req.id, function(err, foundUser) {
+      Candidate.findByIdAndDelete(req.id, function (err, foundUser) {
         if (!err)
           if (!foundUser)
             res.status(404).send({
@@ -181,7 +254,7 @@ router.post(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             res.json({
               msg: "Your profile has been set successfully",
@@ -214,7 +287,7 @@ router.delete(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             res.json({
               msg: "Your profile has been set successfully",
@@ -239,7 +312,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Candidate.findById(req.id, function(err, foundUser) {
+      Candidate.findById(req.id, function (err, foundUser) {
         if (!err) {
           res.contentType(foundUser.profilePhoto.contentType);
           res.send(foundUser.profilePhoto.data);
@@ -261,7 +334,7 @@ router.post("/consultancy/register", async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
-    Consultancy.create(req.body, function(err, newUser) {
+    Consultancy.create(req.body, function (err, newUser) {
       if (!err)
         res.json({
           msg: "Your profile has been created successfully",
@@ -298,7 +371,7 @@ router.put(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             if (!foundUser)
               res.status(404).send({
@@ -332,7 +405,7 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Consultancy.findByIdAndDelete(req.id, function(err, foundUser) {
+      Consultancy.findByIdAndDelete(req.id, function (err, foundUser) {
         if (!err)
           if (!foundUser)
             res.status(404).send({
@@ -372,7 +445,7 @@ router.post(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             res.json({
               msg: "Your profile has been set successfully",
@@ -405,7 +478,7 @@ router.delete(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             res.json({
               msg: "Your profile has been set successfully",
@@ -430,7 +503,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Consultancy.findById(req.id, function(err, foundUser) {
+      Consultancy.findById(req.id, function (err, foundUser) {
         if (!err) {
           res.contentType(foundUser.profilePhoto.contentType);
           res.send(foundUser.profilePhoto.data);
@@ -452,7 +525,7 @@ router.post("/partner/register", async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(10);
     req.body.password = bcrypt.hashSync(req.body.password, salt);
-    Partner.create(req.body, function(err, newUser) {
+    Partner.create(req.body, function (err, newUser) {
       if (!err)
         res.json({
           msg: "Your profile has been created successfully",
@@ -489,7 +562,7 @@ router.put(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             if (!foundUser)
               res.status(404).send({
@@ -523,7 +596,7 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Partner.findByIdAndDelete(req.id, function(err, foundUser) {
+      Partner.findByIdAndDelete(req.id, function (err, foundUser) {
         if (!err)
           if (!foundUser)
             res.status(404).send({
@@ -563,7 +636,7 @@ router.post(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             res.json({
               msg: "Your profile has been set successfully",
@@ -596,7 +669,7 @@ router.delete(
         {
           new: true
         },
-        function(err, foundUser) {
+        function (err, foundUser) {
           if (!err)
             res.json({
               msg: "Your profile has been set successfully",
@@ -621,7 +694,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Partner.findById(req.id, function(err, foundUser) {
+      Partner.findById(req.id, function (err, foundUser) {
         if (!err) {
           res.contentType(foundUser.profilePhoto.contentType);
           res.send(foundUser.profilePhoto.data);

@@ -43,7 +43,10 @@ var candidateSchema = new Schema({
   education: String,
   occupation: String,
   yearsOfExperience: Number,
-  contractSigned: Boolean,
+  contractSigned: {
+    type:Boolean,
+    default:false
+  },
   contactNumbers: [Number],
   interests: [String],
   languages: [String],
@@ -70,7 +73,10 @@ var consultancySchema = new Schema({
   establishmentDate: Date,
   profession: String,
   yearsOfExperience: Number,
-  contractSigned: Boolean,
+  contractSigned: {
+    type:Boolean,
+    default:false
+  },
   contactNumbers: [Number],
   interests: [String],
   skills: [String],
@@ -96,7 +102,10 @@ var partnerSchema = new Schema({
   address: String,
   birthdate: Date,
   occupation: String,
-  contractSigned: Boolean,
+  contractSigned: {
+    type:Boolean,
+    default:false
+  },
   contactNumbers: [Number],
   interests: [String],
   pendingProjects: [projectSchema],

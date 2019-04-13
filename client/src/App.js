@@ -4,8 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "./logo.png";
 import CreateAccount from "./components/create-account.component.js";
 import SignIn from "./components/sign-in.component.js";
-import getAdmin from "./components/getadmin.component.js";
+import getAdmin from "./components/admin.component.js";
 import consultancy from "./components/consultancy.component.js";
+import partner from "./components/partner.component.js";
+import candidate from "./components/candidate.component.js";
 class App extends Component {
   render() {
     return (
@@ -51,6 +53,16 @@ class App extends Component {
                     Show consultancy Profile
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/partnerProfile" className="nav-link">
+                    Show Partner Profile
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/candidateProfile" className="nav-link">
+                    Show candidate Profile
+                  </Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -59,6 +71,8 @@ class App extends Component {
           <Route path="/login" component={SignIn} />
           <Route path="/AdminProfile" component={getAdmin} />
           <Route path="/consultancyProfile" component={consultancy} />
+          <Route path="/partnerProfile" component={partner} />
+          <Route path="/candidateProfile" component={candidate} />
         </div>
       </Router>
     );
