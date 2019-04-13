@@ -9,6 +9,8 @@ import consultancy from "./components/consultancy.component.js";
 import partner from "./components/partner.component.js";
 import candidate from "./components/candidate.component.js";
 import awaitingprojects from "./components/viewawaitingapproval.component.js";
+import AdminProjects from "./components/admin-projects.component.js";
+
 
 class App extends Component {
   render() {
@@ -59,6 +61,9 @@ class App extends Component {
                   </Link>
                   <Link to="/awaitingprojects" className="nav-link">Awaiting Projects</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/adminprojects" className="nav-link">Admin Projects</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -70,6 +75,7 @@ class App extends Component {
           <Route path="/partnerProfile" component={partner} />
           <Route path="/candidateProfile" component={candidate} />
           <Route path="/awaitingprojects" component={awaitingprojects}/>
+          <Route path="/adminprojects" component={AdminProjects}/>
 
         </div>
       </Router>
