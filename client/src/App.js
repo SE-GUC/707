@@ -23,6 +23,18 @@ import getallcertificateCandidate from "./components/candidateCertificatesAll.co
 import getallcertificateRecCandidate from "./components/candidateRECcertificates.component.js";
 import getallcertificateConsultancy from "./components/consultancyCertificatesAll.component.js";
 import getallcertificateRecConsultancy from "./components/conRECcertificates.component.js";
+import createAnnouncement from "./components/createAnnouncement.component.js";
+import viewAllAnnouncements_Candidate from "./components/viewAllAnnouncements_Candidate.component.js";
+import viewAllAnnouncements_Admin from "./components/viewAllAnnouncements_Admin.component.js";
+import deleteAnnouncements from "./components/deleteAnnouncements.component.js";
+import deleteResearches from "./components/deleteResearches.component.js";
+import viewAllAnnouncements_Consultant from "./components/viewAllAnnouncements_Consultant.component.js";
+import getAnnouncementbyID_Admin from "./components/getAnnouncementbyID_Admin.component.js";
+import updateAnnouncement from "./components/updateAnnouncement.component.js";
+import getAnnouncementbyID_Partner from "./components/getAnnouncementbyID_Partner.component.js";
+import getAnnouncementbyID_Candidate from "./components/getAnnouncementbyID_Candidate.component.js";
+import getAnnouncementbyID_Consultant from "./components/getAnnouncementbyID_Consultant.component";
+
 class App extends Component {
   render() {
     const cookies = new Cookies();
@@ -103,6 +115,17 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewCandidatereccertificate" className="nav-link">view all candidate recommended Certificates</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/viewAllAnnouncements_Candidate" className="nav-link">
+                    View Announcements
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/getAnnouncementbyID_Candidate" className="nav-link">
+                    get Announcement by ID
+                  </Link>
+                </li>
+                
             </ul>
           </div>
         </nav>
@@ -118,6 +141,9 @@ class App extends Component {
         <Route path="/search" component={Search} />
         <Route path="/viewCandidatecertificate" component={getallcertificateCandidate}/>
         <Route path="/viewCandidatereccertificate" component={getallcertificateRecCandidate}/>
+        <Route path="/viewAllAnnouncements_Candidate" component={viewAllAnnouncements_Candidate} />
+        <Route path="/getAnnouncementbyID_Candidate" component={getAnnouncementbyID_Candidate} />
+
       </div>
     );
     const consultancyLinks = (
@@ -154,6 +180,28 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewConsultancyreccertificate" className="nav-link">view all consultancy recommended Certificates</Link>
                 </li>
+                
+                <li className="navbar-item">
+                  <Link to="/viewAllAnnouncements_Consultant" className="nav-link">
+                    View Announcements for consultant
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/viewAllResearches" className="nav-link">
+                    View Researches
+                  </Link>
+                </li>
+                
+                <li className="navbar-item">
+                  <Link to="/deleteResearches" className="nav-link">
+                    View Researches for delete
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/getAnnouncementbyID_Consultant" className="nav-link">
+                    get announcement by ID 
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -163,6 +211,10 @@ class App extends Component {
         <Route path="/search" component={Search} />
         <Route path="/viewConsultancycertificate" component={getallcertificateConsultancy}/>
         <Route path="/viewConsultancyreccertificate" component={getallcertificateRecConsultancy}/>
+        <Route path="/deleteResearches" component={deleteResearches} />
+        <Route path="/viewAllAnnouncements_Consultant" component={viewAllAnnouncements_Consultant} />
+        <Route path="/getAnnouncementbyID_Consultant" component={getAnnouncementbyID_Consultant} />
+
       </div>
     );
     const partnerLinks = (
@@ -193,6 +245,11 @@ class App extends Component {
                   Search
                 </Link>
               </li>
+              <li className="navbar-item">
+                <Link to="/getAnnouncementbyID_Partner" className="nav-link">
+                  Search
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>
@@ -200,6 +257,8 @@ class App extends Component {
         <Route path="/logout" component={Logout} />
         <Route path="/partnerProfile" component={Partner} />
         <Route path="/search" component={Search} />
+        <Route path="/getAnnouncementbyID_Partner" component={getAnnouncementbyID_Partner} />
+
       </div>
     );
     const adminLinks = (
@@ -249,6 +308,31 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/updatecertificate" className="nav-link">Update Certificates</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/createAnnouncement" className="nav-link">
+                    Create Announcement
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/viewAllAnnouncements_Admin" className="nav-link">
+                    View Announcements for admin
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/deleteAnnouncements" className="nav-link">
+                    View Announcements for admin for delete
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/getAnnouncementbyID_Admin" className="nav-link">
+                    Get an Announcement for admin
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/updateAnnouncement" className="nav-link">
+                    Update Announcement for admin
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -261,6 +345,11 @@ class App extends Component {
         <Route path="/admincertificates" component={getallcertificate}/>
         <Route path="/createcertificate" component={Createcertificate}/>
         <Route path="/updatecertificate" component={updateCertificate}/>
+        <Route path="/createAnnouncement" component={createAnnouncement} />
+        <Route path="/viewAllAnnouncements_Admin" component={viewAllAnnouncements_Admin} />
+        <Route path="/deleteAnnouncements" component={deleteAnnouncements} />
+        <Route path="/getAnnouncementbyID_Admin" component={getAnnouncementbyID_Admin} />
+        <Route path="/updateAnnouncement" component={updateAnnouncement} />
       </div>
     );
     return (
