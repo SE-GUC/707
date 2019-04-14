@@ -306,7 +306,7 @@ export default class awaitingProjects extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get('token')
-    axios.get('http://localhost:5000/api/admins/awaitingprojects', {
+    axios.get('http://localhost:5000/api/consultancies/approvedProjects', {
       headers: {
         Authorization: token
       }
@@ -317,7 +317,7 @@ export default class awaitingProjects extends Component {
       })
   }
   rerender(token) {
-    axios.get('http://localhost:5000/api/admins/awaitingprojects', {
+    axios.get('http://localhost:5000/api/consultancies/approvedProjects', {
       headers: {
         Authorization: token
       }
@@ -331,11 +331,9 @@ export default class awaitingProjects extends Component {
     const cookies = new Cookies();
     const token = cookies.get('token');
     var words = this.state.temp.split(',');
-    project.status = "Approved";
     if (this.state.temp) {
       project.requiredSkills = words
     }
-    project.contractSigned = this.state.type;
     let project2 = {
       name: project.name,
       description: project.description,
@@ -360,7 +358,7 @@ export default class awaitingProjects extends Component {
     console.log(this.state.updatedProject.description);
     console.log(this.state.updatedProject.name);
     console.log(project._id);
-    axios.put('http://localhost:5000/api/admins/project/' + project._id, project2, {
+    axios.put('http://localhost:5000/api/consultancies/project/' + project._id, project2, {
       headers: {
         Authorization: token
       }
@@ -484,7 +482,7 @@ export default class awaitingProjects extends Component {
               <p> Tasks</p>
 {project.tasks.map(task => (
   <div key={task._id}>
-  <Link to={`updatetaskattribute/${task._id}/${project._id}`}>{task.name}</Link>
+  <Link to={`updateconstaskattribute/${task._id}/${project._id}`}>{task.name}</Link>
 </div>
  ) )}
 
@@ -492,7 +490,7 @@ export default class awaitingProjects extends Component {
             </div>
 
 
-            <button type='update' onClick={(event) => this.updateproject(event, project)}>Approve</button><br />
+            <button type='update' onClick={(event) => this.updateproject(event, project)}>Update</button><br />
           </p>   </li>)}
 
       </ul>

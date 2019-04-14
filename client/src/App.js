@@ -10,7 +10,6 @@ import Admin from "./components/admin.component.js";
 import Consultancy from "./components/consultancy.component.js";
 import Partner from "./components/partner.component.js";
 import Candidate from "./components/candidate.component.js";
-import Awaitingprojects from "./components/viewawaitingapproval.component.js";
 import AdminProjects from "./components/admin-projects.component.js";
 import CandidateReports from "./components/candidate-reports.component.js";
 import CandidateResearches from "./components/candidate-researches.component.js";
@@ -34,7 +33,15 @@ import updateAnnouncement from "./components/updateAnnouncement.component.js";
 import getAnnouncementbyID_Partner from "./components/getAnnouncementbyID_Partner.component.js";
 import getAnnouncementbyID_Candidate from "./components/getAnnouncementbyID_Candidate.component.js";
 import getAnnouncementbyID_Consultant from "./components/getAnnouncementbyID_Consultant.component";
-
+import awaitingprojects from "./components/viewawaitingapproval.component.js";
+import updatetask from "./components/updatetaskattribute.component.js";
+import updateSkills from "./components/candidateupdateskills.component.js";
+import consproj from "./components/viewapprovedprojconsul.component.js";
+import updateconsttask from "./components/updateconstaskattribute.component.js";
+import createresearch from "./components/createresearch.component.js";
+import updateconsSkills from "./components/consultancyupdateskills.component.js";
+import consviewallresearches from "./components/consviewallresearches.component.js";
+import updateresearch from "./components/consviewupdateresearch.component.js";
 class App extends Component {
   render() {
     const cookies = new Cookies();
@@ -125,11 +132,15 @@ class App extends Component {
                     get Announcement by ID
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/candidateskillsupdate" className="nav-link">Update Candidate Skills</Link>
+                </li> 
                 
             </ul>
           </div>
         </nav>
         <br />
+        <Route path="/candidateskillsupdate" component={updateSkills} />
         <Route path="/logout" component={Logout} />
         <Route path="/candidateProfile" component={Candidate} />
         <Route path="/candidatereports" component={CandidateReports} />
@@ -202,10 +213,23 @@ class App extends Component {
                     get announcement by ID 
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/consapprovedproject" className="nav-link">View Consultancy Approved Projects</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/consresearchcreate" className="nav-link">Create New Research</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/consultancyskillsupdate" className="nav-link">Update Consultancy Skills</Link>
+                </li> 
+                <li className="navbar-item">
+                  <Link to="/consultancyviewresearches" className="nav-link">View all researches</Link>
+                </li> 
             </ul>
           </div>
         </nav>
         <br />
+        
         <Route path="/logout" component={Logout} />
         <Route path="/consultancyProfile" component={Consultancy} />
         <Route path="/search" component={Search} />
@@ -214,7 +238,13 @@ class App extends Component {
         <Route path="/deleteResearches" component={deleteResearches} />
         <Route path="/viewAllAnnouncements_Consultant" component={viewAllAnnouncements_Consultant} />
         <Route path="/getAnnouncementbyID_Consultant" component={getAnnouncementbyID_Consultant} />
-
+        <Route path="/consapprovedproject" component={consproj}/>
+          <Route path='/updateconstaskattribute/:task/:project' component={updateconsttask}/>
+          <Route path='/updatetaskattribute/:task/:project' component={updatetask}/>
+          <Route path='/consresearchcreate' component={createresearch}/>
+          <Route path="/consultancyskillsupdate" component={updateconsSkills} />
+          <Route path="/consultancyviewresearches" component={consviewallresearches} />
+          <Route path='/researchvieworupdate/:research' component={updateresearch}/>
       </div>
     );
     const partnerLinks = (
@@ -285,10 +315,8 @@ class App extends Component {
                 </Link>
               </li>
               <li className="navbar-item">
-                <Link to="/awaitingprojects" className="nav-link">
-                  Awaiting Projects
-                </Link>
-              </li>
+              <Link to="/awaitingprojects" className="nav-link">Awaiting Projects</Link>
+            </li>
               <li className="navbar-item">
                 <Link to="/adminprojects" className="nav-link">
                   Admin Projects
@@ -339,7 +367,7 @@ class App extends Component {
         <br />
         <Route path="/logout" component={Logout} />
         <Route path="/AdminProfile" component={Admin} />
-        <Route path="/awaitingprojects" component={Awaitingprojects} />
+        <Route path="/awaitingprojects" component={awaitingprojects} />
         <Route path="/adminprojects" component={AdminProjects} />
         <Route path="/search" component={Search} />
         <Route path="/admincertificates" component={getallcertificate}/>
