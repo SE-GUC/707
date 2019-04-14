@@ -42,6 +42,10 @@ import createresearch from "./components/createresearch.component.js";
 import updateconsSkills from "./components/consultancyupdateskills.component.js";
 import consviewallresearches from "./components/consviewallresearches.component.js";
 import updateresearch from "./components/consviewupdateresearch.component.js";
+import consultancyapprovedprojects from "./components/consultancyshowapprovedprojects.component.js";
+import  consultancyaddtask from "./components/Consultancyaddtaskinproject.component.js";
+import  consultancyshowtask from "./components/Consultancyshowtasksinproject.component.js";
+import  consultancyshowcandidates from "./components/consultancyshowcandidates.component.js";
 class App extends Component {
   render() {
     const cookies = new Cookies();
@@ -225,6 +229,11 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/consultancyviewresearches" className="nav-link">View all researches</Link>
                 </li> 
+                <li className="navbar-item">
+                  <Link to="/consappprojects" className="nav-link">
+                    consultancy approved projects
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -245,6 +254,10 @@ class App extends Component {
           <Route path="/consultancyskillsupdate" component={updateconsSkills} />
           <Route path="/consultancyviewresearches" component={consviewallresearches} />
           <Route path='/researchvieworupdate/:research' component={updateresearch}/>
+          <Route path="/consappprojects" component={consultancyapprovedprojects} />
+          <Route path="/consaddtask/:project" component={consultancyaddtask} />
+          <Route path="/consshowtasks/:project" component={consultancyshowtask} />
+          <Route path="/consshowcandidate/:task" component={consultancyshowcandidates} />
       </div>
     );
     const partnerLinks = (
