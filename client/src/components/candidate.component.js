@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
-const axios = require("axios");
 export default class getcandidate extends Component {
   constructor(props) {
     super(props);
@@ -11,16 +11,16 @@ export default class getcandidate extends Component {
       type: "",
       birthdate: "",
       occupation: "",
-      contractSigned:"" ,
-      contactNumbers:"" ,
-      interests:"",
-      credits:"",
+      contractSigned: "",
+      contactNumbers: "",
+      interests: "",
+      credits: "",
       yearsOfExperience: "",
-      skills:"",
-      languages:"",
-      education:"",
-      courses:"",
-      password:""
+      skills: "",
+      languages: "",
+      education: "",
+      courses: "",
+      password: ""
     };
   }
   componentDidMount() {
@@ -39,17 +39,16 @@ export default class getcandidate extends Component {
           address: res.data.data.address,
           type: res.data.data.usertype,
           occupation: res.data.data.occupation,
-          education:res.data.data.education,
-          contractSigned:res.data.data.contractSigned ,
-          contactNumbers:res.data.data.contactNumbers ,
-          interests:res.data.data.interests,
-          credits:res.data.data.credits,
+          education: res.data.data.education,
+          contractSigned: res.data.data.contractSigned,
+          contactNumbers: res.data.data.contactNumbers,
+          interests: res.data.data.interests,
+          credits: res.data.data.credits,
           yearsOfExperience: res.data.data.yearsOfExperience,
-          skills:res.data.data.skills,
-          languages:res.data.data.languages,
+          skills: res.data.data.skills,
+          languages: res.data.data.languages,
           birthdate: res.data.data.birthdate,
           courses: res.data.data.courses
-
         })
       );
   }
@@ -86,7 +85,6 @@ export default class getcandidate extends Component {
       });
     }
   };
-  
   occupationchanged = e => {
     if (e.target.value === "") {
     } else {
@@ -104,87 +102,74 @@ export default class getcandidate extends Component {
     }
   };
   interestschanged = e => {
-    var interest =  e.target.value.split(',');
-      this.setState({
-        interests: interest
-      });
-    
+    var interest = e.target.value.split(",");
+    this.setState({
+      interests: interest
+    });
   };
-
   languageschanged = e => {
-    var language =  e.target.value.split(',');
-      this.setState({
-        languages: language
-      });
-    
+    var language = e.target.value.split(",");
+    this.setState({
+      languages: language
+    });
   };
-
-
   courseschanged = e => {
-    var course =  e.target.value.split(',');
-      this.setState({
-        courses: course
-      });
-    
+    var course = e.target.value.split(",");
+    this.setState({
+      courses: course
+    });
   };
-
   contactnumberschanged = e => {
-    var contactnumber =  e.target.value.split(',');
-      this.setState({
-        contactNumbers: contactnumber
-      });
-    
+    var contactnumber = e.target.value.split(",");
+    this.setState({
+      contactNumbers: contactnumber
+    });
   };
-
-
   educationchanged = e => {
     this.setState({
       education: e.target.value
     });
-};
-
-  yofchanged = e => {
-      this.setState({
-        yearsOfExperience: e.target.value
-      });
   };
-
-
+  yofchanged = e => {
+    this.setState({
+      yearsOfExperience: e.target.value
+    });
+  };
   updateinfo = () => {
-    if(this.state.password===""){
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
-      address: this.state.address,
-      occupation: this.state.occupation,
-      contractSigned:this.state.contractSigned ,
-      contactNumbers:this.state.contactNumbers ,
-      interests:this.state.interests,
-      contactNumbers:this.state.contactNumbers,
-      yearsOfExperience: this.state.yearsOfExperience,
-      birthdate: this.state.birthdate,
-      education:this.state.education,
-      languages:this.state.languages,
-      courses:this.state.courses
-    };
-}else{
-    var updated = {
+    if (this.state.password === "") {
+      var updated = {
         name: this.state.name,
         email: this.state.email,
         address: this.state.address,
         occupation: this.state.occupation,
-        contractSigned:this.state.contractSigned ,
-        contactNumbers:this.state.contactNumbers ,
-        interests:this.state.interests,
-        contactNumbers:this.state.contactNumbers,
+        contractSigned: this.state.contractSigned,
+        contactNumbers: this.state.contactNumbers,
+        interests: this.state.interests,
+        contactNumbers: this.state.contactNumbers,
         yearsOfExperience: this.state.yearsOfExperience,
         birthdate: this.state.birthdate,
-        education:this.state.education,
-        languages:this.state.languages,
-        courses:this.state.courses,
-        password:this.state.password
+        education: this.state.education,
+        languages: this.state.languages,
+        courses: this.state.courses
       };
-}
+    } else {
+      var updated = {
+        name: this.state.name,
+        email: this.state.email,
+        address: this.state.address,
+        occupation: this.state.occupation,
+        contractSigned: this.state.contractSigned,
+        contactNumbers: this.state.contactNumbers,
+        interests: this.state.interests,
+        contactNumbers: this.state.contactNumbers,
+        yearsOfExperience: this.state.yearsOfExperience,
+        birthdate: this.state.birthdate,
+        education: this.state.education,
+        languages: this.state.languages,
+        courses: this.state.courses,
+        password: this.state.password
+      };
+    }
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
@@ -213,9 +198,12 @@ export default class getcandidate extends Component {
       <div style={{ marginTop: 10 }}>
         <h3>Your profile Info</h3>
         <form onSubmit={this.onSubmit}>
-          <label>User type: {this.state.type}</label><br />
-          <label>Contract Signed: {String(this.state.contractSigned)}</label><br></br>
-          <label>Credits: {String(this.state.credits)}</label><br />
+          <label>User type: {this.state.type}</label>
+          <br />
+          <label>Contract Signed: {String(this.state.contractSigned)}</label>
+          <br />
+          <label>Credits: {String(this.state.credits)}</label>
+          <br />
           <div className="form-group">
             <label>Name: </label>
             <input
@@ -289,7 +277,7 @@ export default class getcandidate extends Component {
             />
           </div>
           <div className="form-group">
-          <label>Interests: </label>
+            <label>Interests: </label>
             <input
               type="text"
               className="form-control"
@@ -298,7 +286,7 @@ export default class getcandidate extends Component {
             />
           </div>
           <div className="form-group">
-          <label>Courses: </label>
+            <label>Courses: </label>
             <input
               type="text"
               className="form-control"
@@ -306,9 +294,9 @@ export default class getcandidate extends Component {
               onChange={e => this.courseschanged(e)}
             />
           </div>
-          
+
           <div className="form-group">
-          <label>Contact numbers: </label>
+            <label>Contact numbers: </label>
             <input
               type="text"
               className="form-control"
@@ -317,7 +305,7 @@ export default class getcandidate extends Component {
             />
           </div>
           <div className="form-group">
-          <label>Skills: </label>
+            <label>Skills: </label>
             <input
               type="text"
               className="form-control"
@@ -325,7 +313,7 @@ export default class getcandidate extends Component {
             />
           </div>
           <div className="form-group">
-          <label>Languages: </label>
+            <label>Languages: </label>
             <input
               type="text"
               className="form-control"

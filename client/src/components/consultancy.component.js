@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
-const axios = require("axios");
 export default class getconsultancy extends Component {
   constructor(props) {
     super(props);
@@ -9,15 +9,15 @@ export default class getconsultancy extends Component {
       email: "",
       address: "",
       type: "",
-      contractSigned:"" ,
-      contactNumbers:"" ,
-      interests:"",
-      credits:"",
+      contractSigned: "",
+      contactNumbers: "",
+      interests: "",
+      credits: "",
       establishmentDate: "",
       profession: "",
       yearsOfExperience: "",
-      skills:"",
-      password:""
+      skills: "",
+      password: ""
     };
   }
   componentDidMount() {
@@ -35,14 +35,14 @@ export default class getconsultancy extends Component {
           email: res.data.data.email,
           address: res.data.data.address,
           type: res.data.data.usertype,
-          contractSigned:res.data.data.contractSigned ,
-          contactNumbers:res.data.data.contactNumbers ,
-          interests:res.data.data.interests,
-          credits:res.data.data.credits,
+          contractSigned: res.data.data.contractSigned,
+          contactNumbers: res.data.data.contactNumbers,
+          interests: res.data.data.interests,
+          credits: res.data.data.credits,
           establishmentDate: res.data.data.establishmentDate,
           profession: res.data.data.profession,
           yearsOfExperience: res.data.data.yearsOfExperience,
-          skills:res.data.data.skills
+          skills: res.data.data.skills
         })
       );
   }
@@ -62,7 +62,6 @@ export default class getconsultancy extends Component {
       });
     }
   };
-
   passwordchanged = e => {
     if (e.target.value === "") {
     } else {
@@ -79,70 +78,62 @@ export default class getconsultancy extends Component {
       });
     }
   };
-  
   interestschanged = e => {
-    var interest =  e.target.value.split(',');
-      this.setState({
-        interests: interest
-      });
-    
+    var interest = e.target.value.split(",");
+    this.setState({
+      interests: interest
+    });
   };
   contactnumberschanged = e => {
-    var contactnumber =  e.target.value.split(',');
-      this.setState({
-        contactNumbers: contactnumber
-      });
-    
+    var contactnumber = e.target.value.split(",");
+    this.setState({
+      contactNumbers: contactnumber
+    });
   };
-
-
   yofchanged = e => {
-      this.setState({
-        yearsOfExperience: e.target.value
-      });
+    this.setState({
+      yearsOfExperience: e.target.value
+    });
   };
-
   professionchanged = e => {
     this.setState({
       profession: e.target.value
     });
-};
-
-establishchanged = e => {
-  this.setState({
-    establishmentDate: e.target.value
-  });
-};
-
+  };
+  establishchanged = e => {
+    this.setState({
+      establishmentDate: e.target.value
+    });
+  };
   updateinfo = () => {
-    if(this.state.password===""){
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
-      address: this.state.address,
-      contractSigned:this.state.contractSigned ,
-      contactNumbers:this.state.contactNumbers ,
-      interests:this.state.interests,
-      contactNumbers:this.state.contactNumbers,
-      establishmentDate: this.state.establishmentDate,
-      profession: this.state.profession,
-      yearsOfExperience: this.state.yearsOfExperience,
-    };
-  }else{
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
-      address: this.state.address,
-      contractSigned:this.state.contractSigned ,
-      contactNumbers:this.state.contactNumbers ,
-      interests:this.state.interests,
-      contactNumbers:this.state.contactNumbers,
-      establishmentDate: this.state.establishmentDate,
-      profession: this.state.profession,
-      yearsOfExperience: this.state.yearsOfExperience,
-      password:this.state.password
-    };
-  }
+    if (this.state.password === "") {
+      var updated = {
+        name: this.state.name,
+        email: this.state.email,
+        address: this.state.address,
+        contractSigned: this.state.contractSigned,
+        contactNumbers: this.state.contactNumbers,
+        interests: this.state.interests,
+        contactNumbers: this.state.contactNumbers,
+        establishmentDate: this.state.establishmentDate,
+        profession: this.state.profession,
+        yearsOfExperience: this.state.yearsOfExperience
+      };
+    } else {
+      var updated = {
+        name: this.state.name,
+        email: this.state.email,
+        address: this.state.address,
+        contractSigned: this.state.contractSigned,
+        contactNumbers: this.state.contactNumbers,
+        interests: this.state.interests,
+        contactNumbers: this.state.contactNumbers,
+        establishmentDate: this.state.establishmentDate,
+        profession: this.state.profession,
+        yearsOfExperience: this.state.yearsOfExperience,
+        password: this.state.password
+      };
+    }
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
@@ -171,9 +162,12 @@ establishchanged = e => {
       <div style={{ marginTop: 10 }}>
         <h3>Your profile Info</h3>
         <form onSubmit={this.onSubmit}>
-          <label>User type: {this.state.type}</label><br />
-          <label>Contract Signed: {String(this.state.contractSigned)}</label><br></br>
-          <label>Credits: {String(this.state.credits)}</label><br />
+          <label>User type: {this.state.type}</label>
+          <br />
+          <label>Contract Signed: {String(this.state.contractSigned)}</label>
+          <br />
+          <label>Credits: {String(this.state.credits)}</label>
+          <br />
           <div className="form-group">
             <label>Name: </label>
             <input
@@ -238,7 +232,7 @@ establishchanged = e => {
             />
           </div>
           <div className="form-group">
-          <label>Interests: </label>
+            <label>Interests: </label>
             <input
               type="text"
               className="form-control"
@@ -247,7 +241,7 @@ establishchanged = e => {
             />
           </div>
           <div className="form-group">
-          <label>Contact numbers: </label>
+            <label>Contact numbers: </label>
             <input
               type="text"
               className="form-control"
@@ -256,7 +250,7 @@ establishchanged = e => {
             />
           </div>
           <div className="form-group">
-          <label>Skills: </label>
+            <label>Skills: </label>
             <input
               type="text"
               className="form-control"

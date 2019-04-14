@@ -13,21 +13,24 @@ import AdminProjects from "./components/admin-projects.component.js";
 import CandidateReports from "./components/candidate-reports.component.js";
 import CandidateResearches from "./components/candidate-researches.component.js";
 import CandidateRequestCertificate from "./components/request-certificate.component.js";
-
-
-
-
-
+import Search from "./components/search.component.js";
 class App extends Component {
   render() {
     return (
       <Router>
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
-
-            <a className="navbar-brand" href="http://localhost:3000/" target="_blank">
-              <img src={logo} width="287px" height="100px" alt="LirtenHub-Logo" />
-
+            <a
+              className="navbar-brand"
+              href="http://localhost:3000/"
+              target="_blank"
+            >
+              <img
+                src={logo}
+                width="287px"
+                height="100px"
+                alt="LirtenHub-Logo"
+              />
             </a>
             <div className="collpase navbar-collapse">
               <ul className="navbar-nav mr-auto">
@@ -65,19 +68,34 @@ class App extends Component {
                   <Link to="/candidateProfile" className="nav-link">
                     Show candidate Profile
                   </Link>
-                  <Link to="/awaitingprojects" className="nav-link">Awaiting Projects</Link>
+                  <Link to="/awaitingprojects" className="nav-link">
+                    Awaiting Projects
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/adminprojects" className="nav-link">Admin Projects</Link>
+                  <Link to="/adminprojects" className="nav-link">
+                    Admin Projects
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/candidatereports" className="nav-link">Candidate Reports</Link>
+                  <Link to="/candidatereports" className="nav-link">
+                    Candidate Reports
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/candidateresearches" className="nav-link">Candidate Researches</Link>
+                  <Link to="/candidateresearches" className="nav-link">
+                    Candidate Researches
+                  </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/candidaterequestcertificate" className="nav-link">Candidate Request Certificate</Link>
+                  <Link to="/candidaterequestcertificate" className="nav-link">
+                    Candidate Request Certificate
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/search" className="nav-link">
+                    Search
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -89,13 +107,15 @@ class App extends Component {
           <Route path="/consultancyProfile" component={consultancy} />
           <Route path="/partnerProfile" component={partner} />
           <Route path="/candidateProfile" component={candidate} />
-          <Route path="/awaitingprojects" component={awaitingprojects}/>
-          <Route path="/adminprojects" component={AdminProjects}/>
-          <Route path="/candidatereports" component={CandidateReports}/>
-          <Route path="/candidateresearches" component={CandidateResearches}/>
-          <Route path="/candidaterequestcertificate" component={CandidateRequestCertificate}/>
-
-
+          <Route path="/awaitingprojects" component={awaitingprojects} />
+          <Route path="/adminprojects" component={AdminProjects} />
+          <Route path="/candidatereports" component={CandidateReports} />
+          <Route path="/candidateresearches" component={CandidateResearches} />
+          <Route
+            path="/candidaterequestcertificate"
+            component={CandidateRequestCertificate}
+          />
+          <Route path="/search" component={Search} />
         </div>
       </Router>
     );

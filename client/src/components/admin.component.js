@@ -1,17 +1,15 @@
+import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
-const axios = require("axios");
 export default class getadmin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       email: "",
-      password:""
+      password: ""
     };
   }
-
-
   namechanged = e => {
     if (e.target.value === "") {
     } else {
@@ -28,7 +26,6 @@ export default class getadmin extends Component {
       });
     }
   };
-
   passwordchanged = e => {
     if (e.target.value === "") {
     } else {
@@ -37,7 +34,6 @@ export default class getadmin extends Component {
       });
     }
   };
-
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
@@ -50,28 +46,25 @@ export default class getadmin extends Component {
       .then(res =>
         this.setState({
           name: res.data.data.name,
-          email: res.data.data.email,
+          email: res.data.data.email
         })
       );
   }
-  
-
-  updateinfo = () => { 
-    if(this.state.password===""){
-    var updated = {
-      name: this.state.name,
-      email: this.state.email
-    };
-  }else {
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
-      password:this.state.password
-    };
-  }
+  updateinfo = () => {
+    if (this.state.password === "") {
+      var updated = {
+        name: this.state.name,
+        email: this.state.email
+      };
+    } else {
+      var updated = {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
+      };
+    }
     const cookies = new Cookies();
     const token = cookies.get("token");
-
     axios
       .put("http://localhost:5000/api/profiles/admin", updated, {
         headers: {
@@ -93,7 +86,6 @@ export default class getadmin extends Component {
       .then(res => this.setState({}));
     alert("deleted successuflly");
   };
-
   render() {
     return (
       <div style={{ marginTop: 10 }}>

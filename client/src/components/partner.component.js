@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
-const axios = require("axios");
 export default class getpartner extends Component {
   constructor(props) {
     super(props);
@@ -9,13 +9,13 @@ export default class getpartner extends Component {
       email: "",
       address: "",
       type: "",
-  birthdate: "",
-  occupation: "",
-  contractSigned: "",
-  contactNumbers: "",
-  interests: "",
-  credits:"",
-  password:""
+      birthdate: "",
+      occupation: "",
+      contractSigned: "",
+      contactNumbers: "",
+      interests: "",
+      credits: "",
+      password: ""
     };
   }
   componentDidMount() {
@@ -35,10 +35,10 @@ export default class getpartner extends Component {
           type: res.data.data.usertype,
           birthdate: res.data.data.birthdate,
           occupation: res.data.data.occupation,
-          contractSigned:res.data.data.contractSigned ,
-          contactNumbers:res.data.data.contactNumbers ,
-          interests:res.data.data.interests,
-          credits:res.data.data.credits
+          contractSigned: res.data.data.contractSigned,
+          contactNumbers: res.data.data.contactNumbers,
+          interests: res.data.data.interests,
+          credits: res.data.data.credits
         })
       );
   }
@@ -74,9 +74,6 @@ export default class getpartner extends Component {
       });
     }
   };
-
-  
-
   birthdatechanged = e => {
     if (e.target.value === "") {
     } else {
@@ -94,51 +91,46 @@ export default class getpartner extends Component {
     }
   };
   interestschanged = e => {
-    var interest =  e.target.value.split(',');
-      this.setState({
-        interests: interest
-      });
-    
+    var interest = e.target.value.split(",");
+    this.setState({
+      interests: interest
+    });
   };
   contactnumberschanged = e => {
-    var contactnumber =  e.target.value.split(',');
-      this.setState({
-        contactNumbers: contactnumber
-      });
-    
+    var contactnumber = e.target.value.split(",");
+    this.setState({
+      contactNumbers: contactnumber
+    });
   };
-
-  updateinfo = () => { 
-    if(this.state.password===""){
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
-      address: this.state.address,
-      birthdate: this.state.birthdate,
-      occupation: this.state.occupation,
-      contractSigned:this.state.contractSigned ,
-      contactNumbers:this.state.contactNumbers ,
-      interests:this.state.interests,
-      contactNumbers:this.state.contactNumbers,
-      
-    };
-  }else {
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
-      address: this.state.address,
-      birthdate: this.state.birthdate,
-      occupation: this.state.occupation,
-      contractSigned:this.state.contractSigned ,
-      contactNumbers:this.state.contactNumbers ,
-      interests:this.state.interests,
-      contactNumbers:this.state.contactNumbers,
-      password:this.state.password
-    };
-  }
+  updateinfo = () => {
+    if (this.state.password === "") {
+      var updated = {
+        name: this.state.name,
+        email: this.state.email,
+        address: this.state.address,
+        birthdate: this.state.birthdate,
+        occupation: this.state.occupation,
+        contractSigned: this.state.contractSigned,
+        contactNumbers: this.state.contactNumbers,
+        interests: this.state.interests,
+        contactNumbers: this.state.contactNumbers
+      };
+    } else {
+      var updated = {
+        name: this.state.name,
+        email: this.state.email,
+        address: this.state.address,
+        birthdate: this.state.birthdate,
+        occupation: this.state.occupation,
+        contractSigned: this.state.contractSigned,
+        contactNumbers: this.state.contactNumbers,
+        interests: this.state.interests,
+        contactNumbers: this.state.contactNumbers,
+        password: this.state.password
+      };
+    }
     const cookies = new Cookies();
     const token = cookies.get("token");
-
     axios
       .put("http://localhost:5000/api/profiles/partner", updated, {
         headers: {
@@ -165,8 +157,10 @@ export default class getpartner extends Component {
       <div style={{ marginTop: 10 }}>
         <h3>Your profile Info</h3>
         <form onSubmit={this.onSubmit}>
-          <label>User type: {this.state.type}</label><br></br>
-          <label>Contract Signed: {String(this.state.contractSigned)}</label><br></br>
+          <label>User type: {this.state.type}</label>
+          <br />
+          <label>Contract Signed: {String(this.state.contractSigned)}</label>
+          <br />
           <label>Credits: {String(this.state.credits)}</label>
           <div className="form-group">
             <label>Name: </label>
@@ -214,7 +208,7 @@ export default class getpartner extends Component {
             />
           </div>
           <div className="form-group">
-          <label>Interests: </label>
+            <label>Interests: </label>
             <input
               type="text"
               className="form-control"
@@ -223,7 +217,7 @@ export default class getpartner extends Component {
             />
           </div>
           <div className="form-group">
-          <label>Contact numbers: </label>
+            <label>Contact numbers: </label>
             <input
               type="text"
               className="form-control"
@@ -256,7 +250,6 @@ export default class getpartner extends Component {
               onClick={this.deleteprofile}
             />
           </div>
-          
         </form>
       </div>
     );
