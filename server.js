@@ -49,6 +49,6 @@ app.use("/api/searches", require("./routes/api/searches"));
 app.use((req, res) =>
   res.status(404).send(`<h1>Can not find what you're looking for</h1>`)
 );
-// Port number
+// Port
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
