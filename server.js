@@ -36,7 +36,7 @@ app.use("/api/login", require("./routes/api/login"));
 app.use("/api/partners", require("./routes/api/partners"));
 app.use("/api/profiles", require("./routes/api/profiles"));
 app.use("/api/searches", require("./routes/api/searches"));
-// wrong path
+// Wrong path
 app.use((req, res) =>
   res.status(404).send(`<h1>Can not find what you're looking for</h1>`)
 );
@@ -49,6 +49,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-// port
+// Port
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));
