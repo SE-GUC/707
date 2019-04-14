@@ -14,12 +14,10 @@ export default class tasks extends Component {
    
     }
       componentDidMount() { 
-        console.log("hereee11111")
-        console.log(this.props.match.params.projectID)
         const cookies = new Cookies();
         const token= cookies.get('token');
         console.log(token)
-        axios.get('http://localhost:5000/api/admins/project/tasks/'+this.props.match.params.projectID, { headers: {
+        axios.get('http://localhost:5000/api/admins/project/tasks/'+this.props.projectID, { headers: {
             Authorization: token.data}
           })
           .then(res => {
@@ -35,7 +33,7 @@ export default class tasks extends Component {
         const cookies = new Cookies();
         const token= cookies.get('token');
         console.log(token)
-        axios.delete('http://localhost:5000/api/admins/project/tasks/'+this.props.match.params.projectID+'/'+id, { headers: {
+        axios.delete('http://localhost:5000/api/admins/project/tasks/'+this.props.projectID+'/'+id, { headers: {
             Authorization: token.data}
           })
           .then(res => {
@@ -46,7 +44,7 @@ export default class tasks extends Component {
     }
     rerender(token) { 
         
-        axios.get('http://localhost:5000/api/admins/project/tasks/'+this.props.match.params.projectID, { headers: {
+        axios.get('http://localhost:5000/api/admins/project/tasks/'+this.props.projectID, { headers: {
             Authorization: token.data}
           })
           .then(res => {
@@ -77,11 +75,11 @@ export default class tasks extends Component {
                 Required Skills: {task.requiredSkills.map(requiredSkills =>
                         <li>{requiredSkills}</li> 
                   )}<br></br>
-                Status:{task.status} <br></br>
-                Life Cycle:{task.taskcycle.map(cycle =>
-                 <li>Description:{cycle.description}<br></br>
-                 Status:{cycle.status}<br></br> 
-                 Percentage:{cycle.percentage}</li>)}
+                Status: {task.status} <br></br>
+                Life Cycle: {task.taskcycle.map(cycle =>
+                 <li>Description: {cycle.description}<br></br>
+                 Status: {cycle.status}<br></br> 
+                 Percentage: {cycle.percentage}</li>)}
                  <br></br>
                  
                 

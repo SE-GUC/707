@@ -10,6 +10,12 @@ import partner from "./components/partner.component.js";
 import candidate from "./components/candidate.component.js";
 import awaitingprojects from "./components/viewawaitingapproval.component.js";
 import AdminProjects from "./components/admin-projects.component.js";
+import CandidateReports from "./components/candidate-reports.component.js";
+import CandidateResearches from "./components/candidate-researches.component.js";
+import CandidateRequestCertificate from "./components/request-certificate.component.js";
+
+
+
 
 
 class App extends Component {
@@ -64,6 +70,15 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/adminprojects" className="nav-link">Admin Projects</Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/candidatereports" className="nav-link">Candidate Reports</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/candidateresearches" className="nav-link">Candidate Researches</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/candidaterequestcertificate" className="nav-link">Candidate Request Certificate</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -76,6 +91,10 @@ class App extends Component {
           <Route path="/candidateProfile" component={candidate} />
           <Route path="/awaitingprojects" component={awaitingprojects}/>
           <Route path="/adminprojects" component={AdminProjects}/>
+          <Route path="/candidatereports" component={CandidateReports}/>
+          <Route path="/candidateresearches" component={CandidateResearches}/>
+          <Route path="/candidaterequestcertificate" component={CandidateRequestCertificate}/>
+
 
         </div>
       </Router>
