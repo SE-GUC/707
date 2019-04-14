@@ -8,6 +8,9 @@ export default class logout extends Component {
     const cookies = new Cookies();
     cookies.set("token", null);
     cookies.set("usertype", null);
-    return <hi1>"You have successfully logged out"</hi1>;
+    window.location.replace("/")   
+    return (<p> 
+     You have successfully logged out!
+    </p>)
   }
 }
