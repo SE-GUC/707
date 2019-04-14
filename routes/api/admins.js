@@ -205,6 +205,35 @@ router.get(
     }
   }
 );
+//View an existing task by its id
+router.get(
+  "/task/:taskID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Task.findById(req.params.taskID, function(err, foundTask) {
+        if (!err)
+          if (!foundTask)
+            res.status(404).send({
+              error: "This task does not exist"
+            });
+          else
+            res.json({
+              msg: "This task information",
+              data: foundTask
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //view all project's tasks by project's id
 router.get(
   "/project/tasks/:projectID",

@@ -48,17 +48,65 @@ router.get(
     }
   }
 );
+//View all tasks
+router.get(
+  "/tasks",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Task.find({}, function(err, foundTasks) {
+        if (!err)
+          res.json({
+            msg: "All tasks information",
+            data: foundTasks
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View an existing task by its id
+router.get(
+  "/task/:taskID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Task.findById(req.params.taskID, function(err, foundTask) {
+        if (!err)
+          if (!foundTask)
+            res.status(404).send({
+              error: "This task does not exist"
+            });
+          else
+            res.json({
+              msg: "This task information",
+              data: foundTask
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //View all my pending approval tasks
 router.get(
   "/pendingTasks",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const candidate = await Candidate.findById(req.id);
-      if (!candidate)
-        return res.status(404).send({
-          error: "You are not logged in"
-        });
       Candidate.findById(req.id, function(err, foundUser) {
         if (!err)
           res.json({
@@ -363,7 +411,7 @@ router.post(
     }
   }
 );
-//View all certificates
+//View all available certificates
 router.get(
   "/certificates",
   passport.authenticate("jwt", { session: false }),
@@ -385,6 +433,54 @@ router.get(
             });
         }
       );
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all my pending evaluation certificates
+router.get(
+  "/pendingCertificates",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Candidate.findById(req.id, function(err, foundUser) {
+        if (!err)
+          res.json({
+            msg: "Your pending evaluation certificates information",
+            data: foundUser.pendingCertificates
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all my acquired certificates
+router.get(
+  "/acquiredCertificates",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Candidate.findById(req.id, function(err, foundUser) {
+        if (!err)
+          res.json({
+            msg: "Your acquired certificates information",
+            data: foundUser.acquiredCertificates
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
     } catch (error) {
       res.json({
         error: error.message
@@ -458,13 +554,64 @@ router.post(
                   });
                 else
                   res.json({
-                    msg: err.message
+                    error: err.message
                   });
               }
             );
         else
           res.json({
-            msg: err.message
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//disapply a certificate by its id
+router.delete(
+  "/certificate/:certificateID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Certificate.findById(req.params.certificateID, function(
+        err,
+        foundCertificate
+      ) {
+        if (!err)
+          if (!foundCertificate)
+            res.status(404).send({
+              error: "This certificate does not exist"
+            });
+          else
+            Candidate.findByIdAndUpdate(
+              req.id,
+              {
+                $pull: {
+                  pendingCertificates: foundCertificate
+                }
+              },
+              {
+                new: true
+              },
+              function(err) {
+                if (!err)
+                  res.json({
+                    msg:
+                      "You have disapplied for this certificate successfully",
+                    data: foundCertificate
+                  });
+                else
+                  res.json({
+                    error: err.message
+                  });
+              }
+            );
+        else
+          res.json({
+            error: err.message
           });
       });
     } catch (error) {

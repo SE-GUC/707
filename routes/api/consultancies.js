@@ -314,6 +314,59 @@ router.post(
     }
   }
 );
+//View all tasks
+router.get(
+  "/tasks",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Task.find({}, function(err, foundTasks) {
+        if (!err)
+          res.json({
+            msg: "All tasks information",
+            data: foundTasks
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View an existing task by its id
+router.get(
+  "/task/:taskID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Task.findById(req.params.taskID, function(err, foundTask) {
+        if (!err)
+          if (!foundTask)
+            res.status(404).send({
+              error: "This task does not exist"
+            });
+          else
+            res.json({
+              msg: "This task information",
+              data: foundTask
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //view my approved project's tasks by project's id
 router.get(
   "/project/tasks/:projectID",
@@ -1135,10 +1188,28 @@ router.put(
                 error: "This research does not exist"
               });
             else
-              res.json({
-                msg: "Your research has been updated successfully",
-                data: updatedResearch
-              });
+              Consultancy.update(
+                {
+                  "researches._id": req.params.researchID
+                },
+                {
+                  "researches.$": updatedResearch
+                },
+                {
+                  new: true
+                },
+                function(err) {
+                  if (!err)
+                    res.json({
+                      msg: "Your research has been updated successfully",
+                      data: updatedResearch
+                    });
+                  else
+                    res.json({
+                      error: err.message
+                    });
+                }
+              );
           else
             res.json({
               error: err.message
@@ -1168,10 +1239,28 @@ router.delete(
               error: "This research does not exist"
             });
           else
-            res.json({
-              msg: "Your research has been deleted successfully",
-              data: deletedResearch
-            });
+            Consultancy.findByIdAndUpdate(
+              req.id,
+              {
+                $pull: {
+                  researches: deletedResearch
+                }
+              },
+              {
+                new: true
+              },
+              function(err) {
+                if (!err)
+                  res.json({
+                    msg: "Your research has been deleted successfully",
+                    data: deletedResearch
+                  });
+                else
+                  res.json({
+                    error: err.message
+                  });
+              }
+            );
         else
           res.json({
             error: err.message
@@ -1269,10 +1358,28 @@ router.put(
                 error: "This report does not exist"
               });
             else
-              res.json({
-                msg: "Your report has been updated successfully",
-                data: updatedReport
-              });
+              Consultancy.update(
+                {
+                  "reports._id": req.params.reportID
+                },
+                {
+                  "reports.$": updatedReport
+                },
+                {
+                  new: true
+                },
+                function(err) {
+                  if (!err)
+                    res.json({
+                      msg: "Your report has been updated successfully",
+                      data: updatedReport
+                    });
+                  else
+                    res.json({
+                      error: err.message
+                    });
+                }
+              );
           else
             res.json({
               error: err.message
@@ -1302,10 +1409,28 @@ router.delete(
               error: "This report does not exist"
             });
           else
-            res.json({
-              msg: "Your report has been deleted successfully",
-              data: deletedReport
-            });
+            Consultancy.findByIdAndUpdate(
+              req.id,
+              {
+                $pull: {
+                  reports: deletedReport
+                }
+              },
+              {
+                new: true
+              },
+              function(err) {
+                if (!err)
+                  res.json({
+                    msg: "Your report has been deleted successfully",
+                    data: deletedReport
+                  });
+                else
+                  res.json({
+                    error: err.message
+                  });
+              }
+            );
         else
           res.json({
             error: err.message

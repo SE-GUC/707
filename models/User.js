@@ -23,10 +23,6 @@ var userSchema = new Schema(
       type: String,
       required: true
     },
-    register_date: {
-      type: Date,
-      default: Date.now
-    },
     inbox: inboxSchema
   },
   {
@@ -43,10 +39,6 @@ var candidateSchema = new Schema({
   education: String,
   occupation: String,
   yearsOfExperience: Number,
-  contractSigned: {
-    type:Boolean,
-    default:false
-  },
   contactNumbers: [Number],
   interests: [String],
   languages: [String],
@@ -58,6 +50,10 @@ var candidateSchema = new Schema({
   pendingCertificates: [certificateSchema],
   acquiredCertificates: [certificateSchema],
   recommendedCertificates: [certificateSchema],
+  contractSigned: {
+    type: Boolean,
+    default: false
+  },
   profilePhoto: {
     data: Buffer,
     contentType: String
@@ -73,10 +69,6 @@ var consultancySchema = new Schema({
   establishmentDate: Date,
   profession: String,
   yearsOfExperience: Number,
-  contractSigned: {
-    type:Boolean,
-    default:false
-  },
   contactNumbers: [Number],
   interests: [String],
   skills: [String],
@@ -88,6 +80,10 @@ var consultancySchema = new Schema({
   pendingCertificates: [certificateSchema],
   acquiredCertificates: [certificateSchema],
   recommendedCertificates: [certificateSchema],
+  contractSigned: {
+    type: Boolean,
+    default: false
+  },
   profilePhoto: {
     data: Buffer,
     contentType: String
@@ -102,14 +98,14 @@ var partnerSchema = new Schema({
   address: String,
   birthdate: Date,
   occupation: String,
-  contractSigned: {
-    type:Boolean,
-    default:false
-  },
   contactNumbers: [Number],
   interests: [String],
   pendingProjects: [projectSchema],
   approvedProjects: [projectSchema],
+  contractSigned: {
+    type: Boolean,
+    default: false
+  },
   profilePhoto: {
     data: Buffer,
     contentType: String
