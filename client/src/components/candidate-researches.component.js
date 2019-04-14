@@ -16,7 +16,7 @@ export default class candidateresearches extends Component {
     axios
       .get("http://localhost:5000/api/candidates/researches", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => {
@@ -30,7 +30,7 @@ export default class candidateresearches extends Component {
     axios
       .get("http://localhost:5000/api/candidates/research/" + id, {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => {

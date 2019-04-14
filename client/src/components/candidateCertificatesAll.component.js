@@ -11,7 +11,7 @@ export default class getallcertificateCandidate extends Component {
         const cookies= new Cookies();
          const token= cookies.get('token')
         axios.get("http://localhost:5000/api/candidates/certificates", {  headers: {
-          Authorization: token.data}
+          Authorization: token}
         })
           .then(res => {
             const certificates = res.data.data;
@@ -28,7 +28,7 @@ export default class getallcertificateCandidate extends Component {
 
         axios.get('http://localhost:5000/api/candidates/certificate/'+ id, { headers: {
 
-            Authorization: token.data}
+            Authorization: token}
 
           })
 
@@ -45,7 +45,7 @@ export default class getallcertificateCandidate extends Component {
     rerender(token,id) {
         axios.get('http://localhost:5000/api/candidates/certificate/'+id, { headers: {
 
-            Authorization: token.data}
+            Authorization: token}
 
           })
 
@@ -71,7 +71,7 @@ export default class getallcertificateCandidate extends Component {
 
         axios.post('http://localhost:5000/api/candidates/certificate/'+id, { },
         { headers: {
-            Authorization: token.data
+            Authorization: token
         }
 
 

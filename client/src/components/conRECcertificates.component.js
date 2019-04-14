@@ -11,7 +11,7 @@ export default class getallcertificateRecConsultancy extends Component {
         const cookies= new Cookies();
          const token= cookies.get('token')
         axios.get("http://localhost:5000/api/consultancies/recommendedCertificates", {  headers: {
-          Authorization: token.data}
+          Authorization: token}
         })
           .then(res => {
             const certificates = res.data.data;
@@ -28,7 +28,7 @@ export default class getallcertificateRecConsultancy extends Component {
 
         axios.get('http://localhost:5000/api/consultancies/certificate/'+ id, { headers: {
 
-            Authorization: token.data}
+            Authorization: token}
 
           })
 
@@ -52,7 +52,7 @@ export default class getallcertificateRecConsultancy extends Component {
 
       axios.post('http://localhost:5000/api/consultancies/certificate/'+id, { },
       { headers: {
-          Authorization: token.data
+          Authorization: token
       }
 
 
@@ -66,7 +66,7 @@ export default class getallcertificateRecConsultancy extends Component {
     rerender(token,id) {
         axios.get('http://localhost:5000/api/consultancies/certificate/'+id, { headers: {
 
-            Authorization: token.data}
+            Authorization: token}
 
           })
 

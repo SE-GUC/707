@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import CreateAccount from "./create-account.component.js";
+import CreateAccount from "./register.component.js";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 export default class Loginuser extends Component {
   constructor(props) {
@@ -34,8 +34,11 @@ export default class Loginuser extends Component {
     axios.post("http://localhost:5000/api/login", user).then(res => {
       if (res.status == 200) {
         this.setState({ redirect: true });
-        cookies.set("token", res.data, { path: "/" });
+        cookies.set("token", res.data.data.token);
+        cookies.set("usertype", res.data.data.user.usertype);
       }
+      console.log(res.data.data.token);
+      console.log(res.data.data.user.usertype);
     });
     this.setState({
       email: "",

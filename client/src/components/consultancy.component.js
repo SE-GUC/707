@@ -26,7 +26,7 @@ export default class getconsultancy extends Component {
     axios
       .get("http://localhost:5000/api/profiles", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res =>
@@ -139,7 +139,7 @@ export default class getconsultancy extends Component {
     axios
       .put("http://localhost:5000/api/profiles/consultancy", updated, {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => this.setState({}));
@@ -151,7 +151,7 @@ export default class getconsultancy extends Component {
     axios
       .delete("http://localhost:5000/api/profiles/consultancy", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => this.setState({}));

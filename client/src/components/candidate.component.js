@@ -29,7 +29,7 @@ export default class getcandidate extends Component {
     axios
       .get("http://localhost:5000/api/profiles", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res =>
@@ -175,7 +175,7 @@ export default class getcandidate extends Component {
     axios
       .put("http://localhost:5000/api/profiles/candidate", updated, {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => this.setState({}));
@@ -187,7 +187,7 @@ export default class getcandidate extends Component {
     axios
       .delete("http://localhost:5000/api/profiles/candidate", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => this.setState({}));

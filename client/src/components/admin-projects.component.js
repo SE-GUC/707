@@ -17,7 +17,7 @@ export default class projects extends Component {
     axios
       .get("http://localhost:5000/api/admins/projects", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => {
@@ -31,7 +31,7 @@ export default class projects extends Component {
     axios
       .delete("http://localhost:5000/api/admins/project/" + id, {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => {
@@ -49,7 +49,7 @@ export default class projects extends Component {
     axios
       .get("http://localhost:5000/api/admins/projects", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => {

@@ -108,7 +108,7 @@ export default class updateCertificate extends Component {
          const cookies = new Cookies();
          const token= cookies.get('token')
         axios.get('http://localhost:5000/api/admins/certificates', { headers: {
-            Authorization: token.data}
+            Authorization: token}
           })
           .then(res => {
             const certificates = res.data.data;
@@ -117,7 +117,7 @@ export default class updateCertificate extends Component {
       }
       rerender(token) {
        axios.get('http://localhost:5000/api/admins/certificates', { headers: {
-           Authorization: token.data}
+           Authorization: token}
          })
          .then(res => {
            const certificates = res.data.data;
@@ -143,7 +143,7 @@ export default class updateCertificate extends Component {
     console.log(this.state.updatedCertificate.name);
     console.log(certificate._id);
        axios.put('http://localhost:5000/api/admins/certificate/'+certificate._id,certificate2,{ headers: {
-        Authorization: token.data}});
+        Authorization: token}});
         alert("You updated the certificate successfully ")
         //this.rerender(token);
 

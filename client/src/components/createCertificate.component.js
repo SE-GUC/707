@@ -105,7 +105,7 @@ export default class Createcertificate extends Component {
          const cookies= new Cookies();
          const token= cookies.get('token')
         axios.post("http://localhost:5000/api/admins/certificate",certificate ,{  headers: {
-            Authorization: token.data}
+            Authorization: token}
           })
             .then(res => alert("You created a certificate successfully "));
             this.setState({

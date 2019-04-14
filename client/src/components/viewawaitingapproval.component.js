@@ -289,7 +289,7 @@ export default class awaitingProjects extends Component {
     axios
       .get("http://localhost:5000/api/admins/awaitingprojects", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => {
@@ -301,7 +301,7 @@ export default class awaitingProjects extends Component {
     axios
       .get("http://localhost:5000/api/admins/awaitingprojects", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => {
@@ -344,7 +344,7 @@ export default class awaitingProjects extends Component {
       project2,
       {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       }
     );

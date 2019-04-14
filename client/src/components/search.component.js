@@ -38,7 +38,7 @@ export default class search extends Component {
         { text: this.state.text },
         {
           headers: {
-            Authorization: token.data
+            Authorization: token
           }
         }
       )

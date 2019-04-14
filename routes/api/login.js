@@ -20,11 +20,12 @@ router.post("/", async (req, res) => {
           });
         else if (bcrypt.compareSync(req.body.password, foundUser.password))
           res.json({
-            data: `Bearer ${jwt.sign(
-              { _id: foundUser._id, usertype: foundUser.usertype },
-              tokenKey,
-              { expiresIn: "1h" }
-            )}`
+            data: {
+              token: `Bearer ${jwt.sign({ _id: foundUser._id }, tokenKey, {
+                expiresIn: "1h"
+              })}`,
+              user: foundUser
+            }
           });
         else
           res.status(400).send({
