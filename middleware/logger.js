@@ -1,21 +1,18 @@
-const jwt = require('jsonwebtoken');
-const LoggedOutUser = require("../models/LoggedOutUser");
+const jwt = require("jsonwebtoken");
+const tokenKey = require("../config/keys").secretOrKey;
 const logger = (req, res, next) => {
-    if (!req.originalUrl.includes("api/login") && !req.originalUrl.includes("/register")) {
-        const token = (req.headers.authorization).replace("Bearer ", "");
-        jwt.verify(token, 'verysecretkey', async (err, decodedToken) => {
-            if (err) {
-                console.log(err)
-            } else {
-                const loggedOutUser = await LoggedOutUser.findOne({
-                    id: decodedToken._id
-                })
-                if (!loggedOutUser) {
-                    req.id = decodedToken._id;
-                }
-            }
-        });
-    }
-    next();
-}
-module.exports = logger
+  if (
+    !req.originalUrl.includes("api/login") &&
+    !req.originalUrl.includes("/register")
+  )
+    jwt.verify(
+      req.headers.authorization.replace("Bearer ", ""),
+      tokenKey,
+      async (err, decodedToken) => {
+        if (!err) req.id = decodedToken._id;
+        else res.json(err.message);
+      }
+    );
+  next();
+};
+module.exports = logger;

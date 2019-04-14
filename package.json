@@ -1,36 +1,32 @@
 {
-  "name": "express-test",
-  "version": "1.2.0",
-  "description": "",
-  "main": "index.js",
+  "name": "lirtenhub-707",
+  "version": "1.0.0",
+  "description": "lirtenhub project",
+  "main": "server.js",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index",
-    "test": "jest"
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Peter Abdallah",
+  "license": "GUC",
   "dependencies": {
     "axios": "^0.18.0",
-    "bcrypt": "^3.0.4",
     "bcryptjs": "^2.4.3",
+    "concurrently": "^3.6.0",
     "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "hapitoc": "1.0.0",
-    "joi": "^11.0.0",
-    "joi-date-extensions": "^1.0.1",
-    "jsonwebtoken": "^8.5.1",
-    "lab": "14.0.0",
-    "moment": "^2.24.0",
-    "mongoose": "^5.4.15",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.5.0",
+    "mongoose": "^5.1.6",
     "mongoose-type-email": "^1.0.10",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "request": "^2.88.0"
+    "universal-cookie": "^3.1.0"
   },
   "devDependencies": {
-    "jest": "^24.5.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.17.5"
   }
 }
