@@ -14,6 +14,13 @@ import CandidateReports from "./components/candidate-reports.component.js";
 import CandidateResearches from "./components/candidate-researches.component.js";
 import CandidateRequestCertificate from "./components/request-certificate.component.js";
 import Search from "./components/search.component.js";
+import getallcertificate from "./components/certificate.component.js";
+import Createcertificate from "./components/createCertificate.component.js";
+import updateCertificate  from "./components/updateCertificate.component.js";
+import getallcertificateCandidate from "./components/candidateCertificatesAll.component.js";
+import getallcertificateRecCandidate from "./components/candidateRECcertificates.component.js";
+import getallcertificateConsultancy from "./components/consultancyCertificatesAll.component.js";
+import getallcertificateRecConsultancy from "./components/conRECcertificates.component.js";
 class App extends Component {
   render() {
     return (
@@ -97,6 +104,27 @@ class App extends Component {
                     Search
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/admincertificates" className="nav-link">view all certificates</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/createcertificate" className="nav-link">Create Certificate</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/updatecertificate" className="nav-link">Update Certificates</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/viewCandidatecertificate" className="nav-link">view all candidate Certificates</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/viewCandidatereccertificate" className="nav-link">view all candidate recommended Certificates</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/viewConsultancycertificate" className="nav-link">view all consultancy Certificates</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/viewConsultancyreccertificate" className="nav-link">view all consultancy recommended Certificates</Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -116,6 +144,13 @@ class App extends Component {
             component={CandidateRequestCertificate}
           />
           <Route path="/search" component={Search} />
+          <Route path="/admincertificates" component={getallcertificate}/>
+          <Route path="/createcertificate" component={Createcertificate}/>
+          <Route path="/updatecertificate" component={updateCertificate}/>
+          <Route path="/viewCandidatecertificate" component={getallcertificateCandidate}/>
+          <Route path="/viewCandidatereccertificate" component={getallcertificateRecCandidate}/>
+          <Route path="/viewConsultancycertificate" component={getallcertificateConsultancy}/>
+          <Route path="/viewConsultancyreccertificate" component={getallcertificateRecConsultancy}/>
         </div>
       </Router>
     );
