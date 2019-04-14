@@ -49,7 +49,12 @@ import  consultancyshowcandidates from "./components/consultancyshowcandidates.c
 import getResearchbyID_Admin from "./components/getResearchbyID_Admin.component.js";
 import getProjectbyID_Admin from "./components/getProjectbyID_Admin.component.js";
 import getResearchbyID_Partner from "./components/getResearchbyID_Partner.component.js";
-
+import getreportbyID_Admin from "./components/viewReportbyid-admin.component";
+import getreportbyID_cons from "./components/viewReportsbyid-cons.component";
+import getreportbyID_part from "./components/viewReportsbyid-partners.component";
+import deleteReport_cons from "./components/deleteReport-cons.component";
+import updateReport_cons from "./components/updateReport-cons.component";
+import createReport from "./components/createReport-cons.component";
 class App extends Component {
   render() {
     const cookies = new Cookies();
@@ -238,6 +243,26 @@ class App extends Component {
                     consultancy approved projects
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/viewReportbyid-cons" className="nav-link">
+                    View Reports for consultancy by id 
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/deleteReport-cons" className="nav-link">
+                    delete reports for consultancy
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/updateReport-cons" className="nav-link">
+                    update Reports for consultancies
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/createReport-cons" className="nav-link">
+                    create Reports for consultancy
+                  </Link>
+                </li>
 
             </ul>
           </div>
@@ -263,7 +288,10 @@ class App extends Component {
           <Route path="/consaddtask/:project" component={consultancyaddtask} />
           <Route path="/consshowtasks/:project" component={consultancyshowtask} />
           <Route path="/consshowcandidate/:task" component={consultancyshowcandidates} />
-
+          <Route path="/viewReportbyid-cons" component={getreportbyID_cons} />
+          <Route path="/deleteReport-cons" component={deleteReport_cons} />
+          <Route path="/updateReport-cons" component={updateReport_cons} />
+          <Route path="/createReport-cons" component={createReport} />
       </div>
     );
     const partnerLinks = (
@@ -304,6 +332,11 @@ class App extends Component {
                   View Researches
                 </Link>
               </li>
+              <li className="navbar-item">
+                  <Link to="/viewReportbyid-partners" className="nav-link">
+                    View Reports for Partner by id 
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -313,7 +346,7 @@ class App extends Component {
         <Route path="/search" component={Search} />
         <Route path="/getAnnouncementbyID_Partner" component={getAnnouncementbyID_Partner} />
         <Route path="/getResearchbyID_Partner" component={getResearchbyID_Partner} />
-
+        <Route path="/viewReportbyid-partners" component={getreportbyID_part} />
       </div>
     );
     const adminLinks = (
@@ -391,6 +424,11 @@ class App extends Component {
                   Admin Projects
                 </Link>
               </li>
+              <li className="navbar-item">
+                  <Link to="/viewReportbyid-admin" className="nav-link">
+                    View Reports for Admin by id 
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -410,6 +448,7 @@ class App extends Component {
         <Route path="/updateAnnouncement" component={updateAnnouncement} />
         <Route path="/getResearchbyID_Admin" component={getResearchbyID_Admin} />
         <Route path="/getProjectbyID_Admin" component={getProjectbyID_Admin} />
+        <Route path="/viewReportbyid-admin" component={getreportbyID_Admin} />
       </div>
     );
     return (
