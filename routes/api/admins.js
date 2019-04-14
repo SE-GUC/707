@@ -35,7 +35,10 @@ router.get(
   }
 );
 //View all pending approval projects
-router.get("/awaitingprojects", passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get(
+  "/awaitingprojects",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
     try {
       Project.find(
         {
@@ -108,37 +111,44 @@ router.put(
                 error: "This project does not exist"
               });
             else
-             
-                    Partner.update({
-                        "pendingProjects._id": req.params.projectID
-                    }, {
-                            $pull: {
-                                pendingProjects: updatedProject
-                            },
-                            $push: {
-                                approvedProjects: updatedProject
-                            }
-                        }, {
-                            new: true
-                        },
-                        function (err) {
-                            if (!err)
-                                if (updatedProject.status === "RequireConsultancy")
-                                    res.json({
-                                        msg: "Now this project is approved and waiting for consultancy to apply",
-                                        data: updatedProject
-                                    });
-                                else
-                                    res.json({
-                                        msg: "Now this project is approved and waiting for candidates to apply on its tasks",
-                                        data: updatedProject
-                                    });
-                            else res.json({
-                                error: err.message
-                            });
-                        });
-            else res.json({
-                error: err.message
+              Partner.update(
+                {
+                  "pendingProjects._id": req.params.projectID
+                },
+                {
+                  $pull: {
+                    pendingProjects: { _id: req.params.projectID }
+                  },
+                  $push: {
+                    approvedProjects: updatedProject
+                  }
+                },
+                {
+                  new: true
+                },
+                function(err) {
+                  if (!err)
+                    if (updatedProject.status === "RequireConsultancy")
+                      res.json({
+                        msg:
+                          "Now this project is approved and waiting for consultancy to apply",
+                        data: updatedProject
+                      });
+                    else
+                      res.json({
+                        msg:
+                          "Now this project is approved and waiting for candidates to apply on its tasks",
+                        data: updatedProject
+                      });
+                  else
+                    res.json({
+                      error: err.message
+                    });
+                }
+              );
+          else
+            res.json({
+              error: err.message
             });
         }
       );
