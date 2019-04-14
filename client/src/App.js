@@ -46,6 +46,10 @@ import consultancyapprovedprojects from "./components/consultancyshowapprovedpro
 import  consultancyaddtask from "./components/Consultancyaddtaskinproject.component.js";
 import  consultancyshowtask from "./components/Consultancyshowtasksinproject.component.js";
 import  consultancyshowcandidates from "./components/consultancyshowcandidates.component.js";
+import getResearchbyID_Admin from "./components/getResearchbyID_Admin.component.js";
+import getProjectbyID_Admin from "./components/getProjectbyID_Admin.component.js";
+import getResearchbyID_Partner from "./components/getResearchbyID_Partner.component.js";
+
 class App extends Component {
   render() {
     const cookies = new Cookies();
@@ -234,6 +238,7 @@ class App extends Component {
                     consultancy approved projects
                   </Link>
                 </li>
+
             </ul>
           </div>
         </nav>
@@ -258,6 +263,7 @@ class App extends Component {
           <Route path="/consaddtask/:project" component={consultancyaddtask} />
           <Route path="/consshowtasks/:project" component={consultancyshowtask} />
           <Route path="/consshowcandidate/:task" component={consultancyshowcandidates} />
+
       </div>
     );
     const partnerLinks = (
@@ -290,7 +296,12 @@ class App extends Component {
               </li>
               <li className="navbar-item">
                 <Link to="/getAnnouncementbyID_Partner" className="nav-link">
-                  Search
+                  View Announcements
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link to="/getResearchbyID_Partner" className="nav-link">
+                  View Researches
                 </Link>
               </li>
             </ul>
@@ -301,6 +312,7 @@ class App extends Component {
         <Route path="/partnerProfile" component={Partner} />
         <Route path="/search" component={Search} />
         <Route path="/getAnnouncementbyID_Partner" component={getAnnouncementbyID_Partner} />
+        <Route path="/getResearchbyID_Partner" component={getResearchbyID_Partner} />
 
       </div>
     );
@@ -330,11 +342,6 @@ class App extends Component {
               <li className="navbar-item">
               <Link to="/awaitingprojects" className="nav-link">Awaiting Projects</Link>
             </li>
-              <li className="navbar-item">
-                <Link to="/adminprojects" className="nav-link">
-                  Admin Projects
-                </Link>
-              </li>
               <li className="navbar-item">
                 <Link to="/search" className="nav-link">
                   Search
@@ -374,6 +381,16 @@ class App extends Component {
                     Update Announcement for admin
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/getResearchbyID_Admin" className="nav-link">
+                    View Researches
+                  </Link>
+                </li>
+                <li className="navbar-item">
+                <Link to="/getProjectbyID_Admin" className="nav-link">
+                  Admin Projects
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>
@@ -391,6 +408,8 @@ class App extends Component {
         <Route path="/deleteAnnouncements" component={deleteAnnouncements} />
         <Route path="/getAnnouncementbyID_Admin" component={getAnnouncementbyID_Admin} />
         <Route path="/updateAnnouncement" component={updateAnnouncement} />
+        <Route path="/getResearchbyID_Admin" component={getResearchbyID_Admin} />
+        <Route path="/getProjectbyID_Admin" component={getProjectbyID_Admin} />
       </div>
     );
     return (
