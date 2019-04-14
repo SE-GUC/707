@@ -859,7 +859,7 @@ router.put(
   async (req, res) => {
     try {
       const partner = await Partner.findById(req.id);
-      const projects = await Task.find({});
+      const projects = await Project.find({});
       var pendingProjects = [];
       var approvedProjects = [];
       for (i = 0; i < partner.pendingProjects.length; i++)

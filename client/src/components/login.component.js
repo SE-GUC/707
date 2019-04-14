@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import CreateAccount from "./register.component.js";
+import ReactDOM from "react-dom";
+import App from "../App.js"
+
+
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 export default class Loginuser extends Component {
   constructor(props) {
@@ -11,7 +14,8 @@ export default class Loginuser extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      redirect: false
     };
   }
   onChangeuserEmail(e) {
@@ -46,13 +50,12 @@ export default class Loginuser extends Component {
     });
   }
   renderRedirect = () => {
-    if (this.state.redirect) {
-      return (
-        <Router>
-          <Redirect to="/createaccount" />
-          <Route exact path="/createaccount" component={CreateAccount} />
-        </Router>
-      );
+    if(this.state.redirect === true){
+      this.setState({redirect: false})
+      window.location.replace("/")
+      
+
+
     }
   };
   render() {
@@ -84,7 +87,7 @@ export default class Loginuser extends Component {
                 type="submit"
                 value="Login"
                 className="btn btn-primary"
-                onClick={this.renderRedirect}
+                onClick={this.renderRedirect()}
               />
             </div>
           </form>

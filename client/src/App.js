@@ -55,6 +55,10 @@ import getreportbyID_part from "./components/viewReportsbyid-partners.component"
 import deleteReport_cons from "./components/deleteReport-cons.component";
 import updateReport_cons from "./components/updateReport-cons.component";
 import createReport from "./components/createReport-cons.component";
+import ConsultancyRequestCertificate from "./components/consultancy-request-certificate.component.js";
+import PartnerCreateProjects from "./components/partner-create-projects.component.js";
+import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
+
 class App extends Component {
   render() {
     const cookies = new Cookies();
@@ -194,6 +198,11 @@ class App extends Component {
                 </Link>
               </li>
               <li className="navbar-item">
+                <Link to="/consultancyrequestcertificate" className="nav-link">
+                  Search
+                </Link>
+              </li>
+              <li className="navbar-item">
                 <Link to="/search" className="nav-link">
                   Search
                 </Link>
@@ -272,6 +281,7 @@ class App extends Component {
         <Route path="/logout" component={Logout} />
         <Route path="/consultancyProfile" component={Consultancy} />
         <Route path="/search" component={Search} />
+        <Route path="/consultancyrequestcertificate" component={ConsultancyRequestCertificate}/>
         <Route path="/viewConsultancycertificate" component={getallcertificateConsultancy}/>
         <Route path="/viewConsultancyreccertificate" component={getallcertificateRecConsultancy}/>
         <Route path="/deleteResearches" component={deleteResearches} />
@@ -323,6 +333,16 @@ class App extends Component {
                 </Link>
               </li>
               <li className="navbar-item">
+                <Link to="/partnercreateprojects" className="nav-link">
+                Create Projects
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link to="/partnerawaitingapprovalprojects" className="nav-link">
+                Awaiting Approval Projects
+                </Link>
+              </li>
+              <li className="navbar-item">
                 <Link to="/getAnnouncementbyID_Partner" className="nav-link">
                   View Announcements
                 </Link>
@@ -344,6 +364,8 @@ class App extends Component {
         <Route path="/logout" component={Logout} />
         <Route path="/partnerProfile" component={Partner} />
         <Route path="/search" component={Search} />
+        <Route path="/partnercreateprojects" component={PartnerCreateProjects}/>
+        <Route path="/partnerawaitingapprovalprojects" component={PartnerAwaitingApproval}/>
         <Route path="/getAnnouncementbyID_Partner" component={getAnnouncementbyID_Partner} />
         <Route path="/getResearchbyID_Partner" component={getResearchbyID_Partner} />
         <Route path="/viewReportbyid-partners" component={getreportbyID_part} />

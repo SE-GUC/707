@@ -1506,7 +1506,7 @@ router.put(
   async (req, res) => {
     try {
       const consultancy = await Consultancy.findById(req.id);
-      const projects = await Task.find({});
+      const projects = await Project.find({});
       var pendingProjects = [];
       var approvedProjects = [];
       for (i = 0; i < consultancy.pendingProjects.length; i++)
