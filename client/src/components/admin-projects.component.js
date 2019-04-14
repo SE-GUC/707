@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import AdminTasks from "./admin-tasks.component.js";
@@ -42,6 +43,14 @@ export default class projects extends Component {
          
           })
     }
+
+    viewTasks(projectID){
+      ReactDOM.render(
+        <AdminTasks projectID={projectID} />,
+        document.getElementById('root')
+      );  
+
+    }
     rerender(token) { 
         
         axios.get('http://localhost:5000/api/admins/projects', { headers: {
@@ -75,14 +84,14 @@ export default class projects extends Component {
                 Required Skills: {project.requiredSkills.map(requiredSkills =>
                         <li>{requiredSkills}</li> 
                   )}<br></br>
-                Status:{project.status} <br></br>
-                Life Cycle:{project.projectcycle.map(cycle =>
-                 <li>Description:{cycle.description}<br></br>
-                 Status:{cycle.status}<br></br> 
-                 Percentage:{cycle.percentage}</li>)}<br></br>
+                Status: {project.status} <br></br>
+                Life Cycle: {project.projectcycle.map(cycle =>
+                 <li>Description: {cycle.description}<br></br>
+                 Status: {cycle.status}<br></br> 
+                 Percentage: {cycle.percentage}</li>)}<br></br>
 
                 
-                  <NavLink to={`tasks/${project._id}`} >View Tasks</NavLink>
+                  <NavLink to={`tasks/${project._id}`} onClick={this.viewTasks.bind(this,project._id)} >View Tasks</NavLink>
                  
                 <br></br>
               
@@ -91,7 +100,7 @@ export default class projects extends Component {
               
                   </li>)}
           </ul>
-           <Route path="/tasks/:projectID" component={AdminTasks} name="tasks" />
+          
            </Router>
         )
       }
