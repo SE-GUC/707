@@ -40,7 +40,7 @@ export default class getadmin extends Component {
     axios
       .get("http://localhost:5000/api/profiles", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res =>
@@ -68,7 +68,7 @@ export default class getadmin extends Component {
     axios
       .put("http://localhost:5000/api/profiles/admin", updated, {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => this.setState({}));
@@ -80,7 +80,7 @@ export default class getadmin extends Component {
     axios
       .delete("http://localhost:5000/api/profiles/admin", {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
       .then(res => this.setState({}));

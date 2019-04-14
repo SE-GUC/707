@@ -17,7 +17,7 @@ export default class tasks extends Component {
           this.props.projectID,
         {
           headers: {
-            Authorization: token.data
+            Authorization: token
           }
         }
       )
@@ -37,7 +37,7 @@ export default class tasks extends Component {
           id,
         {
           headers: {
-            Authorization: token.data
+            Authorization: token
           }
         }
       )
@@ -52,7 +52,7 @@ export default class tasks extends Component {
           this.props.projectID,
         {
           headers: {
-            Authorization: token.data
+            Authorization: token
           }
         }
       )

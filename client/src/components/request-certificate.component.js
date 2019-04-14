@@ -25,7 +25,7 @@ export default class requestCertificate extends Component {
     axios
       .post("http://localhost:5000/api/candidates/certificate", certificate, {
         headers: {
-          Authorization: token.data
+          Authorization: token
         }
       })
     this.setState({
