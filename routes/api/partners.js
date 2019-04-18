@@ -518,6 +518,7 @@ router.post(
                   {
                     $pull: {
                       pendingProjects: {_id: req.params.projectID}
+
                     },
                     $push: {
                       approvedProjects: foundProject
