@@ -58,6 +58,11 @@ import createReport from "./components/createReport-cons.component";
 import ConsultancyRequestCertificate from "./components/consultancy-request-certificate.component.js";
 import PartnerCreateProjects from "./components/partner-create-projects.component.js";
 import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
+import CandidateTasks from "./components/candidate-tasks.component.js";
+import CandidateApprovedTasks from "./components/candidate-approved-tasks.component.js";
+
+
+
 
 class App extends Component {
   render() {
@@ -152,6 +157,12 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/candidateskillsupdate" className="nav-link">Update Candidate Skills</Link>
                 </li> 
+                <li className="navbar-item">
+                  <Link to="/viewtasks" className="nav-link"> Candidate Tasks</Link>
+                </li> 
+                <li className="navbar-item">
+                  <Link to="/viewapprovedtasks" className="nav-link"> Candidate Approved Tasks</Link>
+                </li>
                 
             </ul>
           </div>
@@ -171,6 +182,9 @@ class App extends Component {
         <Route path="/viewCandidatereccertificate" component={getallcertificateRecCandidate}/>
         <Route path="/viewAllAnnouncements_Candidate" component={viewAllAnnouncements_Candidate} />
         <Route path="/getAnnouncementbyID_Candidate" component={getAnnouncementbyID_Candidate} />
+        <Route path="/viewtasks" component={CandidateTasks} />
+        <Route path="/viewapprovedtasks" component={CandidateApprovedTasks} />
+
 
       </div>
     );
@@ -199,7 +213,7 @@ class App extends Component {
               </li>
               <li className="navbar-item">
                 <Link to="/consultancyrequestcertificate" className="nav-link">
-                  Search
+                  Consultancy Request Certificate
                 </Link>
               </li>
               <li className="navbar-item">
@@ -272,6 +286,7 @@ class App extends Component {
                     create Reports for consultancy
                   </Link>
                 </li>
+               
 
             </ul>
           </div>
