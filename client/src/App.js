@@ -58,6 +58,10 @@ import createReport from "./components/createReport-cons.component";
 import ConsultancyRequestCertificate from "./components/consultancy-request-certificate.component.js";
 import PartnerCreateProjects from "./components/partner-create-projects.component.js";
 import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
+import consultancyrecommendedprojects from "./components/consultancyrecprojects.component.js";
+import partnerapprovedprojects from "./components/partnerapprovedprojects.component.js";
+import partnerconsultancyappliedonproject from "./components/partnerconsultanciesappliedonproject.component.js";
+import partnerassignedconsultancy from "./components/partnerassignedconsultancy.component";
 import viewAllEvaluations_Admin from "./components/viewAllEvaluations_Admin.component.js";
 import viewEvaluationbyId_Admin from "./components/viewEvaluationbyId_Admin.component.js";
 import viewOneEvaluation_Admin from "./components/viewOneEvaluation_Admin.component.js";
@@ -275,7 +279,11 @@ class App extends Component {
                     create Reports for consultancy
                   </Link>
                 </li>
-
+                <li className="navbar-item">
+                  <Link to="/recommendedprojects" className="nav-link">
+                    Recommended projects
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -304,6 +312,8 @@ class App extends Component {
           <Route path="/deleteReport-cons" component={deleteReport_cons} />
           <Route path="/updateReport-cons" component={updateReport_cons} />
           <Route path="/createReport-cons" component={createReport} />
+          <Route path="/recommendedprojects" component={consultancyrecommendedprojects} />
+          
 
       </div>
     );
@@ -360,6 +370,11 @@ class App extends Component {
                     View Reports for Partner by id 
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/partnerapprovedprojects" className="nav-link">
+                    My Approved projects 
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -372,6 +387,11 @@ class App extends Component {
         <Route path="/getAnnouncementbyID_Partner" component={getAnnouncementbyID_Partner} />
         <Route path="/getResearchbyID_Partner" component={getResearchbyID_Partner} />
         <Route path="/viewReportbyid-partners" component={getreportbyID_part} />
+        <Route path="/partnerapprovedprojects" component={partnerapprovedprojects} />
+        {/* <Route path="/partnershowcons/:project" component={partnerconsultancyappliedonproject} /> */}
+        <Route path="/partnershowconsultancy/:project" component={partnerconsultancyappliedonproject} />
+        {/* <Route path="/partnershowassignedconsultancy/:project" component={partnerassignedconsultancy} /> */}
+        <Route path="/sac/:project" component={partnerassignedconsultancy} />
       </div>
     );
     const adminLinks = (
