@@ -1094,4 +1094,28 @@ router.get(
     }
   }
 );
+//View all certificates
+router.get(
+  "/evaluationTests",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Evaluation.find({}, function(err, foundevaluations) {
+        if (!err)
+          res.json({
+            msg: "All evaluations information",
+            data: foundevaluations
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 module.exports = router;

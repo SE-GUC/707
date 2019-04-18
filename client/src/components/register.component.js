@@ -43,7 +43,7 @@ export default class Createuser extends Component {
       password: this.state.password
     };
     axios.post(
-      "http://localhost:5000/api/profiles/" + this.state.type + "/register",
+      "http://localhost:5000/api/profiles/" + "this.state.type" + "/register",
       user
     );
     // <Redirect to="/register"/>
