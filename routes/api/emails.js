@@ -15,6 +15,7 @@ router.post(
             "inbox.sentEmails": {
               subject: req.body.subject,
               content: req.body.content,
+              emailType: req.body.emailType,
               receiverEmail: req.body.receiverEmail
             }
           }
@@ -33,6 +34,7 @@ router.post(
                   "inbox.receivedEmails": {
                     subject: req.body.subject,
                     content: req.body.content,
+                    emailType: req.body.emailType,
                     senderEmail: senderUser.email
                   }
                 }
