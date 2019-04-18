@@ -790,13 +790,112 @@ router.post(
                   });
                 else
                   res.json({
-                    msg: err.message
+                    error: err.message
                   });
               }
             );
         else
           res.json({
-            msg: err.message
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//disapply a certificate by its id
+router.delete(
+  "/certificate/:certificateID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Certificate.findById(req.params.certificateID, function(
+        err,
+        foundCertificate
+      ) {
+        if (!err)
+          if (!foundCertificate)
+            res.status(404).send({
+              error: "This certificate does not exist"
+            });
+          else
+            Consultancy.findByIdAndUpdate(
+              req.id,
+              {
+                $pull: {
+                  pendingCertificates: foundCertificate
+                }
+              },
+              {
+                new: true
+              },
+              function(err) {
+                if (!err)
+                  res.json({
+                    msg:
+                      "You have disapplied for this certificate successfully",
+                    data: foundCertificate
+                  });
+                else
+                  res.json({
+                    error: err.message
+                  });
+              }
+            );
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all my pending approval certificates
+router.get(
+  "/pendingCertificates",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Consultancy.findById(req.id, function(err, foundUser) {
+        if (!err)
+          res.json({
+            msg: "Your pending approval certificates information",
+            data: foundUser.pendingCertificates
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all my acquired certificates
+router.get(
+  "/acquiredCertificates",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Consultancy.findById(req.id, function(err, foundUser) {
+        if (!err)
+          res.json({
+            msg: "Your acquired certificates information",
+            data: foundUser.acquiredCertificates
+          });
+        else
+          res.json({
+            error: err.message
           });
       });
     } catch (error) {
@@ -872,53 +971,31 @@ router.get(
   }
 );
 //Submit the evaluation test of pending approval certificate by evaluation test id and certificate id
-router.put(
+router.post(
   "/certificate/evaluationTests/:certificateID/:evaluationID",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Evaluation.findByIdAndUpdate(
-        req.params.evaluationID,
-        req.body,
+      Consultancy.findByIdAndUpdate(
+        req.id,
         {
-          new: true
+          $set: {
+            "pendingCertificates.$[pendingCertificate].evaluationTests.$[evaluationTest].answer":
+              req.body.answer
+          }
         },
-        function(err, updatedEvaluation) {
+        {
+          new: true,
+          arrayFilters: [
+            { "pendingCertificate._id": req.params.certificateID },
+            { "evaluationTest._id": req.params.evaluationID }
+          ]
+        },
+        function(err) {
           if (!err)
-            if (!updatedEvaluation)
-              res.status(404).send({
-                error: "This evaluation test does not exist"
-              });
-            else
-              Certificate.update(
-                {
-                  _id: req.params.certificateID,
-                  "evaluationTests._id": req.params.evaluationID
-                },
-                {
-                  "evaluationTests.$": updatedEvaluation
-                },
-                {
-                  new: true
-                },
-                function(err, foundCertificate) {
-                  if (!err)
-                    if (!foundCertificate)
-                      res.status(404).send({
-                        error: "This certificate does not exist"
-                      });
-                    else
-                      res.json({
-                        msg:
-                          "Your certificate's evaluation tests have been updated successfully",
-                        data: foundCertificate.evaluationTests
-                      });
-                  else
-                    res.json({
-                      error: err.message
-                    });
-                }
-              );
+            res.json({
+              msg: "Your have submitted the evaluation test successfully"
+            });
           else
             res.json({
               error: err.message
@@ -940,7 +1017,7 @@ router.get(
     try {
       Consultancy.findById(req.id, function(err, foundUser) {
         if (!err) {
-          var allAcquiredSkills = new Set();
+          let allAcquiredSkills = new Set();
           for (i = 0; i < foundUser.acquiredCertificates.length; i++)
             for (
               j = 0;
@@ -1508,8 +1585,8 @@ router.put(
     try {
       const consultancy = await Consultancy.findById(req.id);
       const projects = await Project.find({});
-      var pendingProjects = [];
-      var approvedProjects = [];
+      let pendingProjects = [];
+      let approvedProjects = [];
       for (i = 0; i < consultancy.pendingProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
@@ -1559,8 +1636,8 @@ router.put(
     try {
       const consultancy = await Consultancy.findById(req.id);
       const certificates = await Certificate.find({});
-      var pendingCertificates = [];
-      var acquiredCertificates = [];
+      let pendingCertificates = [];
+      let acquiredCertificates = [];
       for (i = 0; i < consultancy.pendingCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
