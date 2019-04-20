@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 //Evaluation schema
 var evaluationSchema = new Schema({
-  evaluationType: {
+  type: {
     type: String,
     enum: [
       "MCQ",
@@ -15,9 +15,10 @@ var evaluationSchema = new Schema({
     ],
     default: "Project"
   },
-  evaluationContent: String,
+  content: String,
   totalScore: Number,
   passingScore: Number,
+  answer: String,
   score: Number,
   passed: Boolean
 });
