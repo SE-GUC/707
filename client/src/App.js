@@ -60,7 +60,7 @@ import PartnerCreateProjects from "./components/partner-create-projects.componen
 import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
 import viewAllEvaluations_Admin from "./components/viewAllEvaluations_Admin.component.js";
 import viewEvaluationbyId_Admin from "./components/viewEvaluationbyId_Admin.component.js";
-import viewOneEvaluation_Admin from "./components/viewOneEvaluation_Admin.component.js";
+import viewOneEvauation_Admin from "./components/viewOneEvaluation_Admin.component.js";
 
 class App extends Component {
   render() {
@@ -482,7 +482,7 @@ class App extends Component {
         <Route path="/viewAllEvaluations_Admin" component={viewAllEvaluations_Admin} />
         <Route path='/viewEvaluationbyId_Admin/:evaluation' component={viewEvaluationbyId_Admin}/>
         <Route path='/updatetaskattribute/:task/:project' component={updatetask}/>
-        <Route path='/viewOneEvaluation_Admin/:evaluation' component={viewOneEvaluation_Admin}/>
+        <Route path='/viewOneEvaluation_Admin/:evaluation' component={viewOneEvauation_Admin}/>
 
       </div>
     );
