@@ -11,10 +11,6 @@ export default class Createcertificate extends Component {
         this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onChangeSkills=this.onChangeSkills.bind(this);
         this.onAvaliable = this.onAvaliable.bind(this);
-        this.onChangeEVT=this.onChangeEVT.bind(this);
-        this.onChangeEVC=this.onChangeEVC.bind(this);
-        this.onChangeTS=this.onChangeTS.bind(this);
-        this.onChangePS=this.onChangePS.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -59,31 +55,6 @@ export default class Createcertificate extends Component {
             available: e.target.value
         });
     }
-    onChangeEVT(e) {
-
-        this.setState({
-            evaluationType: e.target.value
-        });
-    }
-    onChangeEVC(e) {
-
-        this.setState({
-            evaluationContent: e.target.value
-        });
-    }
-    onChangeTS(e) {
-
-        this.setState({
-            totalScore: e.target.value
-        });
-    }
-    onChangePS(e) {
-
-        this.setState({
-            passingScore: e.target.value
-        });
-    }
-
     onSubmit(e) {
         e.preventDefault();
         
@@ -97,10 +68,7 @@ export default class Createcertificate extends Component {
             category: this.state.category,
             skills:this.state.skills,
             available:this.state.available,
-          evaluationTests:{ evaluationType:this.state.evaluationType,
-           evaluationContent:this.state.evaluationContent,
-           totalScore:this.state.totalScore,
-           passingScore:this.state.passingScore}
+          evaluationTests:[]
         };
          const cookies= new Cookies();
          const token= cookies.get('token')
@@ -173,46 +141,7 @@ export default class Createcertificate extends Component {
                                     />
                             
                         </div>
-                        <div className="form-group">
-                        <label>EvaluationType: </label>
-                            <input   type="text" 
-                                    className="form-control"
-                                    value={this.state.evaluationType}
-
-                                    onChange={this.onChangeEVT}
-                                    />
-                            
-                        </div>
-                        <div className="form-group">
-                        <label>EvaluationContent: </label>
-                            <input   type="text" 
-                                    className="form-control"
-                                    value={this.state.evaluationContent}
-
-                                    onChange={this.onChangeEVC}
-                                    />
-                            
-                        </div>
-                        <div className="form-group">
-                        <label>TotalScore: </label>
-                            <input   type="text" 
-                                    className="form-control"
-                                    value={this.state.totalScore}
-
-                                    onChange={this.onChangeTS}
-                                    />
-                            
-                        </div>
-                        <div className="form-group">
-                        <label>PassingScore: </label>
-                            <input   type="text" 
-                                    className="form-control"
-                                    value={this.state.passingScore}
-
-                                    onChange={this.onChangePS}
-                                    />
-                            
-                        </div>
+                      
                         
                            
                             
@@ -228,7 +157,3 @@ export default class Createcertificate extends Component {
         )
     }
 };
-      
-     
-    
-

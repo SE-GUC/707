@@ -77,34 +77,8 @@ export default class CreateEmail extends Component {
             <div style={{marginTop: 10}}>
                 <h3>Send New Email</h3>
                 <form onSubmit={this.onSubmit}>
-                    <div className="form-group"> 
-                        <label>Subject: </label>
-                        <input  type="text"
-                                className="form-control"
-                                value={this.state.subject}
-                                onChange={this.onChangeSubject}
-                                />
-                    </div>
+         
                     <div className="form-group">
-                        <label>Content: </label>
-                        <input 
-                                type="text" 
-                                className="form-control"
-                                value={this.state.content}
-                                onChange={this.onChangeContent}
-                                />
-                    </div>
-                    <div className="form-group">
-                    <label>Email Type: </label>
-                            <input   type="text" 
-                                    className="form-control"
-                                    value={this.state.emailType}
-
-                                    onChange={this.onChangeEmailType}
-                                    />
-                            
-                        </div>
-                        <div className="form-group">
                     <label>Receiver Email: </label>
                             <input   type="text" 
                                     className="form-control"
@@ -114,6 +88,91 @@ export default class CreateEmail extends Component {
                                     />
                             
                         </div>
+                        <div className="form-group"> 
+                        <label>Subject: </label>
+                        <input  type="text"
+                                className="form-control"
+                                value={this.state.subject}
+                                onChange={this.onChangeSubject}
+                                />
+                    </div>
+                    <div className="form-group">
+                        <label>Content: </label>
+                        <textarea
+                                type="text" 
+                                className="form-control"
+                                value={this.state.content}
+                                onChange={this.onChangeContent}
+                                />
+                    </div>
+                    <div className="form-group">
+                    <label>Email Type: </label>
+                    <div className="form-group">
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="Project Orientation Invitation"
+                value="Project Orientation Invitation"
+                checked={this.state.emailType === "Project Orientation Invitation"}
+                onChange={this.onChangeEmailType}
+              />
+                <label className="form-check-label">Project Orientation Invitation</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="Inquiry"
+                value="Inquiry"
+                checked={this.state.emailType === "Inquiry"}
+                onChange={this.onChangeEmailType}
+              />
+               <label className="form-check-label">Inquiry</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="Issue"
+                value="Issue"
+                checked={this.state.emailType === "Issue"}
+                onChange={this.onChangeEmailType}
+              />
+               <label className="form-check-label">Issue</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="Negotiation"
+                value="Negotiation"
+                checked={this.state.emailType === "Negotiation"}
+                onChange={this.onChangeEmailType}
+              />
+              <label className="form-check-label">Negotiation</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="priorityOptions"
+                id="Other"
+                value="Other"
+                checked={this.state.emailType === "Other"}
+                onChange={this.onChangeEmailType}
+              />
+               <label className="form-check-label">Other</label>
+            </div>
+            </div>
+                   
+                            
+                        </div>
+                     
                     <div className="form-group">
                         <input type="submit" value="Create New Email" className="btn btn-primary" />
                     </div>

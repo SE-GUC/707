@@ -91,6 +91,35 @@ router.get(
     }
   }
 );
+//View a certain sent email by id
+router.get(
+  "/sent/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.findById(req.id, function(err, foundUser) {
+        if (!err){
+          for(i=0;i<foundUser.inbox.sentEmails.length;i++){
+            if(foundUser.inbox.sentEmails[i]._id.toString()===req.params.id){
+              res.json({
+                msg: "Your sent email",
+                data: foundUser.inbox.sentEmails[i]
+              });
+            }
+          }
+          
+      }else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //View all received emails
 router.get(
   "/received",
@@ -104,6 +133,35 @@ router.get(
             data: foundUser.inbox.receivedEmails
           });
         else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View a certain received email by id
+router.get(
+  "/received/:id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.findById(req.id, function(err, foundUser) {
+        if (!err){
+          for(i=0;i<foundUser.inbox.receivedEmails.length;i++){
+            if(foundUser.inbox.receivedEmails[i]._id.toString()===req.params.id){
+              res.json({
+                msg: "Your received email",
+                data: foundUser.inbox.receivedEmails[i]
+              });
+            }
+          }
+          
+      }else
           res.json({
             error: err.message
           });
