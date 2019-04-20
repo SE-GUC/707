@@ -58,6 +58,7 @@ import createReport from "./components/createReport-cons.component";
 import ConsultancyRequestCertificate from "./components/consultancy-request-certificate.component.js";
 import PartnerCreateProjects from "./components/partner-create-projects.component.js";
 import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
+import CreateEmail from "./components/emails.component.js";
 
 class App extends Component {
   render() {
@@ -152,6 +153,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/candidateskillsupdate" className="nav-link">Update Candidate Skills</Link>
                 </li> 
+                <li className="navbar-item">
+                  <Link to="/createEmail" className="nav-link">Send new email</Link>
+                </li> 
                 
             </ul>
           </div>
@@ -171,6 +175,7 @@ class App extends Component {
         <Route path="/viewCandidatereccertificate" component={getallcertificateRecCandidate}/>
         <Route path="/viewAllAnnouncements_Candidate" component={viewAllAnnouncements_Candidate} />
         <Route path="/getAnnouncementbyID_Candidate" component={getAnnouncementbyID_Candidate} />
+        <Route path= "/createEmail" component={CreateEmail} />
 
       </div>
     );
@@ -272,6 +277,9 @@ class App extends Component {
                     create Reports for consultancy
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/createEmail" className="nav-link">Send new email</Link>
+                </li> 
 
             </ul>
           </div>
@@ -302,6 +310,7 @@ class App extends Component {
           <Route path="/deleteReport-cons" component={deleteReport_cons} />
           <Route path="/updateReport-cons" component={updateReport_cons} />
           <Route path="/createReport-cons" component={createReport} />
+          <Route path= "/createEmail" component={CreateEmail} />
       </div>
     );
     const partnerLinks = (
@@ -357,6 +366,9 @@ class App extends Component {
                     View Reports for Partner by id 
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/createEmail" className="nav-link">Send new email</Link>
+                </li> 
             </ul>
           </div>
         </nav>
@@ -369,6 +381,7 @@ class App extends Component {
         <Route path="/getAnnouncementbyID_Partner" component={getAnnouncementbyID_Partner} />
         <Route path="/getResearchbyID_Partner" component={getResearchbyID_Partner} />
         <Route path="/viewReportbyid-partners" component={getreportbyID_part} />
+        <Route path= "/createEmail" component={CreateEmail} />
       </div>
     );
     const adminLinks = (
@@ -451,6 +464,9 @@ class App extends Component {
                     View Reports for Admin by id 
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/createEmail" className="nav-link">Send new email</Link>
+                </li> 
             </ul>
           </div>
         </nav>
@@ -471,99 +487,10 @@ class App extends Component {
         <Route path="/getResearchbyID_Admin" component={getResearchbyID_Admin} />
         <Route path="/getProjectbyID_Admin" component={getProjectbyID_Admin} />
         <Route path="/viewReportbyid-admin" component={getreportbyID_Admin} />
+        <Route path= "/createEmail" component={CreateEmail} />
       </div>
     );
     return (
-      // <Router>
-      //   <div className="container">
-      //     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      //       <a
-      //         className="navbar-brand"
-      //         href="http://localhost:3000/"
-      //         target="_blank"
-      //       >
-      //         <img
-      //           src={logo}
-      //           width="287px"
-      //           height="100px"
-      //           alt="LirtenHub-Logo"
-      //         />
-      //       </a>
-      //       <div className="collpase navbar-collapse">
-      //         <ul className="navbar-nav mr-auto">
-      //           <li className="navbar-item">
-      //             <Link to="/" className="nav-link">
-      //               Home
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/createaccount" className="nav-link">
-      //               Register to LirtenHub
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/login" className="nav-link">
-      //               Login
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/AdminProfile" className="nav-link">
-      //               Show Admin Profile
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/consultancyProfile" className="nav-link">
-      //               Show consultancy Profile
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/partnerProfile" className="nav-link">
-      //               Show Partner Profile
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/candidateProfile" className="nav-link">
-      //               Show candidate Profile
-      //             </Link>
-      //             <Link to="/awaitingprojects" className="nav-link">
-      //               Awaiting Projects
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/adminprojects" className="nav-link">
-      //               Admin Projects
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/candidatereports" className="nav-link">
-      //               Candidate Reports
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/candidateresearches" className="nav-link">
-      //               Candidate Researches
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/candidaterequestcertificate" className="nav-link">
-      //               Candidate Request Certificate
-      //             </Link>
-      //           </li>
-      //           <li className="navbar-item">
-      //             <Link to="/search" className="nav-link">
-      //               Search
-      //             </Link>
-      //           </li>
-               
-               
-          //     </ul>
-          //   </div>
-          // </nav>
-          // <br />
-         
-          
-         
-        // </div>
         <Router>
         {usertype === "candidate"
           ? candidateLinks
