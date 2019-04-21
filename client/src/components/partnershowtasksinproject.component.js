@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-export default class showtasksofproject extends Component {
+export default class partnershowtasks extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +15,7 @@ export default class showtasksofproject extends Component {
         const token = cookies.get("token");
         const {project}=this.props.match.params
         axios
-          .get("http://localhost:5000/api/consultancies/project/tasks/"+{project}.project, {
+          .get("http://localhost:5000/api/partners/project/tasks/"+{project}.project, {
             headers: {
               Authorization: token
             }
@@ -27,7 +27,12 @@ export default class showtasksofproject extends Component {
       }
       
       showcandidates = id => {
-        window.location.replace("/conshowcandidate/"+id)
+        const {project}=this.props.match.params
+        window.location.replace("/partnershowcandidates/"+{project}.project+"/"+id)
+        
+      };
+      showassignedcandidate = id => {
+        window.location.replace("/sacand/"+id)
         
       };
       
@@ -75,17 +80,23 @@ export default class showtasksofproject extends Component {
           <div className="form-group">
             <label>Contract Signed: {String(project.contractSigned)}</label>
           </div>
-          {/* <div key={project._id}>
-          <Link to={`consshowcandidate/${project._id}`}>Show candidates applied on this task</Link>
-          </div> */}
+      
           <div className="form-group">
             <input
               type="submit"
-              value="Show candidates"
+              value="Show applied candidates"
               className="btn btn-primary"
               onClick={this.showcandidates.bind(this,project._id)}
             />
           </div>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Show candidate assigned to this task"
+              className="btn btn-primary"
+              onClick={this.showassignedcandidate.bind(this,project._id)}
+            />
+            </div>
               </li>
             ))}
           </ul>
