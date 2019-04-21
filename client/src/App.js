@@ -65,6 +65,10 @@ import partnerassignedconsultancy from "./components/partnerassignedconsultancy.
 import partnershowtasks from "./components/partnershowtasksinproject.component.js";
 import partnershowcandidate from "./components/partnershowcandidates.component.js";
 import partnershowassignedcandidate from "./components/partnershowassignedcandidate.component.js";
+import viewAllEvaluations_Admin from "./components/viewAllEvaluations_Admin.component.js";
+import viewEvaluationbyId_Admin from "./components/viewEvaluationbyId_Admin.component.js";
+import viewOneEvaluation_Admin from "./components/viewOneEvaluation_Admin.component.js";
+
 class App extends Component {
   render() {
     const cookies = new Cookies();
@@ -299,7 +303,6 @@ class App extends Component {
         <Route path="/getAnnouncementbyID_Consultant" component={getAnnouncementbyID_Consultant} />
         <Route path="/consapprovedproject" component={consproj}/>
           <Route path='/updateconstaskattribute/:task/:project' component={updateconsttask}/>
-          <Route path='/updatetaskattribute/:task/:project' component={updatetask}/>
           <Route path='/consresearchcreate' component={createresearch}/>
           <Route path="/consultancyskillsupdate" component={updateconsSkills} />
           <Route path="/consultancyviewresearches" component={consviewallresearches} />
@@ -314,6 +317,7 @@ class App extends Component {
           <Route path="/createReport-cons" component={createReport} />
           <Route path="/recommendedprojects" component={consultancyrecommendedprojects} />
           
+
       </div>
     );
     const partnerLinks = (
@@ -476,6 +480,11 @@ class App extends Component {
                     View Reports for Admin by id 
                   </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/viewAllEvaluations_Admin" className="nav-link">
+                    View All Evaluations
+                  </Link>
+                </li>
             </ul>
           </div>
         </nav>
@@ -496,6 +505,11 @@ class App extends Component {
         <Route path="/getResearchbyID_Admin" component={getResearchbyID_Admin} />
         <Route path="/getProjectbyID_Admin" component={getProjectbyID_Admin} />
         <Route path="/viewReportbyid-admin" component={getreportbyID_Admin} />
+        <Route path="/viewAllEvaluations_Admin" component={viewAllEvaluations_Admin} />
+        <Route path='/viewEvaluationbyId_Admin/:evaluation' component={viewEvaluationbyId_Admin}/>
+        <Route path='/updatetaskattribute/:task/:project' component={updatetask}/>
+        <Route path='/viewOneEvaluation_Admin/:evaluation' component={viewOneEvaluation_Admin}/>
+
       </div>
     );
     return (

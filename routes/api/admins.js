@@ -9,6 +9,7 @@ const Report = require("../../models/Report");
 const Research = require("../../models/Research");
 const Task = require("../../models/Task");
 const Candidate = require("../../models/User").Candidate;
+const Consultancy = require("../../models/User").Consultancy;
 const Partner = require("../../models/User").Partner;
 //View all projects
 router.get(
@@ -417,11 +418,11 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Certificate.find({}, function(err, foundcertificates) {
+      Certificate.find({}, function(err, foundCertificates) {
         if (!err)
           res.json({
             msg: "All certificates information",
-            data: foundcertificates
+            data: foundCertificates
           });
         else
           res.json({
@@ -445,11 +446,11 @@ router.get(
         {
           available: false
         },
-        function(err, foundcertificates) {
+        function(err, foundCertificates) {
           if (!err)
             res.json({
               msg: "All certificates information",
-              data: foundcertificates
+              data: foundCertificates
             });
           else
             res.json({
@@ -676,6 +677,30 @@ router.get(
     }
   }
 );
+//View all evaluation Tests for all certificates combined
+router.get(
+  "/evaluations",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Evaluation.find({}, function(err, foundEvaluation) {
+        if (!err)
+          res.json({
+            msg: "All evaluations information",
+            data: foundEvaluation
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //Update certificate's evaluation tests by it's id
 router.put(
   "/certificate/evaluationTests/:certificateID/:evaluationID",
@@ -793,9 +818,78 @@ router.delete(
     }
   }
 );
+//View all candidates applying for a certain certificate
+router.get(
+  "/candidate/pendingCertificates/:certificateID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Candidate.find(
+        {
+          "pendingCertificates._id": req.params.certificateID
+        },
+        function(err, foundCandidates) {
+          if (!err)
+            res.json({
+              msg:
+                "These are the candidates applying for the requested certificate",
+              data: foundCandidates
+            });
+          else
+            res.json({
+              error: err.message
+            });
+        }
+      );
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View a submitted certificate evaluation's answer for a candidate by his id to approve
+router.get(
+  "/pendingCertificates/evaluationTests/:candidateID/:evaluationID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Candidate.findById(req.id, function(err, foundUser) {
+        if (!err) {
+          for (i = 0; i < foundUser.pendingCertificates.length; i++)
+            for (
+              j = 0;
+              j < foundUser.pendingCertificates[i].evaluationTests.length;
+              j++
+            )
+              if (
+                foundUser.pendingCertificates[i].evaluationTests[
+                  j
+                ]._id.toString() === req.params.evaluationID.toString()
+              )
+                return res.json({
+                  msg: "This is the evaluation answer",
+                  data:
+                    foundUser.pendingCertificates[i].evaluationTests[j].answer
+                });
+          return res.status(404).send({
+            error: "This evaluation does not exist"
+          });
+        } else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //Approve a submitted certificate evaluation for a candidate
-router.put(
-  "/acquiredCertificates/:certificateID/:candidateID",
+router.post(
+  "/pendingCertificates/:certificateID/:candidateID",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -812,6 +906,132 @@ router.put(
             Candidate.update(
               {
                 _id: req.params.candidateID,
+                "pendingCertificates._id": req.params.certificateID
+              },
+              {
+                $pull: {
+                  pendingCertificates: foundCertificate
+                },
+                $push: {
+                  acquiredCertificates: foundCertificate
+                }
+              },
+              {
+                new: true
+              },
+              function(err) {
+                if (!err)
+                  res.json({
+                    msg:
+                      "Now this certificate's evaluation is approved and posted on your profile",
+                    data: foundCertificate
+                  });
+                else
+                  res.json({
+                    error: err.message
+                  });
+              }
+            );
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all consultancies applying for a certain certificate
+router.get(
+  "/candidate/pendingCertificates/:certificateID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Consultancy.find(
+        {
+          "pendingCertificates._id": req.params.certificateID
+        },
+        function(err, foundConsultancies) {
+          if (!err)
+            res.json({
+              msg:
+                "These are the consultancies applying for the requested certificate",
+              data: foundConsultancies
+            });
+          else
+            res.json({
+              error: err.message
+            });
+        }
+      );
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View a submitted certificate evaluation's answer for a consultancy by id to approve
+router.get(
+  "/pendingCertificates/evaluationTests/:consultancyID/:evaluationID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Consultancy.findById(req.id, function(err, foundUser) {
+        if (!err) {
+          for (i = 0; i < foundUser.pendingCertificates.length; i++)
+            for (
+              j = 0;
+              j < foundUser.pendingCertificates[i].evaluationTests.length;
+              j++
+            )
+              if (
+                foundUser.pendingCertificates[i].evaluationTests[
+                  j
+                ]._id.toString() === req.params.evaluationID.toString()
+              )
+                return res.json({
+                  msg: "This is the evaluation answer",
+                  data:
+                    foundUser.pendingCertificates[i].evaluationTests[j].answer
+                });
+          return res.status(404).send({
+            error: "This evaluation does not exist"
+          });
+        } else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//Approve a submitted certificate evaluation for a consultancy
+router.post(
+  "/pendingCertificates/:certificateID/:consultancyID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Certificate.findById(req.params.certificateID, function(
+        err,
+        foundCertificate
+      ) {
+        if (!err)
+          if (!foundCertificate)
+            res.status(404).send({
+              error: "This certificate does not exist"
+            });
+          else
+            Consultancy.update(
+              {
+                _id: req.params.consultancyID,
                 "pendingCertificates._id": req.params.certificateID
               },
               {
@@ -1081,6 +1301,30 @@ router.get(
           res.json({
             msg: "Report information",
             data: foundReport
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all certificates
+router.get(
+  "/evaluationTests",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Evaluation.find({}, function(err, foundevaluations) {
+        if (!err)
+          res.json({
+            msg: "All evaluations information",
+            data: foundevaluations
           });
         else
           res.json({
