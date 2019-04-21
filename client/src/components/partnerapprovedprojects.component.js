@@ -31,7 +31,7 @@ export default class partnerapprovedprojects extends Component {
   
  
   showconsultancy = id => {
-    window.location.replace("/partnershowconsultancy/"+id)
+    window.location.replace("/partnershowconsultancies/"+id)
     
   };
   showassignedconsultancy = id => {

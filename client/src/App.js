@@ -418,7 +418,7 @@ class App extends Component {
         <Route path="/viewReportbyid-partners" component={getreportbyID_part} />
         <Route path= "/createEmail" component={CreateEmail} />
         <Route path="/partnerapprovedprojects" component={partnerapprovedprojects} />
-        <Route path="/partnershowconsultancy/:project" component={partnerconsultancyappliedonproject} />
+        <Route path="/partnershowconsultancies/:project" component={partnerconsultancyappliedonproject} />
 
         {/* <Route path="/partnershowassignedconsultancy/:project" component={partnerassignedconsultancy} /> */}
         <Route path="/sacons/:project" component={partnerassignedconsultancy} />
