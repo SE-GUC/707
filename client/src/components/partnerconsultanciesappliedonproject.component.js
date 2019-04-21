@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-export default class addtaskinproject extends Component {
+export default class partnershowcons extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -62,7 +62,7 @@ export default class addtaskinproject extends Component {
             <label>Profession: {consultancy.profession}</label>
           </div>
           <div className="form-group">
-            <label>Establishment date: {this.state.establishmentDate}</label>
+            <label>Establishment date: {consultancy.establishmentDate}</label>
           </div>
           <div className="form-group">
             <label>Interests: </label>
