@@ -12,7 +12,21 @@ export default class consultancyshowcandidates extends Component {
     };
   }
   
-  
+  accept = id => { 
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const {task}=this.props.match.params
+    const {project}=this.props.match.params
+    axios
+    .post("http://localhost:5000/api/consultancies/candidate/pendingTasks/"+{project}.project+"/"+{task}.task+"/"+id,{}, {
+      headers: {
+        Authorization: token
+      }
+    }).then(res => {
+        alert("You accepted a Candidate");
+      })
+   
+};
 
   componentDidMount() {
     const cookies = new Cookies();
@@ -32,10 +46,10 @@ export default class consultancyshowcandidates extends Component {
   render() {
     return (
       <ul>
-          
+           <h3>Candidates applied for this task</h3>
         {this.state.candidates.map(candidate => (
           <li>
-              <h3>Candidates applied for this task</h3>
+             
             <div className="form-group">
         <label>Name: {candidate.name}</label><br />
       </div>
@@ -61,7 +75,14 @@ export default class consultancyshowcandidates extends Component {
         <label>Occupation: {candidate.occupation}</label><br />
       </div>
 
-      
+      <div className="form-group">
+            <input
+              type="submit"
+              value="Accept"
+              className="btn btn-primary"
+              onClick={this.accept.bind(this,candidate._id)}
+            />
+          </div>
           </li>
         ))}
       </ul>

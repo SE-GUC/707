@@ -27,7 +27,8 @@ export default class showtasksofproject extends Component {
       }
       
       showcandidates = id => {
-        window.location.replace("/conshowcandidate/"+id)
+        const {project}=this.props.match.params
+        window.location.replace("/conshowcandidates/"+{project}.project+"/"+id)
         
       };
       
