@@ -133,8 +133,9 @@ export default class projects extends Component {
         headers: {
           Authorization: token
         }
-      }).then(
-        console.log("h3ml update fe partner nawwww"),
+      }).then(res =>{
+        console.log("h3ml update fe partner nawwww");
+        console.log(res);
         axios.put('http://localhost:5000/api/partners/update/projects', {}, {
           headers: {
             Authorization: token
@@ -159,9 +160,9 @@ export default class projects extends Component {
               status: "Negotiation"
             })
             console.log(res.data);
-           // window.location.reload();
+            window.location.reload();
           }
-          ))
+          )})
 
     }
   };

@@ -15,7 +15,7 @@ export default class viewEvaluationbyId_Admin extends Component {
 
         this.state = {
             evaluations: [],
-            eval_id: '',
+            evaluation:{},
             type: '',
             content: '',
             total: '',
@@ -55,54 +55,47 @@ export default class viewEvaluationbyId_Admin extends Component {
     deleteOneEvaluation(id) {
         const cookies = new Cookies();
         const token = cookies.get('token');
-        const { evaluation } = this.props.match.params;        
+        const { evaluation } = this.props.match.params;
         axios.delete('http://localhost:5000/api/admins/certificate/evaluationTests/' + { evaluation }.evaluation + '/' + id, {
             headers: {
                 Authorization: token
             }
 
-                })
-                .then(res => {
-                    console.log(res.data.data);
-                    this.setState({
-                        eval_id: '',
-                        type: '',
-                        content: '',
-                        total: '',
-                        passing: ''
-                        //contexteditable: false
+        })
+            .then(res => {
+                console.log(res.data.data);
+                this.setState({
+                    eval_id: '',
+                    type: '',
+                    content: '',
+                    total: '',
+                    passing: ''
+                    //contexteditable: false
                 });
                 window.location.reload();
-               
-           
+
+
             });
-       
+
     };
-    editOneEvaluation(id) {
+    editOneEvaluation(evaluation1) {
         const cookies = new Cookies();
         const token = cookies.get('token');
         console.log(this.state.contexteditable);
-        const { evaluation } = this.props.match.params;        
+        const { evaluation } = this.props.match.params;
         if (!this.state.contexteditable) {
-            axios.get('http://localhost:5000/api/admins/certificate/evaluationTest/' +id, {
-                headers: {
-                    Authorization: token
-                }
-            })
-                .then(res => {
-                    console.log(res.data.data);
-                    const evaluations = res.data.data;
+
                     this.setState({
-                        eval_id: evaluations._id,
-                        type: evaluations.type,
-                        content: evaluations.content,
-                        total: evaluations.totalScore,
-                        passing: evaluations.passingScore,
+                        evaluation:evaluation1,
+                        type: evaluation1.type,
+                        content: evaluation1.content,
+                        total: evaluation1.totalScore,
+                        passing: evaluation1.passingScore,
                         contexteditable: true
                     });
-                   
 
-                })
+
+     
 
         }
         else {
@@ -113,14 +106,14 @@ export default class viewEvaluationbyId_Admin extends Component {
                 totalScore: this.state.total,
                 passingScore: this.state.passing
             }
-            axios.put('http://localhost:5000/api/admins/certificate/evaluationTests/' + { evaluation }.evaluation + '/' + this.state.eval_id, updatedevaluation, {
+            axios.put('http://localhost:5000/api/admins/certificate/evaluationTests/' + { evaluation }.evaluation + '/' + this.state.eval._id, updatedevaluation, {
                 headers: {
                     Authorization: token
                 }
             })
                 .then(res => {
                     this.setState({
-                        eval_id: '',
+                        evaluation:{},
                         type: '',
                         content: '',
                         total: '',
@@ -129,21 +122,11 @@ export default class viewEvaluationbyId_Admin extends Component {
                     })
                     console.log(res.data.data);
                     window.location.reload();
-               
-               
-        axios.get('http://localhost:5000/api/admins/certificate/evaluationTests/' + { evaluation }.evaluation, {
-            headers: {
-                Authorization: token
-            }
-        })
-            .then(res => {
-                console.log(res.data.data);
-                const evaluations = res.data.data;
-                this.setState({ evaluations });
-            }) })
-                }
+
+                })
+        }
     };
- 
+
     componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get('token');
@@ -156,7 +139,7 @@ export default class viewEvaluationbyId_Admin extends Component {
             }
         })
             .then(res => {
-                console.log(res.data.data);
+                console.log(res.data);
                 const evaluations = res.data.data;
                 this.setState({ evaluations });
             })
@@ -188,8 +171,8 @@ export default class viewEvaluationbyId_Admin extends Component {
                                     <td>{person.totalScore}</td>
                                     <td>{person.passingScore}</td>
                                     <td>
-                                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, person._id)}>Edit</button></td>
-                                   <td> <button id="btn2" onClick={this.deleteOneEvaluation.bind(this, person._id)}>Delete</button></td>
+                                        <button id="btn1" onClick={this.editOneEvaluation.bind(this, person)}>Edit</button></td>
+                                    <td> <button id="btn2" onClick={this.deleteOneEvaluation.bind(this, person._id)}>Delete</button></td>
 
                                 </tr>
                             </tbody>
@@ -221,7 +204,7 @@ export default class viewEvaluationbyId_Admin extends Component {
                         <Form.Label>Total Grade</Form.Label>
                         <Form.Control type="text" placeholder={this.state.total} onChange={this.onChangeTotal} />
                     </Form.Group>
-                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, this.state.eval_id)}>Edit</button>
+                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, this.state.eval)}>Edit</button>
 
 
                 </Form>
