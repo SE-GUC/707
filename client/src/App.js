@@ -59,10 +59,15 @@ import ConsultancyRequestCertificate from "./components/consultancy-request-cert
 import PartnerCreateProjects from "./components/partner-create-projects.component.js";
 import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
 import CreateEmail from "./components/emails.component.js";
+import CandidateTasks from "./components/candidate-tasks.component.js";
+import CandidateApprovedTasks from "./components/candidate-approved-tasks.component.js";
 import consultancyrecommendedprojects from "./components/consultancyrecprojects.component.js";
 import partnerapprovedprojects from "./components/partnerapprovedprojects.component.js";
 import partnerconsultancyappliedonproject from "./components/partnerconsultanciesappliedonproject.component.js";
-import partnerassignedconsultancy from "./components/partnerassignedconsultancy.component";
+import partnerassignedconsultancy from "./components/partnerassignedconsultancy.component.js";
+import partnershowtasks from "./components/partnershowtasksinproject.component.js";
+import partnershowcandidate from "./components/partnershowcandidates.component.js";
+import partnershowassignedcandidate from "./components/partnershowassignedcandidate.component.js";
 import viewAllEvaluations_Admin from "./components/viewAllEvaluations_Admin.component.js";
 import viewEvaluationbyId_Admin from "./components/viewEvaluationbyId_Admin.component.js";
 import viewOneEvaluation_Admin from "./components/viewOneEvaluation_Admin.component.js";
@@ -169,6 +174,14 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewrecievedemails" className="nav-link">View Recieved Mails</Link>
                 </li> 
+
+                <li className="navbar-item">
+                  <Link to="/viewtasks" className="nav-link"> Candidate Tasks</Link>
+                </li> 
+                <li className="navbar-item">
+                  <Link to="/viewapprovedtasks" className="nav-link"> Candidate Approved Tasks</Link>
+                </li>
+                
             </ul>
           </div>
         </nav>
@@ -190,6 +203,10 @@ class App extends Component {
         <Route path= "/createEmail" component={CreateEmail} />
         <Route path= "/viewsentmails" component={getallSentEmails} />
         <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
+
+        <Route path="/viewtasks" component={CandidateTasks} />
+        <Route path="/viewapprovedtasks" component={CandidateApprovedTasks} />
+
 
       </div>
     );
@@ -218,7 +235,7 @@ class App extends Component {
               </li>
               <li className="navbar-item">
                 <Link to="/consultancyrequestcertificate" className="nav-link">
-                  Request Certificate
+                  Consultancy Request Certificate
                 </Link>
               </li>
               <li className="navbar-item">
@@ -319,7 +336,7 @@ class App extends Component {
           <Route path="/consappprojects" component={consultancyapprovedprojects} />
           <Route path="/consaddtask/:project" component={consultancyaddtask} />
           <Route path="/consshowtasks/:project" component={consultancyshowtask} />
-          <Route path="/consshowcandidate/:task" component={consultancyshowcandidates} />
+          <Route path="/conshowcand/:project/:task" component={consultancyshowcandidates} />
           <Route path="/viewReportbyid-cons" component={getreportbyID_cons} />
           <Route path="/deleteReport-cons" component={deleteReport_cons} />
           <Route path="/updateReport-cons" component={updateReport_cons} />
@@ -410,10 +427,16 @@ class App extends Component {
         <Route path="/viewReportbyid-partners" component={getreportbyID_part} />
         <Route path= "/createEmail" component={CreateEmail} />
         <Route path="/partnerapprovedprojects" component={partnerapprovedprojects} />
-        <Route path="/partnershowconsultancy/:project" component={partnerconsultancyappliedonproject} />
-        <Route path="/sac/:project" component={partnerassignedconsultancy} />
+        <Route path="/partnershowconsultancies/:project" component={partnerconsultancyappliedonproject} />
+
+        {/* <Route path="/partnershowassignedconsultancy/:project" component={partnerassignedconsultancy} /> */}
+        <Route path="/sacons/:project" component={partnerassignedconsultancy} />
+        <Route path="/partnershowtask/:project" component={partnershowtasks} />
+        <Route path="/partnershowcandidates/:project/:task" component={partnershowcandidate} />
+        <Route path="/sacand/:task" component={partnershowassignedcandidate} />
         <Route path= "/viewsentmails" component={getallSentEmails} />
         <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
+
       </div>
     );
     const adminLinks = (

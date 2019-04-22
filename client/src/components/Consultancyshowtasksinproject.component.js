@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-export default class addtaskinproject extends Component {
+export default class showtasksofproject extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +27,8 @@ export default class addtaskinproject extends Component {
       }
       
       showcandidates = id => {
-        window.location.replace("/consshowcandidate/"+id)
+        const {project}=this.props.match.params
+        window.location.replace("/conshowcand/"+{project}.project+"/"+id)
         
       };
       
