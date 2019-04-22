@@ -322,14 +322,16 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const Candidate = await Candidate.find({
+      console.log(req.params.taskID)
+      console.log(req.body)
+      const candidate = await Candidate.find({
         "approvedTasks._id": req.params.taskID
       });
-      if (!Candidate)
+      if (candidate)
         Task.findByIdAndUpdate(
           req.params.taskID,
           {
-            taskcyle: req.body
+            taskcycle: req.body
           },
           {
             new: true
@@ -1092,19 +1094,23 @@ router.put(
       const tasks = await Task.find({});
       let pendingTasks = [];
       let approvedTasks = [];
+      let count = 0
       for (i = 0; i < candidate.pendingTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
-          if (
-            candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()
-          )
-            pendingTasks[i * tasks.length + j] = tasks[j];
+          if (candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()){
+            pendingTasks[count] = tasks[j];
+            count += 1
+          }
+      count = 0
       for (i = 0; i < candidate.approvedTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
           if (
             candidate.approvedTasks[i]._id.toString() ===
             tasks[j]._id.toString()
-          )
-            approvedTasks[i * tasks.length + j] = tasks[j];
+          ){
+            approvedTasks[count] = tasks[j];
+            count += 1
+          }
       Candidate.findByIdAndUpdate(
         req.id,
         {
