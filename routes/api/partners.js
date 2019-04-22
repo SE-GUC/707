@@ -623,11 +623,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      if (
-        await (Project.findById(req.params.projectID).status ===
-          "RequireCandidate" &&
-          Task.findById(req.params.taskID).status === "RequireCandidate")
-      )
+      const project= await(Project.findById(req.params.projectID))
+      const task= await(Task.findById(req.params.taskID))
+     
+      if (project.status === "processing" && task.status === "RequireCandidate")
+      
         Task.findByIdAndUpdate(
           req.params.taskID,
           {
