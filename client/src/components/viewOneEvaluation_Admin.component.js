@@ -4,15 +4,15 @@ import Table from 'react-bootstrap/Table';
 const axios = require("axios");
 
 
-export default class viewOneEvaluation_Admin extends Component {
+export default class viewOnlyEvaluation_Admin extends Component {
     constructor(props) {
       super(props);
       
      this.state = {
-            evaluationContent:'',
-            evaluationType:'',
-            passingScore:'',
-            totalScore:''
+           evaluationContent:'',
+           evaluationType:'',
+           passingScore:'',
+           totalScore:''
          }
      }
 

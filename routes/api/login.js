@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
           res.json({
             data: {
               token: `Bearer ${jwt.sign({ _id: foundUser._id }, tokenKey, {
-                expiresIn: "1h"
+                expiresIn: "6h"
               })}`,
               user: foundUser
             }

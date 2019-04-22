@@ -31,11 +31,15 @@ export default class partnerapprovedprojects extends Component {
   
  
   showconsultancy = id => {
-    window.location.replace("/partnershowconsultancy/"+id)
+    window.location.replace("/partnershowconsultancies/"+id)
     
   };
   showassignedconsultancy = id => {
-    window.location.replace("/sac/"+id)
+    window.location.replace("/sacons/"+id)
+    
+  };
+  showtasks = id => {
+    window.location.replace("/partnershowtask/"+id)
     
   };
 
@@ -131,7 +135,7 @@ export default class partnerapprovedprojects extends Component {
                 name="priorityOptions"
                 id="true"
                 value="true"
-                checked={this.state.type === "true"}
+                checked={project.type === "true"}
               />
               <label className="form-check-label">Signed Contract</label>
             </div>
@@ -142,6 +146,14 @@ export default class partnerapprovedprojects extends Component {
               })}
             </div>
 
+            <div className="form-group">
+            <input
+              type="submit"
+              value="Show Tasks"
+              className="btn btn-primary" 
+              onClick={this.showtasks.bind(this,project._id)}
+            />
+          </div>
             <div className="form-group">
             <input
               type="submit"
