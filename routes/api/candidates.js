@@ -1148,6 +1148,7 @@ router.put(
       const certificates = await Certificate.find({});
       let pendingCertificates = [];
       let acquiredCertificates = [];
+      let count = 0
       for (i = 0; i < candidate.pendingCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
@@ -1161,7 +1162,8 @@ router.put(
             candidate.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
           )
-            acquiredCertificates[i * certificates.length + j] = certificates[j];
+            acquiredCertificates[count] = certificates[j];
+            count+=1
       Candidate.findByIdAndUpdate(
         req.id,
         {
