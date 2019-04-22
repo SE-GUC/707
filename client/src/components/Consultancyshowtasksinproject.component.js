@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import Table from 'react-bootstrap/Table';
 import Cookies from "universal-cookie";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 export default class showtasksofproject extends Component {
@@ -28,14 +29,60 @@ export default class showtasksofproject extends Component {
       
       showcandidates = id => {
         const {project}=this.props.match.params
-        window.location.replace("/conshowcand/"+{project}.project+"/"+id)
+        window.location.replace("/conshowcan/"+{project}.project+"/"+id)
         
       };
       
       render() {
         return (
           <ul>
-            {this.state.tasks.map(project => (
+             <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Task Name</th>
+                                <th>Task Description</th>
+                                <th>type</th>
+                                <th>Deadline</th>
+                                <th>hours</th>
+                                <th>Minimum Credits Hour</th>
+                                <th>Maximum Credits Hour</th>
+                                <th>Credits Penalty</th>
+                                <th>Minimum Years Of Experience</th>
+                                <th>Required Skills</th>
+                                <th>Candidate Role</th>
+                                <th>Contract Signed</th>
+                                <th>Applied Candidates</th>
+                            </tr>
+                        </thead>
+                        {this.state.tasks.map(task =>
+
+                            <tbody>
+                                <tr >
+                                    <td >{task.name}</td>
+                                    <td> {task.description}</td>
+                                    <td>{task.type}</td>                                    
+                                    <td>{task.deadline}</td>
+                                    <td>{task.hours}</td>
+                                    <td>{task.minCreditsHour}</td>
+                                    <td>{task.maxCreditsHour}</td>
+                                    <td>{task.creditsPenalty}</td>
+                                    <td>{task.yearsOfExperience}</td>
+                                    <td> {task.requiredSkills.map(requiredSkills => {
+                                          return <li>{requiredSkills}</li>;
+                                               })}</td>           
+                                    <td>{task.candidateRole}</td>
+                                    <td>{String(task.contractSigned)}</td>
+                                    
+                                    <td>
+                                    <button id="btn1" onClick={this.showcandidates.bind(this,task._id)}>Show applied candidates</button></td>
+
+                                </tr>
+                            </tbody>
+                        )}
+                    </Table>
+
+
+            {/* {this.state.tasks.map(project => (
               <li>
                
                 <div className="form-group">
@@ -74,11 +121,8 @@ export default class showtasksofproject extends Component {
             <label>Candidate Role: {project.candidateRole}</label><br />
           </div>
           <div className="form-group">
-            <label>Contract Signed: {String(project.contractSigned)}</label>
+            <label>Contract Signed: {Strng(project.contractSigned)}i</label>
           </div>
-          {/* <div key={project._id}>
-          <Link to={`consshowcandidate/${project._id}`}>Show candidates applied on this task</Link>
-          </div> */}
           <div className="form-group">
             <input
               type="submit"
@@ -88,7 +132,7 @@ export default class showtasksofproject extends Component {
             />
           </div>
               </li>
-            ))}
+            ))} */}
           </ul>
         );
       }
