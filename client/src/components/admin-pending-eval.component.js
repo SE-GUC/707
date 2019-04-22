@@ -8,7 +8,8 @@ export default class evaluations extends Component {
     super(props);
     this.state = {
       certificates:[],
-      pendingEvaluations: []
+      pendingEvaluations: [],
+      Answer: []
     };
   }
   componentDidMount() {
@@ -26,7 +27,7 @@ export default class evaluations extends Component {
       });
   }
   
-  getAnswers(certId, evalId) {
+  getAnswers(evalId, certId) {
       console.log(certId)
       console.log(evalId)
       
@@ -40,7 +41,14 @@ export default class evaluations extends Component {
       })
       .then(res => {
         console.log(res.data.data)
-        return res.data.data
+        
+          return (<div>
+            {res.data.data.map(ans => (
+              <p> {ans} </p>
+            ))}
+            </div>)
+          
+          //this.setState({ Answer: res.data.data});
       })
       .catch(e =>{
           alert(e)
@@ -61,8 +69,8 @@ export default class evaluations extends Component {
                 Evaluations: {certificate.evaluationTests.map(eval1 => 
                 (
                     <p>
-                        Answer: <br></br>
-                        {this.getAnswers(eval1._id,certificate._id)}
+                      
+                        Answer: {this.getAnswers(eval1._id,certificate._id)}
                     </p>
                 ))              
                

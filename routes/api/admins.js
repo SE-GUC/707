@@ -876,12 +876,13 @@ router.get(
                     foundCandidates[i].pendingCertificates[j].evaluationTests[
                       k
                     ]._id.toString() === req.params.evaluationID.toString()
-                  )
+                  ){
                     candidates[count] =
                       foundCandidates[i].pendingCertificates[j].evaluationTests[
                         k
                       ].answer;
                       count+=1
+                    }
           res.json({
             msg:
               "These are the candidates applying for the requested certificate and the requested evaluation",
