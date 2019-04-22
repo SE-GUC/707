@@ -76,10 +76,11 @@ import getallRecievedEmails from "./components/viewRecievedMails.component.js";
 import AdminPendingEvaluations from "./components/admin-pending-eval.component.js";
 
 
+
 class App extends Component {
   render() {
     const cookies = new Cookies();
-    const token = cookies.get("token");
+    //const token = cookies.get("token");
     const usertype = cookies.get("usertype");
     const guestLinks = (
       <div className="container">
@@ -257,12 +258,6 @@ class App extends Component {
                   </Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/viewAllResearches" className="nav-link">
-                    View Researches
-                  </Link>
-                </li>
-                
-                <li className="navbar-item">
                   <Link to="/deleteResearches" className="nav-link">
                     View Researches for delete
                   </Link>
@@ -325,12 +320,12 @@ class App extends Component {
         </nav>
         <br />
         
-        <Route path="/logout" component={Logout} />
-        <Route path="/consultancyProfile" component={Consultancy} />
-        <Route path="/search" component={Search} />
-        <Route path="/consultancyrequestcertificate" component={ConsultancyRequestCertificate}/>
-        <Route path="/viewConsultancycertificate" component={getallcertificateConsultancy}/>
-        <Route path="/viewConsultancyreccertificate" component={getallcertificateRecConsultancy}/>
+          <Route path="/logout" component={Logout} />
+          <Route path="/consultancyProfile" component={Consultancy} />
+          <Route path="/search" component={Search} />
+          <Route path="/consultancyrequestcertificate" component={ConsultancyRequestCertificate}/>
+          <Route path="/viewConsultancycertificate" component={getallcertificateConsultancy}/>
+          <Route path="/viewConsultancyreccertificate" component={getallcertificateRecConsultancy}/>
           <Route path="/deleteResearches" component={deleteResearches} />
           <Route path="/viewAllAnnouncements_Consultant" component={viewAllAnnouncements_Consultant} />
           <Route path="/getAnnouncementbyID_Consultant" component={getAnnouncementbyID_Consultant} />
@@ -352,7 +347,7 @@ class App extends Component {
           <Route path="/recommendedprojects" component={consultancyrecommendedprojects} />
           <Route path= "/viewsentmails" component={getallSentEmails} />
           <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
-          
+         
 
       </div>
     );
