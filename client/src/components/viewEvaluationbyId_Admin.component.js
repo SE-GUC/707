@@ -93,8 +93,8 @@ export default class viewEvaluationbyId_Admin extends Component {
                     const evaluations = res.data.data;
                     this.setState({
                         eval_id: evaluations._id,
-                        type: evaluations.evaluationType,
-                        content: evaluations.evaluationContent,
+                        type: evaluations.type,
+                        content: evaluations.content,
                         total: evaluations.totalScore,
                         passing: evaluations.passingScore,
                         contexteditable: true
@@ -107,8 +107,8 @@ export default class viewEvaluationbyId_Admin extends Component {
         else {
             const { evaluation } = this.props.match.params;
             let updatedevaluation = {
-                evaluationContent: this.state.content,
-                evaluationType: this.state.type,
+                content: this.state.content,
+                type: this.state.type,
                 totalScore: this.state.total,
                 passingScore: this.state.passing
             }
@@ -171,12 +171,12 @@ export default class viewEvaluationbyId_Admin extends Component {
 
                             <tbody>
                                 <tr >
-                                    <td >{person.evaluationType}</td>
-                                    <td> {person.evaluationContent}</td>
+                                    <td >{person.type}</td>
+                                    <td> {person.content}</td>
                                     <td>{person.totalScore}</td>
                                     <td>{person.passingScore}</td>
                                     <td>
-                                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, person._id)}>Edit</button></td>
+                                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, person._id)}>Edit </button></td>
                                    <td> <button id="btn2" onClick={this.deleteOneEvaluation.bind(this, person._id)}>Delete</button></td>
 
                                 </tr>

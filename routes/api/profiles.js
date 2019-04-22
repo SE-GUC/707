@@ -39,11 +39,11 @@ router.get(
 );
 //View my profile by my email
 router.get(
-  "/",
+  "/:email",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      User.find({ email: req.body.email }, function(err, foundUser) {
+      User.find({email: req.params.email }, function(err, foundUser) {
         if (!err)
           if (!foundUser)
             res.status(404).send({

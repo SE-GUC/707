@@ -16,8 +16,6 @@ import CandidateResearches from "./components/candidate-researches.component.js"
 import CandidateRequestCertificate from "./components/request-certificate.component.js";
 import Search from "./components/search.component.js";
 import getallcertificate from "./components/certificate.component.js";
-import Createcertificate from "./components/createCertificate.component.js";
-import updateCertificate  from "./components/updateCertificate.component.js";
 import getallcertificateCandidate from "./components/candidateCertificatesAll.component.js";
 import getallcertificateRecCandidate from "./components/candidateRECcertificates.component.js";
 import getallcertificateConsultancy from "./components/consultancyCertificatesAll.component.js";
@@ -474,12 +472,6 @@ class App extends Component {
                   <Link to="/admincertificates" className="nav-link">view all certificates</Link>
                 </li>
                 <li className="navbar-item">
-                  <Link to="/createcertificate" className="nav-link">Create Certificate</Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/updatecertificate" className="nav-link">Update Certificates</Link>
-                </li>
-                <li className="navbar-item">
                   <Link to="/createAnnouncement" className="nav-link">
                     Create Announcement
                   </Link>
@@ -540,8 +532,6 @@ class App extends Component {
         <Route path="/adminprojects" component={AdminProjects} />
         <Route path="/search" component={Search} />
         <Route path="/admincertificates" component={getallcertificate}/>
-        <Route path="/createcertificate" component={Createcertificate}/>
-        <Route path="/updatecertificate" component={updateCertificate}/>
         <Route path="/createAnnouncement" component={createAnnouncement} />
         <Route path="/viewAllAnnouncements_Admin" component={viewAllAnnouncements_Admin} />
         <Route path="/deleteAnnouncements" component={deleteAnnouncements} />
