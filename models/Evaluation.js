@@ -20,8 +20,10 @@ var evaluationSchema = new Schema({
   passingScore: Number,
   score: Number,
   passed: Boolean,
-  answer: {type: String,
-  default: "not answered yet"}
+  answer: {
+    type: String,
+    default: "not answered yet"
+  }
 });
 evaluationSchema.index({
   "$**": "text"

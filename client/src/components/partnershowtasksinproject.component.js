@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-export default class partnershowcons extends Component {
+export default class partnershowtasks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            consultancies: []
+            tasks: []
         };
       }
 
@@ -15,77 +15,34 @@ export default class partnershowcons extends Component {
         const token = cookies.get("token");
         const {project}=this.props.match.params
         axios
-          .get("http://localhost:5000/api/partners/consultancy/pendingProjects/"+{project}.project, {
+          .get("http://localhost:5000/api/partners/project/tasks/"+{project}.project, {
             headers: {
               Authorization: token
             }
           })
           .then(res => {
-            const consultancies = res.data.data;
-            this.setState({ consultancies });
+            const tasks = res.data.data;
+            this.setState({ tasks });
           });
       }
-
-      accept = id => { 
-        const cookies = new Cookies();
-        const token = cookies.get("token");
+      
+      showcandidates = id => {
         const {project}=this.props.match.params
-        axios
-        .post("http://localhost:5000/api/partners/consultancy/pendingProjects/"+{project}.project+"/"+id,{}, {
-          headers: {
-            Authorization: token
-          }
-        }).then(res => {
-            alert("You accepted a consultancy");
-          })
-       
-    };
+        window.location.replace("/partnershowcandidates/"+{project}.project+"/"+id)
+        
+      };
+      showassignedcandidate = id => {
+        window.location.replace("/sacand/"+id)
+        
+      };
       
       render() {
         return (
           <ul>
-            {this.state.consultancies.map(consultancy => (
+            {this.state.tasks.map(project => (
               <li>
-               <div className="form-group">
-            <label>Name: {consultancy.name}</label>
-          </div>
-          <div className="form-group">
-            <label>Email: {consultancy.email}</label>
-          </div>
-          <div className="form-group">
-            <label>Address: {consultancy.address}</label>
-          </div>
-          <div className="form-group">
-            <label>Years of Experience: {consultancy.yearsOfExperience}</label>
-          </div>
-          <div className="form-group">
-            <label>Profession: {consultancy.profession}</label>
-          </div>
-          <div className="form-group">
-            <label>Establishment date: {consultancy.establishmentDate}</label>
-          </div>
-          <div className="form-group">
-            <label>Interests: </label>
-            <li>{consultancy.interests.map(interest => {
-            return<li>{interest}</li>})}</li>
-            <br />
-          </div>
-          <div className="form-group">
-            <label>Contact numbers: </label>
-            <li>{consultancy.contactNumbers.map(contact => {
-            return<li>{contact}</li>})}</li>
-            <br />
-          </div>
-          <div className="form-group">
-            <label>Skills: </label>
-            <li>{consultancy.skills.map(skill => {
-            return<li>{skill}</li>})}</li>
-            <br />
-          </div>
-
-
-
-                {/* <div className="form-group">
+               
+                <div className="form-group">
             <label>Task Name: {project.name}</label><br />
           </div>
           <div className="form-group">
@@ -122,18 +79,24 @@ export default class partnershowcons extends Component {
           </div>
           <div className="form-group">
             <label>Contract Signed: {String(project.contractSigned)}</label>
-          </div> */}
-          {/* <div key={project._id}>
-          <Link to={`consshowcandidate/${project._id}`}>Show candidates applied on this task</Link>
-          </div> */}
+          </div>
+      
           <div className="form-group">
             <input
               type="submit"
-              value="Accept"
+              value="Show applied candidates"
               className="btn btn-primary"
-               onClick={this.accept.bind(this,consultancy._id)}
+              onClick={this.showcandidates.bind(this,project._id)}
             />
           </div>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Show candidate assigned to this task"
+              className="btn btn-primary"
+              onClick={this.showassignedcandidate.bind(this,project._id)}
+            />
+            </div>
               </li>
             ))}
           </ul>

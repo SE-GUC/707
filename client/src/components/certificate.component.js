@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Form'
@@ -181,7 +180,7 @@ export default class getallcertificate extends Component {
         return (
           <ul>
             { this.state.certificates.map(person => <li>
-                <p>
+                
                 Certificate Name: {person.name}<br></br>   
                 Certificate Description: {person.description}<br></br>  
                 Certificate Category: {person.category}<br></br> 
@@ -197,7 +196,7 @@ export default class getallcertificate extends Component {
 </div>
  )
   )}
-                <p>
+                
                 <Form>
                      <Form.Row>
                        <Form.Group as={Col} controlId="formGridContent">
@@ -249,7 +248,7 @@ export default class getallcertificate extends Component {
                      <button type="button" className="btn btn-danger" onClick={this.onSubmit.bind(this, person._id)}>view Certificate</button><br></br> 
                      </Form.Group> 
                      &nbsp;  &nbsp;
-                     <Form.Group as={Col} controlId="formDeleteCert">
+                     <Form.Group as={Col} controlId="formShowAllCertificates">
                      <button type="button" className="btn btn-danger" onClick={this.showAllEvaluations.bind(this, person._id)}>Show All Evaluations Information</button>
                      </Form.Group> 
                      &nbsp;  &nbsp;
@@ -258,14 +257,14 @@ export default class getallcertificate extends Component {
                      </Form.Group> 
                      </Form.Row>
                    </Form>
-                  </p>
+                  
 
               
              <br/>  
              <br/>
 
                 
-            </p>   </li>)}
+             </li>)}
           </ul>
         )
       }
