@@ -87,7 +87,7 @@ router.post(
           if (!err)
             res.json({
               msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
+              data: foundUser.profilePhoto.data
             });
           else
             res.json({
@@ -116,11 +116,10 @@ router.delete(
         {
           new: true
         },
-        function(err, foundUser) {
+        function(err) {
           if (!err)
             res.json({
-              msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
+              msg: "Your profile has deleted successfully"
             });
           else
             res.json({
