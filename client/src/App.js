@@ -338,7 +338,7 @@ class App extends Component {
           <Route path="/consappprojects" component={consultancyapprovedprojects} />
           <Route path="/consaddtask/:project" component={consultancyaddtask} />
           <Route path="/consshowtasks/:project" component={consultancyshowtask} />
-          <Route path="/conshowcand/:project/:task" component={consultancyshowcandidates} />
+          <Route path="/conshowcan/:project/:task" component={consultancyshowcandidates} />
           <Route path="/viewReportbyid-cons" component={getreportbyID_cons} />
           <Route path="/deleteReport-cons" component={deleteReport_cons} />
           <Route path="/updateReport-cons" component={updateReport_cons} />
