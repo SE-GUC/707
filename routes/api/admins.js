@@ -1401,19 +1401,22 @@ router.get(
     try {
       Report.findById(req.params.reportID, function(err, foundReport) {
         if (!err)
+        return(
           res.json({
             msg: "Report information",
             data: foundReport
-          });
+          }));
         else
+        return(
           res.json({
             error: err.message
-          });
+          }));
       });
     } catch (error) {
+      return(
       res.json({
         error: error.message
-      });
+      }));
     }
   }
 );

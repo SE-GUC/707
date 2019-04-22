@@ -12,7 +12,7 @@ export default class getreportbyID_Admin extends Component {
         const cookies= new Cookies();
          const token= cookies.get('token')
         axios.get("http://localhost:5000/api/admins/reports", {  headers: {
-          Authorization: token.data}
+          Authorization: token}
         })
           .then(res => {
             const reports = res.data.data;
@@ -29,7 +29,7 @@ export default class getreportbyID_Admin extends Component {
 
         axios.get('http://localhost:5000/api/admins/report/'+ id, { headers: {
 
-            Authorization: token.data}
+            Authorization: token}
 
           })
 
@@ -46,7 +46,7 @@ export default class getreportbyID_Admin extends Component {
     rerender(token,id) {
         axios.get('http://localhost:5000/api/admins/report/'+id, { headers: {
 
-            Authorization: token.data}
+            Authorization: token}
 
           })
 
@@ -54,7 +54,7 @@ export default class getreportbyID_Admin extends Component {
           .then(res => {
             const reports = [res.data.data];
 
-            this.setState({ reports });
+            this.setState({reports:reports});
 
             console.log(reports);
 
