@@ -37,6 +37,36 @@ router.get(
     }
   }
 );
+
+//View my profile by email
+router.get(
+  "/:email",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.find({email:req.params.email}, function(err, foundUser) {
+        if (!err)
+          if (!foundUser)
+            res.status(404).send({
+              error: "This profile does not exist"
+            });
+          else
+            res.json({
+              msg: "Your profile information",
+              data: foundUser
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Admin~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Register an admin (will be used once a time)
 router.post("/admin/register", async (req, res) => {

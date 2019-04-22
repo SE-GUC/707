@@ -17,21 +17,25 @@ export default class getallcertificate extends Component {
         evaluationPassingScore:0
       }
       onChangeEvalContent(e) {
+        console.log(e.target.value);
         this.setState({
           evaluationContent: e.target.value
         });
       }
       onChangeEvalType(e) {
+        console.log(e.target.value);
         this.setState({
           evaluationType: e.target.value
         });
       }
       onChangeTotalScore(e) {
+        console.log(e.target.value);
         this.setState({
           evaluationTotalScore: e.target.value
         });
       }
       onChangePassingScore(e) {
+        console.log(e.target.value);
         this.setState({
           evaluationPassingScore: e.target.value
         });
@@ -90,10 +94,10 @@ export default class getallcertificate extends Component {
 
         const token= cookies.get('token');
         let Eval={
-          evaluationContent:this.state.evaluationContent,
+          content:this.state.evaluationContent,
           totalScore:this.state.evaluationTotalScore,
           passingScore:this.state.evaluationPassingScore,
-          evaluationType:this.state.evaluationType
+          type:this.state.evaluationType
         }
         console.log(Eval)
 

@@ -1416,6 +1416,30 @@ router.get(
     }
   }
 );
+//View existing report by id
+router.get(
+  "/report/:reportID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Report.findById(req.params.reportID, function(err, foundReport) {
+        if (!err)
+          res.json({
+            msg: "Report information",
+            data: foundReport
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //Update my report
 router.put(
   "/report/:reportID",

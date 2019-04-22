@@ -31,7 +31,7 @@ export default class viewEvaluationbyId_Admin extends Component {
           }
         })
           .then(res => {
-              console.log(res.data.date);
+              console.log(res.data.data);
             const evaluations = res.data.data;
             this.setState({ evaluations });
           })
@@ -54,8 +54,8 @@ export default class viewEvaluationbyId_Admin extends Component {
          
   <tbody>
     <tr  onClick={this.showOneEvaluation.bind(this, person._id)}>
-      <td>{person.evaluationType}</td>
-      <td> {person.evaluationContent}</td>
+      <td>{person.type}</td>
+      <td> {person.content}</td>
       <td>{person.totalScore}</td>
       <td>{person.passingScore}</td>
     </tr>
