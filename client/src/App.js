@@ -59,6 +59,8 @@ import ConsultancyRequestCertificate from "./components/consultancy-request-cert
 import PartnerCreateProjects from "./components/partner-create-projects.component.js";
 import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
 import CreateEmail from "./components/emails.component.js";
+import CandidateTasks from "./components/candidate-tasks.component.js";
+import CandidateApprovedTasks from "./components/candidate-approved-tasks.component.js";
 import consultancyrecommendedprojects from "./components/consultancyrecprojects.component.js";
 import partnerapprovedprojects from "./components/partnerapprovedprojects.component.js";
 import partnerconsultancyappliedonproject from "./components/partnerconsultanciesappliedonproject.component.js";
@@ -171,6 +173,14 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewrecievedemails" className="nav-link">View Recieved Mails</Link>
                 </li> 
+
+                <li className="navbar-item">
+                  <Link to="/viewtasks" className="nav-link"> Candidate Tasks</Link>
+                </li> 
+                <li className="navbar-item">
+                  <Link to="/viewapprovedtasks" className="nav-link"> Candidate Approved Tasks</Link>
+                </li>
+                
             </ul>
           </div>
         </nav>
@@ -192,6 +202,10 @@ class App extends Component {
         <Route path= "/createEmail" component={CreateEmail} />
         <Route path= "/viewsentmails" component={getallSentEmails} />
         <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
+
+        <Route path="/viewtasks" component={CandidateTasks} />
+        <Route path="/viewapprovedtasks" component={CandidateApprovedTasks} />
+
 
       </div>
     );
@@ -220,7 +234,7 @@ class App extends Component {
               </li>
               <li className="navbar-item">
                 <Link to="/consultancyrequestcertificate" className="nav-link">
-                  Search
+                  Consultancy Request Certificate
                 </Link>
               </li>
               <li className="navbar-item">
