@@ -1593,18 +1593,18 @@ router.put(
           if (
             consultancy.pendingProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
+          ){
             pendingProjects[count] = projects[j];
-            count+=1
+            count+=1}
       count=0      
       for (i = 0; i < consultancy.approvedProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             consultancy.approvedProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
+          ){
             approvedProjects[count] = projects[j];
-            count+=1
+            count+=1}
       Consultancy.findByIdAndUpdate(
         req.id,
         {
@@ -1648,18 +1648,18 @@ router.put(
           if (
             consultancy.pendingCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
+          ){
             pendingCertificates[count] = certificates[j];
-            count+=1
+            count+=1}
       count=0
       for (i = 0; i < consultancy.acquiredCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             consultancy.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
+          ){
             acquiredCertificates[count] = certificates[j];
-            count+=1
+            count+=1}
       Consultancy.findByIdAndUpdate(
         req.id,
         {
