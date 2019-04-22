@@ -848,6 +848,57 @@ router.get(
     }
   }
 );
+
+//View all candidates applying for a certain certificate
+router.get(
+  "/candidate/pendingCertificates/:certificateID/:evaluationID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Candidate.find({}, function(err, foundCandidates) {
+        if (!err) {
+          let candidates = [];
+          let count=0;
+          for (i = 0; i < foundCandidates.length; i++)
+            for (j = 0; j < foundCandidates[i].pendingCertificates.length; j++)
+              if (
+                foundCandidates[i].pendingCertificates[j]._id.toString() ===
+                req.params.certificateID.toString()
+              )
+                for (
+                  k = 0;
+                  k <
+                  foundCandidates[i].pendingCertificates[j].evaluationTests
+                    .length;
+                  k++
+                )
+                  if (
+                    foundCandidates[i].pendingCertificates[j].evaluationTests[
+                      k
+                    ]._id.toString() === req.params.evaluationID.toString()
+                  )
+                    candidates[count] =
+                      foundCandidates[i].pendingCertificates[j].evaluationTests[
+                        k
+                      ].answer;
+                      count+=1
+          res.json({
+            msg:
+              "These are the candidates applying for the requested certificate and the requested evaluation",
+            data: candidates
+          });
+        } else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //View a submitted certificate evaluation's answer for a candidate by his id to approve
 router.get(
   "/pendingCertificates/evaluationTests/:candidateID/:evaluationID",
@@ -1298,19 +1349,22 @@ router.get(
     try {
       Report.findById(req.params.reportID, function(err, foundReport) {
         if (!err)
+        return(
           res.json({
             msg: "Report information",
             data: foundReport
-          });
+          }));
         else
+        return(
           res.json({
             error: err.message
-          });
+          }));
       });
     } catch (error) {
+      return(
       res.json({
         error: error.message
-      });
+      }));
     }
   }
 );

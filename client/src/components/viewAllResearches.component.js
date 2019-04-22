@@ -27,7 +27,7 @@ export default class viewAllResearches extends Component {
                 <p>
                 Research title: {person.title}<br></br> 
                 Research interests: {person.interests}<br></br>  
-                Research content: {person.content}<br></br> 
+                Research content: {person.Content}<br></br> 
                 
                 
             </p>   </li>)}
