@@ -23,6 +23,10 @@ var userSchema = new Schema(
       type: String,
       required: true
     },
+    profilePhoto: {
+      data: Buffer,
+      contentType: String
+    },
     inbox: inboxSchema
   },
   {
@@ -54,10 +58,6 @@ var candidateSchema = new Schema({
     type: Boolean,
     default: false
   },
-  profilePhoto: {
-    data: Buffer,
-    contentType: String
-  },
   credits: {
     type: Number,
     default: 0
@@ -84,10 +84,6 @@ var consultancySchema = new Schema({
     type: Boolean,
     default: false
   },
-  profilePhoto: {
-    data: Buffer,
-    contentType: String
-  },
   credits: {
     type: Number,
     default: 0
@@ -105,10 +101,6 @@ var partnerSchema = new Schema({
   contractSigned: {
     type: Boolean,
     default: false
-  },
-  profilePhoto: {
-    data: Buffer,
-    contentType: String
   },
   credits: {
     type: Number,
