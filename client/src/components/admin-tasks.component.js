@@ -43,7 +43,9 @@ export default class tasks extends Component {
       )
       .then(res => {
         this.rerender(token);
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   rerender(token) {
     axios
@@ -59,7 +61,9 @@ export default class tasks extends Component {
       .then(res => {
         const tasks = res.data.data;
         this.setState({ tasks });
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   render() {
     return (

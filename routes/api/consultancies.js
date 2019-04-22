@@ -1594,7 +1594,9 @@ router.put(
             consultancy.pendingProjects[i]._id.toString() ===
             projects[j]._id.toString()
           )
-            pendingProjects[i * projects.length + j] = projects[j];
+            pendingProjects[count] = projects[j];
+            count+=1
+      count=0      
       for (i = 0; i < consultancy.approvedProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
@@ -1647,7 +1649,9 @@ router.put(
             consultancy.pendingCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
           )
-            pendingCertificates[i * certificates.length + j] = certificates[j];
+            pendingCertificates[count] = certificates[j];
+            count+=1
+      count=0
       for (i = 0; i < consultancy.acquiredCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (

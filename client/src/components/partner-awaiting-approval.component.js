@@ -23,7 +23,9 @@ export default class projects extends Component {
       .then(res => {
         const pendingProjects = res.data.data;
         this.setState({ pendingProjects });
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   
 
