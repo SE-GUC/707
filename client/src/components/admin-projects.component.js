@@ -37,7 +37,9 @@ export default class projects extends Component {
       .then(res => {
         const deletedProject = res.data.data;
         this.rerender(token);
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   viewTasks(projectID) {
     ReactDOM.render(
@@ -55,7 +57,9 @@ export default class projects extends Component {
       .then(res => {
         const projects = res.data.data;
         this.setState({ projects });
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   render() {
     return (

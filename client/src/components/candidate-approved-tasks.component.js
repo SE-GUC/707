@@ -80,10 +80,16 @@ export default class approvedtasks extends Component {
           Authorization: token}}).then(res=> {
             alert('Updated Successfully!')
             axios.put('http://localhost:5000/api/candidates/update/tasks',{},{ headers: {
-              Authorization: token}}).then(res=>{})
-          })
+              Authorization: token}}).then(res=>{}).catch(e =>{
+                alert(e)
+            });
+          }).catch(e =>{
+            alert(e)
+        });
     }
-    );
+    ).catch(e =>{
+      alert(e)
+  });
 
  }
   render() {

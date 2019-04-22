@@ -849,7 +849,7 @@ router.get(
   }
 );
 
-//View all candidates applying for a certain certificate
+//View all candidates answers applying for a certain certificate for a certain evaluation
 router.get(
   "/candidate/pendingCertificates/:certificateID/:evaluationID",
   passport.authenticate("jwt", { session: false }),
@@ -886,6 +886,56 @@ router.get(
             msg:
               "These are the candidates applying for the requested certificate and the requested evaluation",
             data: candidates
+          });
+        } else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all consultancies answers applying for a certain certificate for a certain evaluation
+router.get(
+  "/consultancy/pendingCertificates/:certificateID/:evaluationID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Consultancy.find({}, function(err, foundConsultancies) {
+        if (!err) {
+          let consultancies = [];
+          let count=0;
+          for (i = 0; i < foundConsultancies.length; i++)
+            for (j = 0; j < foundConsultancies[i].pendingCertificates.length; j++)
+              if (
+                foundConsultancies[i].pendingCertificates[j]._id.toString() ===
+                req.params.certificateID.toString()
+              )
+                for (
+                  k = 0;
+                  k <
+                  foundConsultancies[i].pendingCertificates[j].evaluationTests
+                    .length;
+                  k++
+                )
+                  if (
+                    foundConsultancies[i].pendingCertificates[j].evaluationTests[
+                      k
+                    ]._id.toString() === req.params.evaluationID.toString()
+                  )
+                    consultancies[count] =
+                    foundConsultancies[i].pendingCertificates[j].evaluationTests[
+                        k
+                      ].answer;
+                      count+=1
+          res.json({
+            msg:
+              "These are the candidates applying for the requested certificate and the requested evaluation",
+            data: consultancies
           });
         } else
           res.json({
@@ -938,6 +988,7 @@ router.get(
     }
   }
 );
+
 //Approve a submitted certificate evaluation for a candidate
 router.post(
   "/pendingCertificates/:certificateID/:candidateID",
