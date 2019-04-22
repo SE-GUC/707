@@ -51,9 +51,9 @@ export default class search extends Component {
           if (this.state.searchType === "tasks")
             this.setState({ tasks: res.data.tasks });
           if (this.state.searchType === "reports")
-            this.setState({ tasks: res.data.reports });
+            this.setState({ reports: res.data.reports });
           if (this.state.searchType === "researches")
-            this.setState({ tasks: res.data.researches });
+            this.setState({researches: res.data.researches });
           if (this.state.searchType === "partners")
             this.setState({ partners: res.data.partners });
           if (this.state.searchType === "consultancies")
@@ -72,6 +72,337 @@ export default class search extends Component {
         }
       });
   }
+  onSubmit2(id) {
+
+    const cookies = new Cookies();
+
+    const token= cookies.get('token');
+
+    console.log(token)
+
+    axios.get('http://localhost:5000/api/candidates/certificate/'+ id, { headers: {
+
+        Authorization: token}
+
+      })
+
+      .then(res => {
+
+        const Certificate = res.data.data;
+
+        console.log(Certificate);
+        this.rerender(token,id);
+
+      })
+
+}
+rerender(token,id) {
+    axios.get('http://localhost:5000/api/candidates/certificate/'+id, { headers: {
+
+        Authorization: token}
+
+      })
+
+
+      .then(res => {
+        const certificates = [res.data.data];
+
+        this.setState({ certificates });
+
+        console.log(certificates);
+
+      })
+
+  }
+  onSubmit3(id) {
+
+    const cookies = new Cookies();
+
+    const token= cookies.get('token');
+
+    console.log(token)
+
+    axios.get('http://localhost:5000/api/admins/project/'+ id, { headers: {
+
+        Authorization: token}
+
+      })
+
+      .then(res => {
+
+        const project = res.data.data;
+        this.setState({projects:[project]})
+        console.log(project);
+        this.rerender2(token,id);
+
+      })
+
+}
+rerender2(token,id) {
+    axios.get('http://localhost:5000/api/admins/project/'+id, { headers: {
+
+        Authorization: token}
+
+      })
+
+
+      .then(res => {
+        const project = [res.data.data];
+
+        this.setState({ project });
+
+        console.log(project);
+
+      })
+
+  }
+  onSubmit4(id){
+
+    const cookies = new Cookies();
+
+    const token= cookies.get('token');
+
+    console.log(token)
+      
+      axios.get('http://localhost:5000/api/admins/task/'+id, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(res => {
+          const task = res.data.data;
+          console.log(task);
+          this.setState({tasks:[task]});
+          console.log(this.state.tasks);
+          this.rerender3(token,id);
+        })
+    }
+    rerender3(token,id) {
+      axios.get('http://localhost:5000/api/admins/task/'+id, { headers: {
+  
+          Authorization: token}
+  
+        })
+  
+  
+        .then(res => {
+          const task = [res.data.data];
+  
+          this.setState({ task });
+  
+          console.log(task);
+  
+        })
+  
+    }
+    onSubmit5(id) {
+
+      const cookies = new Cookies();
+
+      const token= cookies.get('token');
+
+      console.log(token)
+
+      axios.get('http://localhost:5000/api/admins/report/'+ id, { headers: {
+
+          Authorization: token}
+
+        })
+
+        .then(res => {
+          const reports = res.data.data;
+          this.setState({reports:[reports]})
+          console.log(reports);
+          this.rerender4(token,id);
+
+        })
+
+  }
+  rerender4(token,id) {
+      axios.get('http://localhost:5000/api/admins/report/'+id, { headers: {
+
+          Authorization: token}
+
+        })
+
+
+        .then(res => {
+          const reports = [res.data.data];
+
+          this.setState({reports});
+
+          console.log(reports);
+
+        })
+
+    }
+    onSubmit6(id) {
+
+      const cookies = new Cookies();
+
+      const token= cookies.get('token');
+
+      console.log(token)
+
+      axios.get('http://localhost:5000/api/admins/research/'+ id, { headers: {
+
+          Authorization: token}
+
+        })
+
+        .then(res => {
+
+          const researches = res.data.data;
+          this.setState({researches:[researches]})
+          console.log(researches);
+          this.rerender5(token,id);
+
+        })
+
+  }
+  rerender5(token,id) {
+      axios.get('http://localhost:5000/api/admins/research/'+id, { headers: {
+
+          Authorization: token}
+
+        })
+
+
+        .then(res => {
+          const researches = [res.data.data];
+
+          this.setState({ researches });
+
+          console.log(researches);
+
+        })
+
+    }
+    onSubmit7(email) {
+
+      const cookies = new Cookies();
+
+      const token= cookies.get('token');
+
+      console.log(token)
+
+      axios.get('http://localhost:5000/api/profiles/'+email, { headers: {
+
+          Authorization: token}
+
+        })
+
+        .then(res => {
+
+          const partner = res.data.data;
+          this.setState({partners:[partner]})
+          console.log(partner);
+          this.rerender6(token,email);
+
+        })
+
+  }
+  rerender6(token,email) {
+      axios.get('http://localhost:5000/api/profiles/'+email, { headers: {
+
+          Authorization: token}
+
+        })
+
+
+        .then(res => {
+          const partner = res.data.data;
+
+          this.setState({partners:partner});
+          console.log(this.state.partners);
+
+          console.log(partner);
+
+        })
+
+    }
+    onSubmit8(email) {
+
+      const cookies = new Cookies();
+
+      const token= cookies.get('token');
+
+      console.log(token)
+
+      axios.get('http://localhost:5000/api/profiles/'+email, { headers: {
+
+          Authorization: token}
+
+        })
+
+        .then(res => {
+
+          const candidate = res.data.data;
+          this.setState({candidates:[candidate]})
+          console.log(candidate);
+          this.rerender7(token,email);
+
+        })
+
+  }
+  rerender7(token,email) {
+      axios.get('http://localhost:5000/api/profiles/'+email, { headers: {
+
+          Authorization: token}
+
+        })
+
+
+        .then(res => {
+          const candidate = res.data.data;
+
+          this.setState({candidates:candidate});
+          
+
+        })
+
+    }
+    onSubmit9(email) {
+
+      const cookies = new Cookies();
+
+      const token= cookies.get('token');
+
+      console.log(token)
+
+      axios.get('http://localhost:5000/api/profiles/'+email, { headers: {
+
+          Authorization: token}
+
+        })
+
+        .then(res => {
+
+          const consultancy = res.data.data;
+          this.setState({consultancies:[consultancy]})
+          console.log(consultancy);
+          this.rerender8(token,email);
+
+        })
+
+  }
+  rerender8(token,email) {
+      axios.get('http://localhost:5000/api/profiles/'+email, { headers: {
+
+          Authorization: token}
+
+        })
+
+
+        .then(res => {
+          const consultancy = res.data.data;
+
+          this.setState({consultancies:consultancy});
+          
+
+        })
+
+    }
   render() {
     return (
       <div style={{ marginTop: 10 }}>
@@ -203,6 +534,7 @@ export default class search extends Component {
                     <br />
                     Certificate Availabe: {certificate.available}
                     <br />
+                    <button type="button" className="btn btn-primary" onClick={this.onSubmit2.bind(this, certificate._id)}>view Certificate</button><br></br>  
                   </p>
                 </li>
               ))}{" "}
@@ -223,6 +555,7 @@ export default class search extends Component {
                     Project needs years of experience:{" "}
                     {project.yearsOfExperience}
                     <br />
+                    <button type="button" className="btn btn-primary" onClick={this.onSubmit3.bind(this, project._id)}>view Project</button><br></br>
                   </p>
                 </li>
               ))}{" "}
@@ -242,12 +575,16 @@ export default class search extends Component {
                     <br />
                     Task needs years of experience: {task.yearsOfExperience}
                     <br />
+                 <button type="button" className="btn btn-primary" onClick={this.onSubmit4.bind(this, task._id)}>view Task</button><br></br> 
                   </p>
                 </li>
               ))}{" "}
               {this.state.reports.map(report => (
                 <li>
+                  { console.log(report)}
                   <p>
+
+                   
                     Report Title: {report.title}
                     <br />
                     Task Content: {report.content}
@@ -257,6 +594,7 @@ export default class search extends Component {
                       return interests;
                     })}
                     <br />
+                    <button type="button" className="btn btn-primary" onClick={this.onSubmit5.bind(this, report._id)}>view Report</button><br></br>
                   </p>
                 </li>
               ))}{" "}
@@ -272,16 +610,20 @@ export default class search extends Component {
                       return interests;
                     })}
                     <br />
+                    <button type="button" className="btn btn-primary" onClick={this.onSubmit6.bind(this,research._id)}>view Research</button><br></br>
                   </p>
                 </li>
               ))}{" "}
               {this.state.partners.map(partner => (
                 <li>
+                  {console.log(partner)}
+                  {console.log(partner.name)}
                   <p>
-                    Partner Name: {partner.name}
+                    Partner Name:{partner.name}
                     <br />
                     Partner Email: {partner.email}
                     <br />
+                    <button type="button" className="btn btn-primary" onClick={this.onSubmit7.bind(this,partner.email)}>view Partner</button><br></br>
                   </p>
                 </li>
               ))}{" "}
@@ -292,6 +634,7 @@ export default class search extends Component {
                     <br />
                     Candidate Email: {candidate.email}
                     <br />
+                    <button type="button" className="btn btn-primary" onClick={this.onSubmit8.bind(this,candidate.email)}>view Candidate</button><br></br>
                   </p>
                 </li>
               ))}{" "}
@@ -302,6 +645,7 @@ export default class search extends Component {
                     <br />
                     Consultancy Email: {consultancy.email}
                     <br />
+                    <button type="button" className="btn btn-primary" onClick={this.onSubmit9.bind(this,consultancy.email)}>view Consultancy</button><br></br>
                   </p>
                 </li>
               ))}{" "}

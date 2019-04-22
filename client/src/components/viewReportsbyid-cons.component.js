@@ -54,7 +54,7 @@ export default class getreportbyID_cons extends Component {
           .then(res => {
             const reports = [res.data.data];
 
-            this.setState({ reports });
+            this.setState({reports});
 
             console.log(reports);
 
