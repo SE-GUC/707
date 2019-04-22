@@ -24,25 +24,73 @@ export default class consultancyrecprojects extends Component {
         }
       })
       .then(res => {
-        const projects = res.data.data;
-        this.setState({ projects });
+        axios.get( "http://localhost:5000/api/consultancies/pendingProjects",
+          {
+            headers: {
+              Authorization: token
+            }
+          }).then(
+            res1=>{
+              const projects = res.data.data;
+              const pendingProjects = res1.data.data;
+              const result = this.manageProjects(projects,pendingProjects)
+              this.setState({ projects: result });      
+            }
+        )
       });
   }
+  manageProjects(projects, pendingProjects){
+    const result=[]
+    projects.forEach(element => {
+      element["buttonId"] = "notpending"
+        pendingProjects.forEach(pt => {
+            if(pt._id == element._id){
+              element["buttonId"] = "pending";
+              
+            }
+        })
+        result.push(element)
+    });
+      return result
+}
   
-  apply = id => { 
-    const cookies = new Cookies();
-    const token = cookies.get("token");
-    axios
-    .post("http://localhost:5000/api/consultancies/project/"+id,{}, {
-      headers: {
-        Authorization: token
+onSubmitApply(id) {
+  const cookies = new Cookies();
+  const token = cookies.get("token");
+  axios
+    .post(
+      "http://localhost:5000/api/consultancies/project/" + id,{},
+      {
+        headers: {
+          Authorization: token
+        }
       }
-    }).then(res => {
-        alert("You have successfully applied for this project");
-      })
-   
-};
+    )
+    .then(res => {
+        alert("Applied Successfully!")
+        window.location.reload()
+    }).catch(e =>{
+      alert(e)
+  });
+}
+onSubmitDisapply(id) {
+  const cookies = new Cookies();
+  const token = cookies.get("token");
+  axios
+    .delete(
+      "http://localhost:5000/api/consultancies/project/" + id,
+      {
+        headers: {
+          Authorization: token
+        }
+      }
+    )
+    .then(res => {
+        alert("Disapplied Successfully!")
+        window.location.reload()
 
+    });
+}
 
 
   render() {
@@ -148,14 +196,15 @@ export default class consultancyrecprojects extends Component {
               })}
             </div>
 
-            <div className="form-group">
             <input
-              type="submit"
-              value="Apply"
-              className="btn btn-primary"
-              onClick={this.apply.bind(this,project._id)}
-            />
-          </div>
+                type="button"
+                className="btn btn-primary"
+                onClick={project.buttonId === "pending"? this.onSubmitDisapply.bind(this, project._id) : 
+                this.onSubmitApply.bind(this, project._id)}
+                value = {project.buttonId === "pending"? "Disapply" : 
+                "Apply"}
+              >
+              </input>
             <br />
             <br />
           </li>

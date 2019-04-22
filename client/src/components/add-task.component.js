@@ -52,17 +52,23 @@ export default class addTask extends Component {
            
            
         };
-      
         
       
         axios.post('http://localhost:5000/api/partners/project/tasks/'+ this.props.projectID, task,{ headers: {
             Authorization: token}})
-            .then(res => {
-                alert("Added Successfully!")
-                        window.location.replace("/partnerawaitingapprovalprojects")
+            .then(
+                axios.put('http://localhost:5000/api/partners/update/projects',{},{ headers: {
+                    Authorization: token}}).then(  res => {
+                    alert("Added Successfully!")
+                    window.location.replace("/partnerawaitingapprovalprojects")
+                    })  .catch(e =>{
+                        alert(e)
+                    })
                 
-            }
-            );
+            
+            ) .catch(e =>{
+                alert(e)
+            });
             
     }
   
