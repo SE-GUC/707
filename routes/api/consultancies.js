@@ -1587,6 +1587,7 @@ router.put(
       const projects = await Project.find({});
       let pendingProjects = [];
       let approvedProjects = [];
+      let count=0
       for (i = 0; i < consultancy.pendingProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
@@ -1600,7 +1601,8 @@ router.put(
             consultancy.approvedProjects[i]._id.toString() ===
             projects[j]._id.toString()
           )
-            approvedProjects[i * projects.length + j] = projects[j];
+            approvedProjects[count] = projects[j];
+            count+=1
       Consultancy.findByIdAndUpdate(
         req.id,
         {
@@ -1638,6 +1640,7 @@ router.put(
       const certificates = await Certificate.find({});
       let pendingCertificates = [];
       let acquiredCertificates = [];
+      let count=0
       for (i = 0; i < consultancy.pendingCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
@@ -1651,7 +1654,8 @@ router.put(
             consultancy.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
           )
-            acquiredCertificates[i * certificates.length + j] = certificates[j];
+            acquiredCertificates[count] = certificates[j];
+            count+=1
       Consultancy.findByIdAndUpdate(
         req.id,
         {

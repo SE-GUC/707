@@ -863,6 +863,7 @@ router.put(
       const projects = await Project.find({});
       var pendingProjects = [];
       var approvedProjects = [];
+      let count=0
       for (i = 0; i < partner.pendingProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
@@ -876,7 +877,8 @@ router.put(
             partner.approvedProjects[i]._id.toString() ===
             projects[j]._id.toString()
           )
-            approvedProjects[i * projects.length + j] = projects[j];
+            approvedProjects[count] = projects[j];
+            count+=1
       Partner.findByIdAndUpdate(
         req.id,
         {
