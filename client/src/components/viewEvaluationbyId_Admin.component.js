@@ -188,7 +188,7 @@ export default class viewEvaluationbyId_Admin extends Component {
                                     <td>{person.totalScore}</td>
                                     <td>{person.passingScore}</td>
                                     <td>
-                                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, person._id)}>Edit</button></td>
+                                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, person._id)}>Edit </button></td>
                                    <td> <button id="btn2" onClick={this.deleteOneEvaluation.bind(this, person._id)}>Delete</button></td>
 
                                 </tr>
