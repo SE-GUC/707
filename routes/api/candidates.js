@@ -1152,18 +1152,18 @@ router.put(
           if (
             candidate.pendingCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
+          ){
             pendingCertificates[count] = certificates[j];
-            count+=1
+            count+=1}
       count = 0
       for (i = 0; i < candidate.acquiredCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             candidate.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
+          ){
             acquiredCertificates[count] = certificates[j];
-            count+=1
+            count+=1}
       Candidate.findByIdAndUpdate(
         req.id,
         {

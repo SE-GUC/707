@@ -869,18 +869,18 @@ router.put(
           if (
             partner.pendingProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
+          ){
             pendingProjects[count] = projects[j];
-            count+=1
+            count+=1}
       count=0      
       for (i = 0; i < partner.approvedProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             partner.approvedProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
+          ){
             approvedProjects[count] = projects[j];
-            count+=1
+            count+=1}
       Partner.findByIdAndUpdate(
         req.id,
         {
