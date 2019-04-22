@@ -150,6 +150,13 @@ export default class addtaskinproject extends Component {
           contractSigned: "",
           requiredSkills: ""
         })
+        axios
+        .put("http://localhost:5000/api/consultancies/update/projects",{},{
+          headers: {
+            Authorization: token
+          }
+        })
+
       };
 
   render() {

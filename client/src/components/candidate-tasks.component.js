@@ -31,9 +31,13 @@ export default class tasks extends Component {
             const pendingTasks = res1.data.data;
             const result = this.manageTasks(tasks,pendingTasks)
             this.setState({ tasks: result });      
-          })
+          }).catch(e =>{
+            alert(e)
+        });
         
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   manageTasks(tasks, pendingTasks){
       const result=[]
@@ -64,7 +68,9 @@ export default class tasks extends Component {
       .then(res => {
           alert("Applied Successfully!")
           window.location.reload()
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   onSubmitDisapply(id) {
     const cookies = new Cookies();

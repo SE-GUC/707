@@ -100,25 +100,21 @@ export default class getallcertificate extends Component {
             })
     }
       onChangeEvalContent(e) {
-        console.log(e.target.value);
         this.setState({
           evaluationContent: e.target.value
         });
       }
       onChangeEvalType(e) {
-        console.log(e.target.value);
         this.setState({
           evaluationType: e.target.value
         });
       }
       onChangeTotalScore(e) {
-        console.log(e.target.value);
         this.setState({
           evaluationTotalScore: e.target.value
         });
       }
       onChangePassingScore(e) {
-        console.log(e.target.value);
         this.setState({
           evaluationPassingScore: e.target.value
         });
@@ -181,26 +177,26 @@ export default class getallcertificate extends Component {
       onSubmit4(id) {
         
                 const cookies = new Cookies();
-        
+       
                 const token= cookies.get('token');
-        
+       
                 console.log(token)
-        
+       
                 axios.get('http://localhost:5000/api/admins/certificate/'+ id, { headers: {
-        
+       
                     Authorization: token}
-        
+       
                   })
-        
+       
                   .then(res => {
-        
+       
                     const Certificate = res.data.data;
-        
+       
                     console.log(Certificate);
                     this.rerender(token,id);
-        
+       
                   })
-        
+       
             }
       onSubmit3(id) {
 
@@ -223,7 +219,7 @@ export default class getallcertificate extends Component {
 
           .then(res => {
 
-            
+           
 
             console.log(res.data);
             window.location.reload();

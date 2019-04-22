@@ -71,6 +71,8 @@ import viewEvaluationbyId_Admin from "./components/viewEvaluationbyId_Admin.comp
 import viewOneEvaluation_Admin from "./components/viewOneEvaluation_Admin.component.js";
 import getallSentEmails from "./components/viewSentMails.component.js";
 import getallRecievedEmails from "./components/viewRecievedMails.component.js";
+import AdminPendingEvaluations from "./components/admin-pending-eval.component.js";
+
 
 
 class App extends Component {
@@ -334,7 +336,7 @@ class App extends Component {
           <Route path="/consappprojects" component={consultancyapprovedprojects} />
           <Route path="/consaddtask/:project" component={consultancyaddtask} />
           <Route path="/consshowtasks/:project" component={consultancyshowtask} />
-          <Route path="/conshowcand/:project/:task" component={consultancyshowcandidates} />
+          <Route path="/conshowcan/:project/:task" component={consultancyshowcandidates} />
           <Route path="/viewReportbyid-cons" component={getreportbyID_cons} />
           <Route path="/deleteReport-cons" component={deleteReport_cons} />
           <Route path="/updateReport-cons" component={updateReport_cons} />
@@ -522,6 +524,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewrecievedemails" className="nav-link">View Recieved Mails</Link>
                 </li> 
+                <li className="navbar-item">
+                  <Link to="/pendingevaluations" className="nav-link">View Pending Evaluations</Link>
+                </li> 
             </ul>
           </div>
         </nav>
@@ -547,6 +552,8 @@ class App extends Component {
         <Route path='/viewOneEvaluation_Admin/:evaluation' component={viewOneEvaluation_Admin}/>
         <Route path= "/viewsentmails" component={getallSentEmails} />
         <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
+        <Route path= "/pendingevaluations" component={AdminPendingEvaluations} />
+
 
       </div>
     );

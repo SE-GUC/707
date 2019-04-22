@@ -31,7 +31,9 @@ export default class requestCertificate extends Component {
         this.setState({
           name: ""
         })
-      })
+      }).catch(e =>{
+        alert(e)
+    });
     
   }
   render() {
