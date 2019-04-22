@@ -62,7 +62,9 @@ export default class addTask extends Component {
                         window.location.replace("/partnerawaitingapprovalprojects")
                 
             }
-            );
+            ).catch(e =>{
+                alert(e)
+            });
             
     }
   
