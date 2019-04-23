@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
+import Table from 'react-bootstrap/Table';
 const axios = require("axios");
 
 export default class getallcertificateCandidate extends Component {
@@ -88,18 +89,32 @@ export default class getallcertificateCandidate extends Component {
         
         return (
           <ul>
-            { this.state.certificates.map(person => <li>
-                <p>
-                Certificate Name: {person.name}<br></br> 
-                Certificate Description: {person.description}<br></br>  
-                Certificate Category: {person.category}<br></br> 
-                Certificate Skills:{person.skills.map(skill=>
+            <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Certificate Name</th>
+                                <th>Certificate Description</th>
+                                <th>Certificate Category</th>
+                                <th>Certificate Skills</th>
+                                <th>Certificate available</th>
+                                <th>Evaluations</th>
+                                <th>View</th>
+                                <th>Apply</th>
+                            </tr>
+                        </thead>
+            { this.state.certificates.map(person => 
+            <tbody>
+            <tr >
+               <th>{person.name}<br></br></th> 
+                <th>{person.description}<br></br></th>   
+                <th>{person.category}<br></br></th> 
+                <th>{person.skills.map(skill=>
                  <p>
                     skill:{skill}
                   </p>    
-                    )}<br></br> 
-                Certificate available: {String(person.available)}<br></br> 
-                 Evaluations:{person.evaluationTests.map(evaluation=> 
+                    )}<br></br></th> 
+                 <th>{String(person.available)}<br></br></th> 
+                <th>{person.evaluationTests.map(evaluation=> 
                      <p>
                         Evaluation Content:{evaluation.evaluationContent}<br></br>
                         Total Score: {evaluation.totalScore}<br></br>
@@ -109,13 +124,22 @@ export default class getallcertificateCandidate extends Component {
                         Passed: {String(evaluation.passed)}<br></br>
                      </p>
 
-                )}
-<br/>
-  <button type="button" className="btn btn-danger" onClick={this.onSubmit.bind(this, person._id)}>view Certificate</button><br></br> 
-  <br/>
-  <button type="button" className="btn btn-danger" onClick={this.onSubmit2.bind(this,person._id)}>Apply on Certificate</button><br></br> 
-            </p>   </li>)}
-          </ul>
+                )}</th>
+
+  <th><button type="button" className="btn btn-danger" onClick={this.onSubmit.bind(this, person._id)}>view Certificate</button><br></br></th> 
+ 
+  <th><button type="button" className="btn btn-danger" onClick={this.onSubmit2.bind(this,person._id)}>Apply on Certificate</button><br></br></th> 
+  </tr>
+                           <tr>     
+                  </tr>
+                            </tbody>
+                            )}
+                             </Table>
+                             <br/>  
+             <br/>
+             </ul>
+            
+         
         )
       }
     
