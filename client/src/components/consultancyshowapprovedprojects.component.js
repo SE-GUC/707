@@ -31,7 +31,7 @@ export default class consultancyapprovedProjects extends Component {
   }
 
   addtask = id => {
-    window.location.replace("/consaddtask/"+id)
+    window.location.replace("/consultancyaddtask/"+id)
     
   };
   showtasks = id => {

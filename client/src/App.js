@@ -336,7 +336,7 @@ class App extends Component {
           <Route path="/consultancyviewresearches" component={consviewallresearches} />
           <Route path='/researchvieworupdate/:research' component={updateresearch}/>
           <Route path="/consappprojects" component={consultancyapprovedprojects} />
-          <Route path="/consaddtask/:project" component={consultancyaddtask} />
+          <Route path="/consultancyaddtask/:project" component={consultancyaddtask} />
           <Route path="/consshowtasks/:project" component={consultancyshowtask} />
           <Route path="/conshowcan/:project/:task" component={consultancyshowcandidates} />
           <Route path="/viewReportbyid-cons" component={getreportbyID_cons} />
@@ -429,11 +429,11 @@ class App extends Component {
         <Route path="/viewReportbyid-partners" component={getreportbyID_part} />
         <Route path= "/createEmail" component={CreateEmail} />
         <Route path="/partnerapprovedprojects" component={partnerapprovedprojects} />
-        <Route path="/partnershowconsultancies/:project" component={partnerconsultancyappliedonproject} />
+        <Route path="/partnershowconsultancy/:project" component={partnerconsultancyappliedonproject} />
 
         {/* <Route path="/partnershowassignedconsultancy/:project" component={partnerassignedconsultancy} /> */}
-        <Route path="/sacons/:project" component={partnerassignedconsultancy} />
-        <Route path="/partnershowtask/:project" component={partnershowtasks} />
+        <Route path="/saconsultancy/:project" component={partnerassignedconsultancy} />
+        <Route path="/partnershowtasks/:project" component={partnershowtasks} />
         <Route path="/partnershowcandidates/:project/:task" component={partnershowcandidate} />
         <Route path="/sacand/:task" component={partnershowassignedcandidate} />
         <Route path= "/viewsentmails" component={getallSentEmails} />
