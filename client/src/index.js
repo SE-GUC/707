@@ -10,7 +10,7 @@ import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import RegisterPage from "views/RegisterPage/RegisterPage.jsx";
 //Old website
-//import OldWebsite from "./OldWebsite.js";
+import OldWebsite from "./App.js";
 var hist = createBrowserHistory();
 ReactDOM.render(
   <Router history={hist}>
@@ -19,7 +19,7 @@ ReactDOM.render(
       <Route path="/profile-page" component={ProfilePage} />
       <Route path="/login-page" component={LoginPage} />
       <Route path="/register-page" component={RegisterPage} />
-      {/* <Route path="/old-website" component={OldWebsite} /> */}
+      <Route path="/old-website" component={OldWebsite} />
       <Route path="/" component={LandingPage} />
     </Switch>
   </Router>,
