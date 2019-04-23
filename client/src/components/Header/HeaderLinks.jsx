@@ -8,7 +8,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Tooltip from "@material-ui/core/Tooltip";
-import Email from "@material-ui/icons/Email";
+import Language from "@material-ui/icons/Language";
 // core components
 import Button from "components/CustomButtons/Button.jsx";
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
@@ -103,18 +103,18 @@ function HeaderLinks({ ...props }) {
         </ListItem>
         <ListItem className={classes.listItem}>
           <Tooltip
-            id="email"
-            title="Emails"
+            id="oldWebsite"
+            title="Old Website"
             placement={window.innerWidth > 959 ? "top" : "left"}
             classes={{ tooltip: classes.tooltip }}
           >
-            <Link to={"/email-page"} style={{ color: "#FFF" }}>
+            <Link to={"/old-website"} style={{ color: "#FFF" }}>
               <Button
                 color="transparent"
                 target="_blank"
                 className={classes.navLink}
               >
-                <Email className={classes.icons} />
+                <Language className={classes.icons} />
               </Button>
             </Link>
           </Tooltip>
