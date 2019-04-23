@@ -365,7 +365,6 @@ class App extends Component {
           </div>
         </nav>
         <br />
-
         <Route path="/logout" component={Logout} />
         <Route path="/consultancyProfile" component={Consultancy} />
         <Route path="/search" component={Search} />
