@@ -45,7 +45,6 @@ import  consultancyaddtask from "./components/Consultancyaddtaskinproject.compon
 import  consultancyshowtask from "./components/Consultancyshowtasksinproject.component.js";
 import  consultancyshowcandidates from "./components/consultancyshowcandidates.component.js";
 import getResearchbyID_Admin from "./components/getResearchbyID_Admin.component.js";
-import getProjectbyID_Admin from "./components/getProjectbyID_Admin.component.js";
 import getResearchbyID_Partner from "./components/getResearchbyID_Partner.component.js";
 import getreportbyID_Admin from "./components/viewReportbyid-admin.component";
 import getreportbyID_cons from "./components/viewReportsbyid-cons.component";
@@ -522,7 +521,7 @@ class App extends Component {
                   </Link>
                 </li>
                 <li className="navbar-item">
-                <Link to="/getProjectbyID_Admin" className="nav-link">
+                <Link to="/adminprojects" className="nav-link">
                   Admin Projects
                 </Link>
               </li>
@@ -561,7 +560,6 @@ class App extends Component {
         <Route path="/getAnnouncementbyID_Admin" component={getAnnouncementbyID_Admin} />
         <Route path="/updateAnnouncement" component={updateAnnouncement} />
         <Route path="/getResearchbyID_Admin" component={getResearchbyID_Admin} />
-        <Route path="/getProjectbyID_Admin" component={getProjectbyID_Admin} />
         <Route path="/viewReportbyid-admin" component={getreportbyID_Admin} />
         <Route path="/viewAllEvaluations_Admin" component={viewAllEvaluations_Admin} />
         <Route path='/viewEvaluationbyId_Admin/:evaluation' component={viewEvaluationbyId_Admin}/>
