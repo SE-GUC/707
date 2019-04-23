@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import Report from "./report.component.js";
 import Table from "react-bootstrap/Table";
 import Cookies from "universal-cookie";
 export default class candidatereports extends Component {
@@ -16,6 +15,11 @@ export default class candidatereports extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype= cookies.get("usertype");
+    if(usertype !== "candidate"){
+      alert("Invalid Access")
+      window.location.replace("/")
+    }
     axios
       .get("http://localhost:5000/api/candidates/reports", {
         headers: {

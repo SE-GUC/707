@@ -16,6 +16,11 @@ export default class projects extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype=cookies.get("usertype")
+    if(usertype !== "admin"){
+      alert("Invalid Access")
+      window.location.replace("/")
+    }
     axios
       .get("http://localhost:5000/api/admins/projects", {
         headers: {
