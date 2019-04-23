@@ -548,10 +548,6 @@ export default class getallcertificate extends Component {
                    <Form.Group as={Col} controlId="formGridCreateEval">
                     <button type="button" className="btn btn-danger" onClick={this.onSubmit3.bind(this, this.state.certificate._id)}>Add Evaluation</button><br></br>
                      </Form.Group> 
-                     &nbsp;  &nbsp;
-                     <Form.Group as={Col} controlId="formGridViewCert">
-                     {/* <button type="button" className="btn btn-danger" onClick={this.onSubmit.bind(this, person._id)}>view Certificate</button><br></br>  */}
-                     </Form.Group> 
                      </Form.Row>
                    </Form>
         )   

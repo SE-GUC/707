@@ -43,6 +43,45 @@ export default class partnerapprovedprojects extends Component {
     window.location.replace("/partnershowtaskss/"+id)
     
   };
+  getProject(Projectid) {
+
+    const cookies = new Cookies();
+
+    const token= cookies.get('token');
+
+    console.log(token)
+
+    axios.get('http://localhost:5000/api/partners/project/'+ Projectid, { headers: {
+
+        Authorization: token}
+
+      })
+
+      .then(res => {
+        const projects = res.data.data;
+        this.setState({projects:[projects]})
+        console.log(projects);
+        this.rerender2(token,Projectid);
+
+      })
+
+}
+
+rerender2(token,Projectid) {
+axios.get('http://localhost:5000/api/partners/project/'+Projectid, { headers: {
+
+  Authorization: token}
+
+})
+
+
+.then(res => {
+  const projects = [res.data.data];
+  this.setState({ projects });
+
+})
+
+}
 
   render() {
     return (
@@ -224,6 +263,15 @@ export default class partnerapprovedprojects extends Component {
               value="Show consultancy assigned to this project"
               className="btn btn-primary"
               onClick={this.showassignedconsultancy.bind(this,project._id)}
+            />
+            
+          </div>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Get Project"
+              className="btn btn-primary"
+              onClick={this.getProject.bind(this,project._id)}
             />
             
           </div>

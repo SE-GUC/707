@@ -38,12 +38,12 @@ export default class getAnnouncementbyID_Admin extends Component {
             const announcements = res.data.data;
             this.setState({announcements:[announcements]})
             console.log(announcements);
-            this.rerender(token,id);
+            this.rerender2(token,id);
 
           })
 
     }
-    rerender(token,id) {
+    rerender2(token,id) {
         axios.get('http://localhost:5000/api/admins/announcement/'+id, { headers: {
 
             Authorization: token}
