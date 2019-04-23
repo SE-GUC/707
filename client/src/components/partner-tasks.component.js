@@ -13,7 +13,7 @@ export default class tasks extends Component {
     const token = cookies.get("token");
     axios
       .get(
-        "http://localhost:5000/api/admins/project/tasks/" +
+        "http://localhost:5000/api/partners/project/tasks/" +
           this.props.projectID,
         {
           headers: {
@@ -31,7 +31,7 @@ export default class tasks extends Component {
     const token = cookies.get("token");
     axios
       .delete(
-        "http://localhost:5000/api/admins/project/tasks/" +
+        "http://localhost:5000/api/partners/project/tasks/" +
           this.props.projectID +
           "/" +
           id,
@@ -43,14 +43,12 @@ export default class tasks extends Component {
       )
       .then(res => {
         this.rerender(token);
-      }).catch(e =>{
-        alert(e)
-    });
+      });
   }
   rerender(token) {
     axios
       .get(
-        "http://localhost:5000/api/admins/project/tasks/" +
+        "http://localhost:5000/api/partners/project/tasks/" +
           this.props.projectID,
         {
           headers: {
@@ -61,9 +59,7 @@ export default class tasks extends Component {
       .then(res => {
         const tasks = res.data.data;
         this.setState({ tasks });
-      }).catch(e =>{
-        alert(e)
-    });
+      });
   }
   render() {
     return (

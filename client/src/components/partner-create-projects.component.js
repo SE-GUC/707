@@ -58,7 +58,9 @@ export default class createProject extends Component {
         axios.post('http://localhost:5000/api/partners/project', project,{ headers: {
             Authorization: token}})
             .then(
-                res => alert("Created Successfully!"));
+                res => alert("Created Successfully!")).catch(e =>{
+                    alert(e)
+                });
            
             this.setState({
                 name: '',

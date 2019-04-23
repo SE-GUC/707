@@ -1,6 +1,7 @@
 
 import axios from "axios";
 import React, { Component } from "react";
+import Table from 'react-bootstrap/Table';
 import Cookies from "universal-cookie";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
@@ -28,11 +29,76 @@ export default class consultancyapprovedProjects extends Component {
         this.setState({ projects });
       });
   }
+
+  addtask = id => {
+    window.location.replace("/consultancyaddtask/"+id)
+    
+  };
+  showtasks = id => {
+    window.location.replace("/consshowtasks/"+id)
+    
+  };
   
   render() {
     return (
       <ul>
-        {this.state.projects.map(project => (
+                           
+                    <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Project Description</th>
+                                <th>Required Years of Experience</th>
+                                <th>Hours</th>
+                                <th>Minimum Credit Hours</th>
+                                <th>Maximum Credit Hours</th>
+                                <th>Chosen Credit Hours</th>
+                                <th>Credits Penalty</th>
+                                <th>Project type</th>
+                                <th>Signed Contract</th>
+                                <th>Required Skills</th>
+                                <th>Project deadline</th>
+                                <th>Add task</th>
+                                <th>Show tasks</th>
+                            </tr>
+                        </thead>
+                        {this.state.projects.map(project =>
+
+                            <tbody>
+                                <tr >
+                                    <td >{project.name}</td>
+                                    <td> {project.description}</td>
+                                    <td>{project.yearsOfExperience}</td>
+                                    <td>{project.hours}</td>
+                                    <td>{project.minCreditsHour}</td>
+                                    <td>{project.maxCreditsHour}</td>
+                                    <td>{project.chosenCreditHour}</td>
+                                    <td>{project.creditsPenalty}</td>
+                                    <td>{project.type}</td>
+                                    <td>{String(project.contractSigned)}</td>
+                                    <td> {project.requiredSkills.map(requiredSkills => {
+                                          return <li>{requiredSkills}</li>;
+                                               })}</td>
+                                    <td>{project.deadline}</td>           
+                                    <td>
+                                    <button id="btn1" onClick={this.addtask.bind(this, project._id)}>Add Task</button></td>
+                                   <td> <button id="btn2" onClick={this.showtasks.bind(this, project._id)}>Show Tasks</button></td>
+
+                                </tr>
+                            </tbody>
+                        )}
+                    </Table>
+
+
+
+
+
+
+
+
+
+
+        {/* {this.state.projects.map(project => (
           <li>
             <div className="form-group">
               <label>Project Name: </label>
@@ -141,7 +207,7 @@ export default class consultancyapprovedProjects extends Component {
             <br />
             <br />
           </li>
-        ))}
+        ))} */}
       </ul>
     );
   }
