@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
+import Table from 'react-bootstrap/Table';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 export default class consultancyrecprojects extends Component {
@@ -96,7 +97,61 @@ onSubmitDisapply(id) {
   render() {
     return (
       <ul>
-        {this.state.projects.map(project => (
+
+<Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Project Description</th>
+                                <th>Required Years of Experience</th>
+                                <th>Hours</th>
+                                <th>Minimum Credit Hours</th>
+                                <th>Maximum Credit Hours</th>
+                                <th>Chosen Credit Hours</th>
+                                <th>Credits Penalty</th>
+                                <th>Project type</th>
+                                <th>Signed Contract</th>
+                                <th>Required Skills</th>
+                                <th>Project deadline</th>
+                                <th>Apply or Disapply</th>
+                                
+                            </tr>
+                        </thead>
+                        {this.state.projects.map(project =>
+
+                            <tbody>
+                                <tr >
+                                    <td >{project.name}</td>
+                                    <td> {project.description}</td>
+                                    <td>{project.yearsOfExperience}</td>
+                                    <td>{project.hours}</td>
+                                    <td>{project.minCreditsHour}</td>
+                                    <td>{project.maxCreditsHour}</td>
+                                    <td>{project.chosenCreditHour}</td>
+                                    <td>{project.creditsPenalty}</td>
+                                    <td>{project.type}</td>
+                                    <td>{String(project.contractSigned)}</td>
+                                    <td> {project.requiredSkills.map(requiredSkills => {
+                                          return <li>{requiredSkills}</li>;
+                                               })}</td>
+                                    <td>{project.deadline}</td>           
+                                    
+                                   <td> <input type="button" className="btn btn-primary"
+                                            onClick={project.buttonId === "pending"? this.onSubmitDisapply.bind(this, project._id) : 
+                                            this.onSubmitApply.bind(this, project._id)}
+                                            value = {project.buttonId === "pending"? "Disapply" : 
+                                            "Apply"}
+                                              >
+                                             </input></td>
+
+                                </tr>
+                            </tbody>
+                        )}
+                    </Table>
+
+
+
+        {/* {this.state.projects.map(project => (
           <li>
             <div className="form-group">
               <label>Project Name: </label>
@@ -208,7 +263,7 @@ onSubmitDisapply(id) {
             <br />
             <br />
           </li>
-        ))}
+        ))} */}
       </ul>
     );
   }
