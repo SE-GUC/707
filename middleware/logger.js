@@ -3,7 +3,8 @@ const tokenKey = require("../config/keys").secretOrKey;
 const logger = (req, res, next) => {
   if (
     !req.originalUrl.includes("api/login") &&
-    !req.originalUrl.includes("/register")
+    !req.originalUrl.includes("/register") &&
+    !req.originalUrl.includes("/contactUS")
   )
     jwt.verify(
       req.headers.authorization.replace("Bearer ", ""),
