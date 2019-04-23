@@ -56,7 +56,6 @@ import createReport from "./components/createReport-cons.component";
 import ConsultancyRequestCertificate from "./components/consultancy-request-certificate.component.js";
 import PartnerCreateProjects from "./components/partner-create-projects.component.js";
 import PartnerAwaitingApproval from "./components/partner-awaiting-approval.component.js";
-import CreateEmail from "./components/emails.component.js";
 import CandidateTasks from "./components/candidate-tasks.component.js";
 import CandidateApprovedTasks from "./components/candidate-approved-tasks.component.js";
 import consultancyrecommendedprojects from "./components/consultancyrecprojects.component.js";
@@ -78,7 +77,6 @@ import AdminPendingEvaluations from "./components/admin-pending-eval.component.j
 class App extends Component {
   render() {
     const cookies = new Cookies();
-    //const token = cookies.get("token");
     const usertype = cookies.get("usertype");
     const guestLinks = (
       <div className="container">
@@ -200,10 +198,8 @@ class App extends Component {
         <Route path="/viewCandidatereccertificate" component={getallcertificateRecCandidate}/>
         <Route path="/viewAllAnnouncements_Candidate" component={viewAllAnnouncements_Candidate} />
         <Route path="/getAnnouncementbyID_Candidate" component={getAnnouncementbyID_Candidate} />
-        <Route path= "/createEmail" component={CreateEmail} />
         <Route path= "/viewsentmails" component={getallSentEmails} />
         <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
-
         <Route path="/viewtasks" component={CandidateTasks} />
         <Route path="/viewapprovedtasks" component={CandidateApprovedTasks} />
 
@@ -341,7 +337,6 @@ class App extends Component {
           <Route path="/deleteReport-cons" component={deleteReport_cons} />
           <Route path="/updateReport-cons" component={updateReport_cons} />
           <Route path="/createReport-cons" component={createReport} />
-          <Route path= "/createEmail" component={CreateEmail} />
           <Route path="/recommendedprojects" component={consultancyrecommendedprojects} />
           <Route path= "/viewsentmails" component={getallSentEmails} />
           <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
@@ -425,11 +420,8 @@ class App extends Component {
         <Route path="/getAnnouncementbyID_Partner" component={getAnnouncementbyID_Partner} />
         <Route path="/getResearchbyID_Partner" component={getResearchbyID_Partner} />
         <Route path="/viewReportbyid-partners" component={getreportbyID_part} />
-        <Route path= "/createEmail" component={CreateEmail} />
         <Route path="/partnerapprovedprojects" component={partnerapprovedprojects} />
         <Route path="/partnershowconsultancy/:project" component={partnerconsultancyappliedonproject} />
-
-        {/* <Route path="/partnershowassignedconsultancy/:project" component={partnerassignedconsultancy} /> */}
         <Route path="/saconsultancy/:project" component={partnerassignedconsultancy} />
         <Route path="/partnershowtasks/:project" component={partnershowtasks} />
         <Route path="/partnershowcandidates/:project/:task" component={partnershowcandidate} />
@@ -545,7 +537,6 @@ class App extends Component {
         <Route path="/getResearchbyID_Admin" component={getResearchbyID_Admin} />
         <Route path="/getProjectbyID_Admin" component={getProjectbyID_Admin} />
         <Route path="/viewReportbyid-admin" component={getreportbyID_Admin} />
-        <Route path= "/createEmail" component={CreateEmail} />
         <Route path="/viewAllEvaluations_Admin" component={viewAllEvaluations_Admin} />
         <Route path='/viewEvaluationbyId_Admin/:evaluation' component={viewEvaluationbyId_Admin}/>
         <Route path='/updatetaskattribute/:task/:project' component={updatetask}/>
