@@ -13,8 +13,7 @@ export default class tasks extends Component {
     const token = cookies.get("token");
     axios
       .get(
-        "http://localhost:5000/api/admins/project/tasks/" +
-          this.props.projectID,
+        "http://localhost:5000/api/candidates/tasks" ,
         {
           headers: {
             Authorization: token
@@ -22,19 +21,63 @@ export default class tasks extends Component {
         }
       )
       .then(res => {
-        const tasks = res.data.data;
-        this.setState({ tasks });
-      });
+          axios.get( "http://localhost:5000/api/candidates/pendingTasks",
+          {
+            headers: {
+              Authorization: token
+            }
+          }).then(res1=>{
+            const tasks = res.data.data;
+            const pendingTasks = res1.data.data;
+            const result = this.manageTasks(tasks,pendingTasks)
+            this.setState({ tasks: result });      
+          }).catch(e =>{
+            alert(e)
+        });
+        
+      }).catch(e =>{
+        alert(e)
+    });
   }
-  onSubmit(id) {
+  manageTasks(tasks, pendingTasks){
+      const result=[]
+      tasks.forEach(element => {
+        element["buttonId"] = "notpending"
+          pendingTasks.forEach(pt => {
+              if(pt._id == element._id){
+                element["buttonId"] = "pending";
+                
+              }
+          })
+          result.push(element)
+      });
+        return result
+  }
+  onSubmitApply(id) {
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    axios
+      .post(
+        "http://localhost:5000/api/candidates/task/" + id,{},
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      )
+      .then(res => {
+          alert("Applied Successfully!")
+          window.location.reload()
+      }).catch(e =>{
+        alert(e)
+    });
+  }
+  onSubmitDisapply(id) {
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
       .delete(
-        "http://localhost:5000/api/admins/project/tasks/" +
-          this.props.projectID +
-          "/" +
-          id,
+        "http://localhost:5000/api/candidates/task/" + id,
         {
           headers: {
             Authorization: token
@@ -42,29 +85,12 @@ export default class tasks extends Component {
         }
       )
       .then(res => {
-        this.rerender(token);
-      }).catch(e =>{
-        alert(e)
-    });
+          alert("Disapplied Successfully!")
+          window.location.reload()
+
+      });
   }
-  rerender(token) {
-    axios
-      .get(
-        "http://localhost:5000/api/admins/project/tasks/" +
-          this.props.projectID,
-        {
-          headers: {
-            Authorization: token
-          }
-        }
-      )
-      .then(res => {
-        const tasks = res.data.data;
-        this.setState({ tasks });
-      }).catch(e =>{
-        alert(e)
-    });
-  }
+ 
   render() {
     return (
       <ul>
@@ -100,25 +126,17 @@ export default class tasks extends Component {
                 <li>{requiredSkills}</li>
               ))}
               <br />
-              Status: {task.status} <br />
-              Life Cycle:{" "}
-              {task.taskcycle.map(cycle => (
-                <li>
-                  Description: {cycle.description}
-                  <br />
-                  Status: {cycle.status}
-                  <br />
-                  Percentage: {cycle.percentage}
-                </li>
-              ))}
+             
               <br />
-              <button
+              <input
                 type="button"
-                className="btn btn-danger"
-                onClick={this.onSubmit.bind(this, task._id)}
+                className="btn btn-primary"
+                onClick={task.buttonId === "pending"? this.onSubmitDisapply.bind(this, task._id) : 
+                this.onSubmitApply.bind(this, task._id)}
+                value = {task.buttonId === "pending"? "Disapply" : 
+                "Apply"}
               >
-                Delete
-              </button>
+              </input>
             </p>
           </li>
         ))}

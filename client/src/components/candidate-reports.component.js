@@ -22,7 +22,9 @@ export default class candidatereports extends Component {
       .then(res => {
         const reports = res.data.data;
         this.setState({ reports });
-      });
+      }).catch(e =>{
+        alert(e)
+    });
   }
   onSubmit(id) {
     const cookies = new Cookies();
