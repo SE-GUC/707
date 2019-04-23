@@ -48,7 +48,8 @@ export default class createAnnouncement extends Component {
     axios.post(
         "http://localhost:5000/api/admins/announcement",announc,{  headers: { Authorization: token}}
       )
-      .then(res => console.log(res.data));
+      .then(res => alert("Created Successfully!"));
+
     this.setState({
       title: "",
       type: "",
