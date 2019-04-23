@@ -301,22 +301,12 @@ class App extends Component {
                 </li>
                 <li className="navbar-item">
                   <Link to="/viewReportbyid-cons" className="nav-link">
-                    View Reports for consultancy by id 
-                  </Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/deleteReport-cons" className="nav-link">
-                    delete reports for consultancy
+                    View Reports for consultancy 
                   </Link>
                 </li>
                 <li className="navbar-item">
                   <Link to="/updateReport-cons" className="nav-link">
                     update Reports for consultancies
-                  </Link>
-                </li>
-                <li className="navbar-item">
-                  <Link to="/createReport-cons" className="nav-link">
-                    create Reports for consultancy
                   </Link>
                 </li>
                  <li>
