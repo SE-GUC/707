@@ -13,7 +13,7 @@ export default class updateAnnouncement extends Component {
       updatedAnnouncement:{
             title: '',
             type: '',
-            content: ''
+            Content: ''
       }
     }
 }
@@ -24,7 +24,7 @@ export default class updateAnnouncement extends Component {
             updatedAnnouncement:{
               title: announcement.title,
               type: announcement.type,
-              content: announcement.content
+              Content: announcement.Content
               
          } });
     }
@@ -34,18 +34,18 @@ export default class updateAnnouncement extends Component {
         updatedAnnouncement:{
             title: announcement.title,
             type: announcement.type,
-            content: announcement.content
+            Content: announcement.Content
             
        } });
   }
   onChangeAnnouncementContent(announcement,e) {
    
-    announcement.content=e.target.value;        
+    announcement.Content=e.target.value;        
     this.setState({
         updatedAnnouncement:{
             title: announcement.title,
             type: announcement.type,
-            content: announcement.content
+            Content: announcement.Content
             
        } });
            
@@ -61,7 +61,7 @@ export default class updateAnnouncement extends Component {
     //         updatedannouncement:{
     //             name: announcement.name,
     //             type: announcement.type,
-    //             content: announcement.content,
+    //             Content: announcement.Content,
     //             skills:announcement.skills,
     //             available:announcement.available
                 
@@ -71,6 +71,11 @@ export default class updateAnnouncement extends Component {
       componentDidMount() {
          const cookies = new Cookies();
          const token= cookies.get('token')
+         const usertype = cookies.get("usertype");
+        if(usertype !== "admin"){
+            alert("Invalid access");
+            window.location.replace("/");
+        }
         axios.get('http://localhost:5000/api/admins/announcements', { headers: {
             Authorization: token}
           })
@@ -86,6 +91,7 @@ export default class updateAnnouncement extends Component {
          .then(res => {
            const announcements = res.data.data;
            this.setState({ announcements });
+           window.location.reload();
          })
      }
    async updateAnnouncement(e,announcement){
@@ -99,14 +105,17 @@ export default class updateAnnouncement extends Component {
  let announcement2={
     title: announcement.title,
     type: announcement.type,
-    content: announcement.content
+    Content: announcement.Content
  }
     console.log(this.state.updatedAnnouncement.type);
     console.log(this.state.updatedAnnouncement.title);
     console.log(announcement._id);
        axios.put('http://localhost:5000/api/admins/announcement/'+announcement._id,announcement2,{ headers: {
         Authorization: token}});
+
         this.rerender(token);
+        window.location.reload();
+
 
    }
 
@@ -116,12 +125,12 @@ export default class updateAnnouncement extends Component {
             { this.state.announcements.map(announcement => <li>
                 <p>announcement title: {announcement.title}<br></br>
                 announcement type:{announcement.type}<br></br>
-                announcement content: {announcement.content}<br></br>
+                announcement Content: {announcement.Content}<br></br>
               
                <div className="form-group"> 
                         <label>Announcement Title: </label>
                         <input  type="text"
-                                className="content-editable"
+                                className="Content-editable"
                                 value={announcement.title}
                                 onChange={(e) => this. onChangeAnnouncementTitle(announcement, e)}
                                 />
@@ -135,10 +144,10 @@ export default class updateAnnouncement extends Component {
                                 />
                     </div>
                     <div className="form-group"> 
-                        <label>Announcement content: </label>
+                        <label>Announcement Content: </label>
                         <input  type="text"
                                 className="form-control"
-                                value={announcement.content}
+                                value={announcement.Content}
                                 onChange={(e) => this.onChangeAnnouncementContent(announcement, e)}
                                 />
                     </div>               

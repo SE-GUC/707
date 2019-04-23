@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-var fs = require("fs");
+const fs = require("fs");
 const User = require("../../models/User").User;
 const Candidate = require("../../models/User").Candidate;
 const Consultancy = require("../../models/User").Consultancy;
@@ -26,6 +26,125 @@ router.get(
               data: foundUser
             });
         else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View my profile by my email
+router.get(
+  "/:email",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.find({email: req.params.email }, function(err, foundUser) {
+        if (!err)
+          if (!foundUser)
+            res.status(404).send({
+              error: "This profile does not exist"
+            });
+          else
+            res.json({
+              msg: "Your profile information",
+              data: foundUser
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//Set/Update my profile picture
+router.post(
+  "/profilePicture",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.findByIdAndUpdate(
+        req.id,
+        {
+          profilePhoto: {
+            data: fs.readFileSync(req.body.imagePath),
+            contentType: "image/jpg"
+          }
+        },
+        {
+          new: true
+        },
+        function(err, foundUser) {
+          if (!err)
+            res.json({
+              msg: "Your profile has been set successfully",
+              data: foundUser.profilePhoto.data
+            });
+          else
+            res.json({
+              error: err.message
+            });
+        }
+      );
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//Delete my profile picture
+router.delete(
+  "/profilePicture",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.findByIdAndUpdate(
+        req.id,
+        {
+          profilePhoto: null
+        },
+        {
+          new: true
+        },
+        function(err) {
+          if (!err)
+            res.json({
+              msg: "Your profile has deleted successfully"
+            });
+          else
+            res.json({
+              error: err.message
+            });
+        }
+      );
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View my profile picture
+router.get(
+  "/profilePicture",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      User.findById(req.id, function(err, foundUser) {
+        if (!err) {
+          res.contentType(foundUser.profilePhoto.contentType);
+          res.send(foundUser.profilePhoto.data);
+        } else
           res.json({
             error: err.message
           });
@@ -237,97 +356,6 @@ router.delete(
     }
   }
 );
-//Set/Update my profile picture
-router.post(
-  "/profilePicture/candidate",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Candidate.findByIdAndUpdate(
-        req.id,
-        {
-          profilePhoto: {
-            data: fs.readFileSync(req.body.imagePath),
-            contentType: "image/jpg"
-          }
-        },
-        {
-          new: true
-        },
-        function(err, foundUser) {
-          if (!err)
-            res.json({
-              msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
-            });
-          else
-            res.json({
-              error: err.message
-            });
-        }
-      );
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
-//Delete my profile picture
-router.delete(
-  "/profilePicture/candidate",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Candidate.findByIdAndUpdate(
-        req.id,
-        {
-          profilePhoto: null
-        },
-        {
-          new: true
-        },
-        function(err, foundUser) {
-          if (!err)
-            res.json({
-              msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
-            });
-          else
-            res.json({
-              error: err.message
-            });
-        }
-      );
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
-//View my profile picture
-router.get(
-  "/profilePicture/candidate",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Candidate.findById(req.id, function(err, foundUser) {
-        if (!err) {
-          res.contentType(foundUser.profilePhoto.contentType);
-          res.send(foundUser.profilePhoto.data);
-        } else
-          res.json({
-            error: err.message
-          });
-      });
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Consultancy~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Register a consultancy
 router.post("/consultancy/register", async (req, res) => {
@@ -428,97 +456,6 @@ router.delete(
     }
   }
 );
-//Set/Update my profile picture
-router.post(
-  "/profilePicture/consultancy",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Consultancy.findByIdAndUpdate(
-        req.id,
-        {
-          profilePhoto: {
-            data: fs.readFileSync(req.body.imagePath),
-            contentType: "image/jpg"
-          }
-        },
-        {
-          new: true
-        },
-        function(err, foundUser) {
-          if (!err)
-            res.json({
-              msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
-            });
-          else
-            res.json({
-              error: err.message
-            });
-        }
-      );
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
-//Delete my profile picture
-router.delete(
-  "/profilePicture/consultancy",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Consultancy.findByIdAndUpdate(
-        req.id,
-        {
-          profilePhoto: null
-        },
-        {
-          new: true
-        },
-        function(err, foundUser) {
-          if (!err)
-            res.json({
-              msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
-            });
-          else
-            res.json({
-              error: err.message
-            });
-        }
-      );
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
-//View my profile picture
-router.get(
-  "/profilePicture/consultancy",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Consultancy.findById(req.id, function(err, foundUser) {
-        if (!err) {
-          res.contentType(foundUser.profilePhoto.contentType);
-          res.send(foundUser.profilePhoto.data);
-        } else
-          res.json({
-            error: err.message
-          });
-      });
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Partner~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Register a partner
 router.post("/partner/register", async (req, res) => {
@@ -608,97 +545,6 @@ router.delete(
               data: foundUser
             });
         else
-          res.json({
-            error: err.message
-          });
-      });
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
-//Set/Update my profile picture
-router.post(
-  "/profilePicture/partner",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Partner.findByIdAndUpdate(
-        req.id,
-        {
-          profilePhoto: {
-            data: fs.readFileSync(req.body.imagePath),
-            contentType: "image/jpg"
-          }
-        },
-        {
-          new: true
-        },
-        function(err, foundUser) {
-          if (!err)
-            res.json({
-              msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
-            });
-          else
-            res.json({
-              error: err.message
-            });
-        }
-      );
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
-//Delete my profile picture
-router.delete(
-  "/profilePicture/partner",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Partner.findByIdAndUpdate(
-        req.id,
-        {
-          profilePhoto: null
-        },
-        {
-          new: true
-        },
-        function(err, foundUser) {
-          if (!err)
-            res.json({
-              msg: "Your profile has been set successfully",
-              data: foundUser.profilePhoto
-            });
-          else
-            res.json({
-              error: err.message
-            });
-        }
-      );
-    } catch (error) {
-      res.json({
-        error: error.message
-      });
-    }
-  }
-);
-//View my profile picture
-router.get(
-  "/profilePicture/partner",
-  passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      Partner.findById(req.id, function(err, foundUser) {
-        if (!err) {
-          res.contentType(foundUser.profilePhoto.contentType);
-          res.send(foundUser.profilePhoto.data);
-        } else
           res.json({
             error: err.message
           });

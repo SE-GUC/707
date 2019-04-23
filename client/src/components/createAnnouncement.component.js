@@ -10,8 +10,8 @@ export default class createAnnouncement extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       title: "",
-      content: "",
-      type: ""
+      type: "",
+      Content:""
       //   todo_completed: false
     };
   }
@@ -22,7 +22,7 @@ export default class createAnnouncement extends Component {
   }
   onChangeContent(e) {
     this.setState({
-      content: e.target.value
+      Content: e.target.value
     });
   }
   onChangeType(e) {
@@ -34,25 +34,23 @@ export default class createAnnouncement extends Component {
     const cookies= new Cookies();
          const token= cookies.get('token');
     e.preventDefault();
-    console.log(`Form submitted:`);
-    console.log(`Title: ${this.state.title}`);
-    console.log(`Type: ${this.state.type}`);
-    console.log(`Content: ${this.state.content}`);
+    console.log(`Content: ${this.state.Content}`);
     const announc = {
       title: this.state.title,
       type: this.state.type,
-      content: this.state.content
+      Content: this.state.Content
       //todo_completed: this.state.todo_completed
     };
     console.log(announc);
     axios.post(
         "http://localhost:5000/api/admins/announcement",announc,{  headers: { Authorization: token}}
       )
-      .then(res => console.log(res.data));
+      .then(res => alert("Created Successfully!"));
+
     this.setState({
       title: "",
       type: "",
-      content: ""
+      Content: ""
     });
   }
   render() {
@@ -83,7 +81,7 @@ export default class createAnnouncement extends Component {
             <input
               type="text"
               className="form-control"
-              value={this.state.content}
+              value={this.state.Content}
               onChange={this.onChangeContent}
             />
           </div>

@@ -150,10 +150,24 @@ export default class addtaskinproject extends Component {
           contractSigned: "",
           requiredSkills: ""
         })
+        axios
+        .put("http://localhost:5000/api/consultancies/update/projects",{},{
+          headers: {
+            Authorization: token
+          }
+        })
+
       };
 
   render() {
+    {const cookies = new Cookies();
+      const usertype = cookies.get("usertype");
+      if(usertype !== "consultancy"){
+      alert("Invalid access");
+      window.location.replace("/");
+    }}
     return (
+      
       <div style={{ marginTop: 10 }}>
         <h3>Insert Task Info</h3>
         <form onSubmit={this.onSubmit}>

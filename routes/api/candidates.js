@@ -322,14 +322,14 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const Candidate = await Candidate.find({
+      const candidate = await Candidate.find({
         "approvedTasks._id": req.params.taskID
       });
-      if (!Candidate)
+      if (candidate)
         Task.findByIdAndUpdate(
           req.params.taskID,
           {
-            taskcyle: req.body
+            taskcycle: req.body
           },
           {
             new: true
@@ -621,6 +621,54 @@ router.delete(
     }
   }
 );
+//View all my pending approval certificates
+router.get(
+  "/pendingCertificates",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Candidate.findById(req.id, function(err, foundUser) {
+        if (!err)
+          res.json({
+            msg: "Your pending approval certificates information",
+            data: foundUser.pendingCertificates
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View all my acquired certificates
+router.get(
+  "/acquiredCertificates",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Candidate.findById(req.id, function(err, foundUser) {
+        if (!err)
+          res.json({
+            msg: "Your acquired certificates information",
+            data: foundUser.acquiredCertificates
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //View pending approval certificate evaluation tests to take
 router.get(
   "/certificate/evaluationTests/:certificateID",
@@ -685,54 +733,32 @@ router.get(
     }
   }
 );
-//Submit the evaluation test of pending approval certificate by evaluation test id and certificate id
-router.put(
+//Submit the evaluation test of pending approval certificate by evaluation test id
+router.post(
   "/certificate/evaluationTests/:certificateID/:evaluationID",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      Evaluation.findByIdAndUpdate(
-        req.params.evaluationID,
-        req.body,
+      Candidate.findByIdAndUpdate(
+        req.id,
         {
-          new: true
+          $set: {
+            "pendingCertificates.$[pendingCertificate].evaluationTests.$[evaluationTest].answer":
+              req.body.answer
+          }
         },
-        function(err, updatedEvaluation) {
+        {
+          new: true,
+          arrayFilters: [
+            { "pendingCertificate._id": req.params.certificateID },
+            { "evaluationTest._id": req.params.evaluationID }
+          ]
+        },
+        function(err) {
           if (!err)
-            if (!updatedEvaluation)
-              res.status(404).send({
-                error: "This evaluation test does not exist"
-              });
-            else
-              Certificate.update(
-                {
-                  _id: req.params.certificateID,
-                  "evaluationTests._id": req.params.evaluationID
-                },
-                {
-                  "evaluationTests.$": updatedEvaluation
-                },
-                {
-                  new: true
-                },
-                function(err, foundCertificate) {
-                  if (!err)
-                    if (!foundCertificate)
-                      res.status(404).send({
-                        error: "This certificate does not exist"
-                      });
-                    else
-                      res.json({
-                        msg:
-                          "Your certificate's evaluation tests have been updated successfully",
-                        data: foundCertificate.evaluationTests
-                      });
-                  else
-                    res.json({
-                      error: err.message
-                    });
-                }
-              );
+            res.json({
+              msg: "You have submitted the evaluation test successfully"
+            });
           else
             res.json({
               error: err.message
@@ -754,7 +780,7 @@ router.get(
     try {
       Candidate.findById(req.id, function(err, foundUser) {
         if (!err) {
-          var allAcquiredSkills = new Set();
+          let allAcquiredSkills = new Set();
           for (i = 0; i < foundUser.acquiredCertificates.length; i++)
             for (
               j = 0;
@@ -1064,21 +1090,25 @@ router.put(
     try {
       const candidate = await Candidate.findById(req.id);
       const tasks = await Task.find({});
-      var pendingTasks = [];
-      var approvedTasks = [];
+      let pendingTasks = [];
+      let approvedTasks = [];
+      let count = 0
       for (i = 0; i < candidate.pendingTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
-          if (
-            candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()
-          )
-            pendingTasks[i * tasks.length + j] = tasks[j];
+          if (candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()){
+            pendingTasks[count] = tasks[j];
+            count += 1
+          }
+      count = 0
       for (i = 0; i < candidate.approvedTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
           if (
             candidate.approvedTasks[i]._id.toString() ===
             tasks[j]._id.toString()
-          )
-            approvedTasks[i * tasks.length + j] = tasks[j];
+          ){
+            approvedTasks[count] = tasks[j];
+            count += 1
+          }
       Candidate.findByIdAndUpdate(
         req.id,
         {
@@ -1114,22 +1144,26 @@ router.put(
     try {
       const candidate = await Candidate.findById(req.id);
       const certificates = await Certificate.find({});
-      var pendingCertificates = [];
-      var acquiredCertificates = [];
+      let pendingCertificates = [];
+      let acquiredCertificates = [];
+      let count = 0
       for (i = 0; i < candidate.pendingCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             candidate.pendingCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
-            pendingCertificates[i * certificates.length + j] = certificates[j];
+          ){
+            pendingCertificates[count] = certificates[j];
+            count+=1}
+      count = 0
       for (i = 0; i < candidate.acquiredCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             candidate.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
-            acquiredCertificates[i * certificates.length + j] = certificates[j];
+          ){
+            acquiredCertificates[count] = certificates[j];
+            count+=1}
       Candidate.findByIdAndUpdate(
         req.id,
         {

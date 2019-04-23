@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import ReactDOM from "react-dom";
-import App from "../App.js"
-
+import App from "../App.js";
 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 export default class Loginuser extends Component {
@@ -35,27 +34,31 @@ export default class Loginuser extends Component {
       password: this.state.password
     };
     const cookies = new Cookies();
-    axios.post("http://localhost:5000/api/login", user).then(res => {
-      if (res.status == 200) {
-        this.setState({ redirect: true });
-        cookies.set("token", res.data.data.token);
-        cookies.set("usertype", res.data.data.user.usertype);
-      }
-      console.log(res.data.data.token);
-      console.log(res.data.data.user.usertype);
-    });
+    axios
+      .post("http://localhost:5000/api/login", user)
+      .then(res => {
+        if (res.status == 200) {
+          this.setState({ redirect: true });
+          cookies.set("token", res.data.data.token);
+          if (res.data.data.user.usertype !== undefined)
+            cookies.set("usertype", res.data.data.user.usertype);
+          else cookies.set("usertype", "admin");
+          console.log(cookies.get("token"));
+          console.log(cookies.get("usertype"));
+        }
+      })
+      .catch(e => {
+        alert(e);
+      });
     this.setState({
       email: "",
       password: ""
     });
   }
   renderRedirect = () => {
-    if(this.state.redirect === true){
-      this.setState({redirect: false})
-      window.location.replace("/")
-      
-
-
+    if (this.state.redirect === true) {
+      this.setState({ redirect: false });
+      window.location.replace("/");
     }
   };
   render() {
