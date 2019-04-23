@@ -14,6 +14,11 @@ export default class partnershowtasks extends Component {
       componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get("token");
+        const usertype = cookies.get("usertype");
+        if(usertype !== "partner"){
+        alert("Invalid access");
+        window.location.replace("/");
+        }
         const {project}=this.props.match.params
         axios
           .get("http://localhost:5000/api/partners/project/tasks/"+{project}.project, {
@@ -79,9 +84,19 @@ export default class partnershowtasks extends Component {
                                     <td>{task.candidateRole}</td>
                                     <td>{String(task.contractSigned)}</td>
                                     <td>
-                                    <button id="btn2"onClick={this.showcandidates.bind(this,task._id)}>Show applied candidates</button></td> 
+                                    <input
+                                     type="submit"
+                                     value="Show applied candidates"
+                                    className="btn btn-primary"
+                                    onClick={this.showcandidates.bind(this,task._id)}
+                                    /></td> 
                                     <td>
-                                    <button id="btn1"onClick={this.showassignedcandidate.bind(this,task._id)}>Show assigned candidates</button></td>
+                                    <input
+                                        type="submit"
+                                        value="Show assigned candidate"
+                                        className="btn btn-primary"
+                                        onClick={this.showassignedcandidate.bind(this,task._id)}
+                                        /></td>
 
                                 </tr>
                             </tbody>
@@ -143,7 +158,7 @@ export default class partnershowtasks extends Component {
           <div className="form-group">
             <input
               type="submit"
-              value="Show candidate assigned to this task"
+              value="Show assigned candidate"
               className="btn btn-primary"
               onClick={this.showassignedcandidate.bind(this,project._id)}
             />

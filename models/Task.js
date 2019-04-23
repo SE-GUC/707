@@ -13,7 +13,7 @@ var taskSchema = new Schema({
   creditsPenalty: Number,
   yearsOfExperience: Number,
   candidateRole: String,
-  contractSigned: Boolean,
+  contractSigned: { type: Boolean, default: false },
   requiredSkills: [String],
   status: {
     type: String,

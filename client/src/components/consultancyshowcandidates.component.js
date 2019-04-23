@@ -16,6 +16,11 @@ export default class consultancyshowcandidates extends Component {
   accept = id => { 
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype = cookies.get("usertype");
+        if(usertype !== "consultancy"){
+          alert("Invalid access");
+          window.location.replace("/");
+        }
     const {task}=this.props.match.params
     const {project}=this.props.match.params
     axios
@@ -94,10 +99,12 @@ export default class consultancyshowcandidates extends Component {
                                     <td> {candidate.interests.map(interest => {
                                           return <li>{interest}</li>;
                                                })}</td>                      
-                                    
-                                    <td>
-                                    <button id="btn1" onClick={this.accept.bind(this,candidate._id)}>Accept</button></td>
-
+                                    <td> <input
+                                       type="submit"
+                                       value="Accept"
+                                      className="btn btn-primary"
+                                      onClick={this.accept.bind(this,candidate._id)}
+                                      /></td>
                                 </tr>
                             </tbody>
                         )}

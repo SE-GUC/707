@@ -34,6 +34,36 @@ router.get(
     }
   }
 );
+//view project by id 
+router.get(
+  "/project/:projectID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Project.findById(req.params.projectID, function(err, foundProject) {
+        if (!err)
+          if (!foundProject)
+            res.status(404).send({
+              error: "This project does not exist"
+            });
+          else
+            res.json({
+              msg: "This project information",
+              data: foundProject
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+
 //View all projects only that i can apply
 router.get(
   "/projects",
