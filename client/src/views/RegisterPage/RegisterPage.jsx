@@ -67,6 +67,12 @@ class LoginPage extends React.Component {
     this.setState({ selectedEnabled: event.target.value });
   }
   onSubmit() {
+    if (
+      this.state.email === "" ||
+      this.state.password === "" ||
+      this.state.type === ""
+    )
+      alert("Please fill-in all fields");
     axios
       .post(
         "http://localhost:5000/api/profiles/" + this.state.type + "/register",
@@ -91,10 +97,11 @@ class LoginPage extends React.Component {
                 console.log(res.data.data.token);
                 console.log(res.data.data.user.usertype);
                 window.location.replace("/profile-page");
-              } else console.log(res.error);
+              }
             });
-        } else console.log(res.error);
-      });
+        }
+      })
+      .catch(alert("Email is already used"));
   }
   render() {
     const { classes, ...rest } = this.props;

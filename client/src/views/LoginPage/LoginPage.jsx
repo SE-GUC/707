@@ -56,6 +56,8 @@ class LoginPage extends React.Component {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
   onSubmit() {
+    if (this.state.email === "" || this.state.password === "")
+      alert("Please fill-in both fields");
     const cookies = new Cookies();
     axios
       .post("http://localhost:5000/api/login", {
@@ -71,8 +73,9 @@ class LoginPage extends React.Component {
           console.log(cookies.get("token"));
           console.log(cookies.get("usertype"));
           window.location.replace("/profile-page");
-        } else console.log(res.error);
-      });
+        }
+      })
+      .catch(alert("Invalid email or password, this user is not found"));
   }
   render() {
     const { classes, ...rest } = this.props;
