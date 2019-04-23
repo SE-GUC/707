@@ -82,6 +82,10 @@ export default class getallcertificateRecConsultancy extends Component {
           })
 
       }
+      requestCertificate(e){
+        e.preventDefault();
+        window.location.replace("/consultancyrequestcertificate")
+      }
      
       render() {
         
@@ -135,6 +139,7 @@ export default class getallcertificateRecConsultancy extends Component {
                              </Table>
                              <br/>  
              <br/>
+             <button type="button" className="btn btn-danger" onClick={this.requestCertificate.bind(this)}>Request New Certificate</button><br></br>
              </ul>
         )
       }

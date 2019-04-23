@@ -13,7 +13,7 @@ import Candidate from "./components/candidate.component.js";
 import AdminProjects from "./components/admin-projects.component.js";
 import CandidateReports from "./components/candidate-reports.component.js";
 import CandidateResearches from "./components/candidate-researches.component.js";
-import CandidateRequestCertificate from "./components/request-certificate.component.js";
+import CandidateRequestCertificate from "./components/candidate-request-certificate.component.js";
 import Search from "./components/search.component.js";
 import getallcertificate from "./components/certificate.component.js";
 import getallcertificateCandidate from "./components/candidateCertificatesAll.component.js";
