@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
@@ -9,8 +8,9 @@ export default class partnerapprovedprojects extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      flag:false,
       projects: []
-    };
+    }
   }
   
   
@@ -18,6 +18,11 @@ export default class partnerapprovedprojects extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype = cookies.get("usertype");
+    if(usertype !== "partner"){
+    alert("Invalid access");
+    window.location.replace("/");
+    }
     axios
       .get("http://localhost:5000/api/partners/approvedProjects", {
         headers: {
@@ -40,7 +45,7 @@ export default class partnerapprovedprojects extends Component {
     
   };
   showtasks = id => {
-    window.location.replace("/partnershowtasks/"+id)
+    window.location.replace("/partnershowtaskss/"+id)
     
   };
   getProject(Projectid) {
@@ -59,8 +64,12 @@ export default class partnerapprovedprojects extends Component {
 
       .then(res => {
         const projects = res.data.data;
-        this.setState({projects:[projects]})
+        this.setState(
+          {projects:[projects],  
+          flag:true
+          })
         console.log(projects);
+       
         this.rerender2(token,Projectid);
 
       })
@@ -84,6 +93,7 @@ axios.get('http://localhost:5000/api/partners/project/'+Projectid, { headers: {
 }
 
   render() {
+    if(!this.state.flag){
     return (
       <ul>
            <Table striped bordered hover variant="dark">
@@ -91,19 +101,10 @@ axios.get('http://localhost:5000/api/partners/project/'+Projectid, { headers: {
                             <tr>
                                 <th>Project Name</th>
                                 <th>Project Description</th>
-                                <th>Required Years of Experience</th>
-                                <th>Hours</th>
-                                <th>Minimum Credit Hours</th>
-                                <th>Maximum Credit Hours</th>
-                                <th>Chosen Credit Hours</th>
-                                <th>Credits Penalty</th>
-                                <th>Project type</th>
-                                <th>Signed Contract</th>
-                                <th>Required Skills</th>
-                                <th>Project deadline</th>
                                 <th>Show Tasks</th>
                                 <th>Show Applied Consultancies</th>
                                 <th>Show Assigned Consultancy</th>
+                                <th>Get project</th>
                             </tr>
                         </thead>
                         {this.state.projects.map(project =>
@@ -111,175 +112,109 @@ axios.get('http://localhost:5000/api/partners/project/'+Projectid, { headers: {
                             <tbody>
                                 <tr >
                                     <td >{project.name}</td>
-                                    <td> {project.description}</td>
-                                    <td>{project.yearsOfExperience}</td>
-                                    <td>{project.hours}</td>
-                                    <td>{project.minCreditsHour}</td>
-                                    <td>{project.maxCreditsHour}</td>
-                                    <td>{project.chosenCreditHour}</td>
-                                    <td>{project.creditsPenalty}</td>
-                                    <td>{project.type}</td>
-                                    <td>{String(project.contractSigned)}</td>
-                                    <td> {project.requiredSkills.map(requiredSkills => {
-                                          return <li>{requiredSkills}</li>;
-                                               })}</td>
-                                    <td>{project.deadline}</td>           
-                                    <td> <button id="btn3"  onClick={this.showtasks.bind(this,project._id)}>Show Tasks</button></td>
+                                    <td> {project.description}</td>         
+                                    <td><input
+                                        type="submit"
+                                        value="Show Tasks"
+                                        className="btn btn-primary" 
+                                        onClick={this.showtasks.bind(this,project._id)}
+                                        /></td>
                                     <td>
-                                    <button id="btn1" onClick={this.showconsultancy.bind(this,project._id)}>Show applied consultancies</button></td>
-                                   <td> <button id="btn2"  onClick={this.showassignedconsultancy.bind(this,project._id)}>Show Assigned Consultancy</button></td>
-
+                                    <input
+                                      type="submit"
+                                      value="Show Applied Consultancies"
+                                      className="btn btn-primary"
+                                      onClick={this.showconsultancy.bind(this,project._id)}
+                                      /></td>
+                                   <td> <input
+                                        type="submit"
+                                        value="Show assigned consultancy"
+                                        className="btn btn-primary"
+                                        onClick={this.showassignedconsultancy.bind(this,project._id)}
+                                        /></td>
+                                   <td><input
+                                      type="submit"
+                                       value="Get Project"
+                                      className="btn btn-primary"
+                                       onClick={this.getProject.bind(this,project._id)}
+                                        /></td>
                                 </tr>
                             </tbody>
                         )}
                     </Table>
 
-
-
-
-
-
-
-
-        {/* {this.state.projects.map(project => (
-          <li>
-            <div className="form-group">
-              <label>Project Name: </label>
-              <input
-                type="text"
-                className="content-editable"
-                value={project.name}
-              />
-            </div>
-            <div className="form-group">
-              <label>Project Description: </label>
-              <input
-                type="text"
-                className="form-control"
-                value={project.description}
-              />
-            </div>
-            <div className="form-group">
-              <label>Required Years of Experience: </label>
-              <input
-                type="number"
-                className="form-control"
-                value={project.yearsOfExperience}
-              />
-            </div>
-            <div className="form-group">
-              <label>Hours: </label>
-              <input
-                type="number"
-                className="form-control"
-                value={project.hours}
-              />
-            </div>
-            <div className="form-group">
-              <label>Minimum Credit Hours: </label>
-              <input
-                type="number"
-                className="form-control"
-                value={project.minCreditsHour}
-              />
-            </div>
-            <div className="form-group">
-              <label>Maximum Credit Hours: </label>
-              <input
-                type="number"
-                className="form-control"
-                value={project.maxCreditsHour}
-              />
-            </div>
-            <div className="form-group">
-              <label>Chosen Credit Hours: </label>
-              <input
-                type="number"
-                className="form-control"
-                value={project.chosenCreditHour}
-              />
-            </div>
-            <div className="form-group">
-              <label>Credits Penalty: </label>
-              <input
-                type="number"
-                className="form-control"
-                value={project.creditsPenalty}
-              />
-            </div>
-            <div className="form-group">
-              <label>Project type: </label>
-              <input
-                type="text"
-                className="content-editable"
-                value={project.type}
-              />
-            </div>
-            <div className="form-group">
-              <label>Project deadline: </label>
-              <input
-                type="date"
-                className="content-editable"
-                value={project.deadline}
-              />
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="priorityOptions"
-                id="true"
-                value="true"
-                checked={project.type === "true"}
-              />
-              <label className="form-check-label">Signed Contract</label>
-            </div>
-            <div className="list">
-              <p> Required Skills</p>
-              {project.requiredSkills.map(requiredSkills => {
-                return <li>{requiredSkills}</li>;
-              })}
-            </div>
-
-            <div className="form-group">
-            <input
-              type="submit"
-              value="Show Tasks"
-              className="btn btn-primary" 
-              onClick={this.showtasks.bind(this,project._id)}
-            />
-          </div>
-            <div className="form-group">
-            <input
-              type="submit"
-              value="Show Applied Consultancies"
-              className="btn btn-primary"
-              onClick={this.showconsultancy.bind(this,project._id)}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Show consultancy assigned to this project"
-              className="btn btn-primary"
-              onClick={this.showassignedconsultancy.bind(this,project._id)}
-            />
-            
-          </div>
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Get Project"
-              className="btn btn-primary"
-              onClick={this.getProject.bind(this,project._id)}
-            />
-            
-          </div>
-            <br />
-            <br />
-          </li>
-        ))} */}
       </ul>
     );
+    }
+    else{
+    return(
+      <ul>
+        <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Project Description</th>
+                                <th>Project Type</th>
+                                <th>Project Deadline</th>
+                                <th>Project Hours</th>
+                                <th>Project Min Credits/Hr</th>
+                                <th>Project Max Xredits/Hr</th>
+                                <th>Project Chosen Credit Hr</th>
+                                <th>Project Penalty</th>
+                                <th>Project Years of experience</th>
+                                <th>Project Contract signed</th>
+                                <th>Project Required skills</th>
+                                <th>Project status</th>
+
+                                <th>Show Tasks</th>
+                                <th>Show Applied Consultancies</th>
+                                <th>Show Assigned Consultancy</th>
+                          
+
+                            </tr>
+                        </thead>
+                        {this.state.projects.map(project =>
+
+                            <tbody>
+                                <tr >
+                                    <td >{project.name}</td>
+                                    <td> {project.description}</td> 
+                                    <td> {project.type}</td>
+                                    <td> {project.deadline}</td>
+                                    <td> {project.hours}</td>
+                                    <td> {project.minreditsHour}</td>
+                                    <td> {project.maxCreditsHour}</td>
+                                    <td> {project.chosenCreditHour}</td>
+                                    <td> {project.creditsPenalty}</td>
+                                    <td> {project.yearsOfExperience}</td>
+                                    <td> {project.contractsSigned}</td>
+                                    <td> {project.requiredSkills}</td>
+                                    <td> {project.status}</td>                   
+                                    <td><input
+                                        type="submit"
+                                        value="Show Tasks"
+                                        className="btn btn-primary" 
+                                        onClick={this.showtasks.bind(this,project._id)}
+                                        /></td>
+                                    <td>
+                                    <input
+                                      type="submit"
+                                      value="Show Applied Consultancies"
+                                      className="btn btn-primary"
+                                      onClick={this.showconsultancy.bind(this,project._id)}
+                                      /></td>
+                                   <td> <input
+                                        type="submit"
+                                        value="Show assigned consultancy"
+                                        className="btn btn-primary"
+                                        onClick={this.showassignedconsultancy.bind(this,project._id)}
+                                        /></td>
+                                
+                                </tr>
+                            </tbody>
+                        )}
+                    </Table>
+      </ul>
+    )}
   }
 }

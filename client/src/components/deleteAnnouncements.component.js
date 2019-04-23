@@ -27,6 +27,11 @@ export default class deleteAnnouncements extends Component {
         const cookies = new Cookies();
 
         const token= cookies.get('token');
+        const usertype = cookies.get("usertype");
+        if(usertype !== "admin"){
+            alert("Invalid access");
+            window.location.replace("/");
+        }
 
         console.log(token)
 
@@ -65,6 +70,7 @@ export default class deleteAnnouncements extends Component {
           })
 
           .then(res => {
+            alert("Deleted Successfully!");
 
             const deletedAnnouncement = res.data.data;
 
@@ -149,7 +155,7 @@ export default class deleteAnnouncements extends Component {
             { this.state.announcements.map(announcement => <li>
                 <p>Announcement Title: {announcement.title}<br></br>
                 Announcement Type: {announcement.type}<br></br>
-                Announcement Content: {announcement.content}<br></br>
+                Announcement Content: {announcement.Content}<br></br>
 
                <br></br>
 

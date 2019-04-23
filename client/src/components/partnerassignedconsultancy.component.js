@@ -16,6 +16,11 @@ export default class partnerassignedconsultancy extends Component {
       componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get("token");
+        const usertype = cookies.get("usertype");
+        if(usertype !== "partner"){
+        alert("Invalid access");
+        window.location.replace("/");
+        }
         const {project}=this.props.match.params
         axios
           .get("http://localhost:5000/api/partners/consultancy/approvedProjects/"+{project}.project, {

@@ -47,6 +47,11 @@ export default class partnershowAwaitingtasks extends Component {
     componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get("token");
+        const usertype = cookies.get("usertype");
+        if(usertype !== "partner"){
+            alert("Invalid access");
+            window.location.replace("/");
+        }
         const { project } = this.props.match.params
 
         axios
@@ -297,7 +302,7 @@ export default class partnershowAwaitingtasks extends Component {
                                 <tr >
                                     <td >{person.name}</td>
                                     <td> {person.description}</td>
-                                    <td>{person.type}</td> <button id="btn1" onClick={this.viewOneTask.bind(this, person)}>View</button>
+                                    <td>{person.type}</td> <button id="btn1" className="btn btn-primary" onClick={this.viewOneTask.bind(this, person)}>View</button>
 
 
 

@@ -27,7 +27,11 @@ export default class deleteResearches extends Component {
         const cookies = new Cookies();
 
         const token= cookies.get('token');
-
+        const usertype = cookies.get("usertype");
+        if(usertype !== "consultant"){
+            alert("Invalid access");
+            window.location.replace("/");
+        }
         console.log(token)
 
         axios.get('http://localhost:5000/api/consultancies/researches', { headers: {

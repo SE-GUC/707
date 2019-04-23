@@ -43,6 +43,10 @@ export default class getallcertificateConsultancy extends Component {
           })
 
     }
+    requestCertificate(e){
+      e.preventDefault();
+      window.location.replace("/consultancyrequestcertificate")
+    }
     onSubmit2(id) {
       console.log(id);
       const cookies = new Cookies();
@@ -135,6 +139,7 @@ export default class getallcertificateConsultancy extends Component {
                              </Table>
                              <br/>  
              <br/>
+             <button type="button" className="btn btn-danger" onClick={this.requestCertificate.bind(this)}>Request New Certificate</button><br></br>
              </ul>
         )
       }
