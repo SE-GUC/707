@@ -29,10 +29,14 @@ export default class showtasksofproject extends Component {
       
       showcandidates = id => {
         const {project}=this.props.match.params
-        window.location.replace("/conshowcan/"+{project}.project+"/"+id)
+        window.location.replace("/conshowcandidate/"+{project}.project+"/"+id)
         
       };
-      
+      showassignedcandidates = id => {
+        const {project}=this.props.match.params
+        window.location.replace("/conshowassignedcandidate/"+{project}.project+"/"+id)
+        
+      };      
       render() {
         return (
           <ul>
@@ -52,6 +56,7 @@ export default class showtasksofproject extends Component {
                                 <th>Candidate Role</th>
                                 <th>Contract Signed</th>
                                 <th>Applied Candidates</th>
+                                <th>Assigned Candidate</th>
                             </tr>
                         </thead>
                         {this.state.tasks.map(task =>
@@ -75,6 +80,10 @@ export default class showtasksofproject extends Component {
                                     
                                     <td>
                                     <button id="btn1" onClick={this.showcandidates.bind(this,task._id)}>Show applied candidates</button></td>
+                                    <td>
+                                    <button id="btn2" onClick={this.showassignedcandidates.bind(this,task._id)}>Show assigned candidate</button></td>
+                                                         
+
 
                                 </tr>
                             </tbody>

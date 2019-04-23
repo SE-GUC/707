@@ -72,7 +72,7 @@ import viewOneEvaluation_Admin from "./components/viewOneEvaluation_Admin.compon
 import getallSentEmails from "./components/viewSentMails.component.js";
 import getallRecievedEmails from "./components/viewRecievedMails.component.js";
 import AdminPendingEvaluations from "./components/admin-pending-eval.component.js";
-
+import consultancyshowassignedcandidate from "./components/consultancyshowcertaincandidate.component.js";
 
 
 class App extends Component {
@@ -335,8 +335,8 @@ class App extends Component {
           <Route path='/researchvieworupdate/:research' component={updateresearch}/>
           <Route path="/consappprojects" component={consultancyapprovedprojects} />
           <Route path="/consultancyaddtask/:project" component={consultancyaddtask} />
-          <Route path="/consshowtasks/:project" component={consultancyshowtask} />
-          <Route path="/conshowcan/:project/:task" component={consultancyshowcandidates} />
+          <Route path="/consultancyshowtasks/:project" component={consultancyshowtask} />
+          <Route path="/conshowcandidate/:project/:task" component={consultancyshowcandidates} />
           <Route path="/viewReportbyid-cons" component={getreportbyID_cons} />
           <Route path="/deleteReport-cons" component={deleteReport_cons} />
           <Route path="/updateReport-cons" component={updateReport_cons} />
@@ -345,7 +345,7 @@ class App extends Component {
           <Route path="/recommendedprojects" component={consultancyrecommendedprojects} />
           <Route path= "/viewsentmails" component={getallSentEmails} />
           <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
-         
+          <Route path= "/conshowassignedcandidate/:project/:task" component={consultancyshowassignedcandidate} />
 
       </div>
     );
@@ -431,7 +431,7 @@ class App extends Component {
 
         {/* <Route path="/partnershowassignedconsultancy/:project" component={partnerassignedconsultancy} /> */}
         <Route path="/saconsultancy/:project" component={partnerassignedconsultancy} />
-        <Route path="/partnershowtasks/:project" component={partnershowtasks} />
+        <Route path="/partnershowtaskss/:project" component={partnershowtasks} />
         <Route path="/partnershowcandidates/:project/:task" component={partnershowcandidate} />
         <Route path="/sacand/:task" component={partnershowassignedcandidate} />
         <Route path= "/viewsentmails" component={getallSentEmails} />
