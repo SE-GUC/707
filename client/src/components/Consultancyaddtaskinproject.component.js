@@ -160,7 +160,14 @@ export default class addtaskinproject extends Component {
       };
 
   render() {
+    {const cookies = new Cookies();
+      const usertype = cookies.get("usertype");
+      if(usertype !== "consultancy"){
+      alert("Invalid access");
+      window.location.replace("/");
+    }}
     return (
+      
       <div style={{ marginTop: 10 }}>
         <h3>Insert Task Info</h3>
         <form onSubmit={this.onSubmit}>
