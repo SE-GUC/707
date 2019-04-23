@@ -77,7 +77,6 @@ import viewProjectsbyid_cons from "./components/viewProjectsbyid-cons.component"
 import viewTaskbyid_cand from "./components/viewTaskbyid-cand.component";
 import getProjectbyID_Partner from "./components/getProjectbyID_Partner.component.js";
 import partnershowAwaitingtasks from "./components/partnershowAwaitingtasks.component.js";
-import AdminPendingEvaluations from "./components/admin-pending-eval.component.js";
 import consultancyshowassignedcandidate from "./components/consultancyshowcertaincandidate.component.js";
 
 
@@ -525,9 +524,6 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewrecievedemails" className="nav-link">View Recieved Mails</Link>
                 </li> 
-                <li className="navbar-item">
-                  <Link to="/pendingevaluations" className="nav-link">View Pending Evaluations</Link>
-                </li> 
             </ul>
           </div>
         </nav>
@@ -551,7 +547,6 @@ class App extends Component {
         <Route path='/viewOneEvaluation_Admin/:evaluation' component={viewOneEvaluation_Admin}/>
         <Route path= "/viewsentmails" component={getallSentEmails} />
         <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
-        <Route path= "/pendingevaluations" component={AdminPendingEvaluations} />
 
 
       </div>

@@ -44,10 +44,6 @@ export default class Createuser extends Component {
         e.preventDefault();
         const cookies = new Cookies();
         const token = cookies.get('token');
-        console.log(`Form submitted:`);
-        console.log(`title: ${this.state.title}`);
-        console.log(`Content: ${this.state.Content}`);
-        console.log(`interests: ${this.state.interests}`);
         const user = {
             Content: this.state.Content,
             title: this.state.title,
@@ -61,7 +57,7 @@ export default class Createuser extends Component {
             Authorization: token
           }
         })
-            .then(res => console.log(res.data));
+            
            // <Redirect to="/register"/>
             this.setState({
                 title: '',
@@ -71,6 +67,13 @@ export default class Createuser extends Component {
     }
 
     render() {
+        const cookies =new Cookies();
+        const usertype=cookies.get("usertype");
+        if(usertype !=="consultancy"){
+        alert("Invalid Access");
+        window.location.replace("/");
+        }
+        else
         return (
             <div style={{marginTop: 10}}>
                 <h3>Create New Research</h3>
@@ -108,7 +111,7 @@ export default class Createuser extends Component {
                    
 
                     <div className="form-group">
-                        <input type="submit" value="Create Certificate" className="btn btn-primary" />
+                        <input type="submit" value="Create Research" className="btn btn-primary" />
                     </div>
                 </form>
 

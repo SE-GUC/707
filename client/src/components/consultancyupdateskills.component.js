@@ -11,6 +11,12 @@ export default class consultancyupdateskills extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype=cookies.get("usertype");
+        if(usertype !=="consultancy"){
+        alert("Invalid Access");
+        window.location.replace("/");
+        }
+        else
     axios
       .get("http://localhost:5000/api/consultancies/acquiredCertificates/skills", {
         headers: {
