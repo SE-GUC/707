@@ -3,8 +3,10 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, NavLink } from "react-router-dom";
 import Cookies from "universal-cookie";
-import AdminTasks from "./admin-tasks.component.js";
-export default class projects extends Component {
+import PartnerTasks from "./admin-tasks.component.js";
+import { error } from "util";
+
+export default class getProjectbyID_Partner extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +17,7 @@ export default class projects extends Component {
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
-      .get("http://localhost:5000/api/admins/projects", {
+      .get("http://localhost:5000/api/partners/projects", {
         headers: {
           Authorization: token
         }
@@ -29,27 +31,76 @@ export default class projects extends Component {
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
-      .delete("http://localhost:5000/api/admins/project/" + id, {
+      .delete("http://localhost:5000/api/partners/project/" + id, {
         headers: {
           Authorization: token
         }
       })
       .then(res => {
+        if(res.data.msg==='This project has been deleted successfully'){      
+          alert('Deleted Successfully!');
+        }
+        
         const deletedProject = res.data.data;
         this.rerender(token);
-      }).catch(e =>{
-        alert(e)
-    });
+      }).catch(error=>{ alert('Project cannot be deleted!')});
+    
+
+      
+     
   }
+  onSubmit2(id) {
+
+    const cookies = new Cookies();
+
+    const token= cookies.get('token');
+
+    console.log(token)
+
+    axios.get('http://localhost:5000/api/partners/project/'+ id, { headers: {
+
+        Authorization: token}
+
+      })
+
+      .then(res => {
+
+        const researches = res.data.data;
+        this.setState({projects:[researches]})
+        console.log(researches);
+        this.rerender2(token,id);
+
+      })
+
+}
+rerender2(token,id) {
+    axios.get('http://localhost:5000/api/partners/project/'+id, { headers: {
+
+        Authorization: token}
+
+      })
+
+
+      .then(res => {
+        const researches = [res.data.data];
+
+        this.setState({ researches });
+
+        console.log(researches);
+
+      })
+
+  }
+  
   viewTasks(projectID) {
     ReactDOM.render(
-      <AdminTasks projectID={projectID} />,
+      <PartnerTasks projectID={projectID} />,
       document.getElementById("root")
     );
   }
   rerender(token) {
     axios
-      .get("http://localhost:5000/api/admins/projects", {
+      .get("http://localhost:5000/api/partners/projects", {
         headers: {
           Authorization: token
         }
@@ -57,9 +108,7 @@ export default class projects extends Component {
       .then(res => {
         const projects = res.data.data;
         this.setState({ projects });
-      }).catch(e =>{
-        alert(e)
-    });
+      });
   }
   render() {
     return (
@@ -120,6 +169,14 @@ export default class projects extends Component {
                   onClick={this.onSubmit.bind(this, project._id)}
                 >
                   Delete
+                </button>
+                <sp> </sp>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={this.onSubmit2.bind(this, project._id)}
+                >
+                  Get Project
                 </button>
               </p>
             </li>

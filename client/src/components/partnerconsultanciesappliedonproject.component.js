@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
+import Table from 'react-bootstrap/Table';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 export default class partnershowcons extends Component {
     constructor(props) {
@@ -44,7 +45,53 @@ export default class partnershowcons extends Component {
       render() {
         return (
           <ul>
-            {this.state.consultancies.map(consultancy => (
+
+
+
+<Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Years of experience</th>
+                                <th>Establishment Date</th>
+                                <th>Profession</th>
+                                <th>Skills</th>
+                                <th>Contact numbers</th>
+                                <th>Interests</th>
+                                <th>Accept</th>
+                            </tr>
+                        </thead>
+                        {this.state.consultancies.map(consultancy =>
+
+                            <tbody>
+                                <tr >
+                                    <td >{consultancy.name}</td>
+                                    <td> {consultancy.email}</td>
+                                    <td>{consultancy.address}</td>                                    
+                                    <td>{consultancy.yearsOfExperience}</td>
+                                    <td>{consultancy.establishmentDate}</td>
+                                    <td>{consultancy.profession}</td>
+                                    <td> {consultancy.skills.map(requiredSkills => {
+                                          return <li>{requiredSkills}</li>;
+                                               })}</td>
+                                    <td> {consultancy.contactNumbers.map(contact => {
+                                          return <li>{contact}</li>;
+                                               })}</td>  
+                                    <td> {consultancy.interests.map(interest => {
+                                          return <li>{interest}</li>;
+                                               })}</td>                      
+                                    
+                                    <td>
+                                    <button id="btn1" onClick={this.accept.bind(this,consultancy._id)}>Accept</button></td>
+
+                                </tr>
+                            </tbody>
+                        )}
+                    </Table>
+
+            {/* {this.state.consultancies.map(consultancy => (
               <li>
                <div className="form-group">
             <label>Name: {consultancy.name}</label>
@@ -81,7 +128,7 @@ export default class partnershowcons extends Component {
             <li>{consultancy.skills.map(skill => {
             return<li>{skill}</li>})}</li>
             <br />
-          </div>
+          </div> */}
 
 
 
@@ -126,7 +173,7 @@ export default class partnershowcons extends Component {
           {/* <div key={project._id}>
           <Link to={`consshowcandidate/${project._id}`}>Show candidates applied on this task</Link>
           </div> */}
-          <div className="form-group">
+          {/* <div className="form-group">
             <input
               type="submit"
               value="Accept"
@@ -135,7 +182,7 @@ export default class partnershowcons extends Component {
             />
           </div>
               </li>
-            ))}
+            ))} */}
           </ul>
         );
       }

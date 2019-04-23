@@ -43,7 +43,9 @@ export default class Loginuser extends Component {
       }
       console.log(res.data.data.token);
       console.log(res.data.data.user.usertype);
-    });
+    }).catch(e =>{
+      alert(e)
+  });
     this.setState({
       email: "",
       password: ""

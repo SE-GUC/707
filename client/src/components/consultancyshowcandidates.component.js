@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
+import Table from 'react-bootstrap/Table';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 export default class consultancyshowcandidates extends Component {
@@ -47,7 +48,69 @@ export default class consultancyshowcandidates extends Component {
     return (
       <ul>
            <h3>Candidates applied for this task</h3>
-        {this.state.candidates.map(candidate => (
+
+
+           <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Years of experience</th>
+                                <th>Birthdate</th>
+                                <th>Education</th>
+                                <th>Occupation</th>
+                                <th>Skills</th>
+                                <th>Contact numbers</th>
+                                <th>Languages</th>
+                                <th>Courses</th>
+                                <th>Interests</th>
+                                <th>Accept</th>
+                            </tr>
+                        </thead>
+                        {this.state.candidates.map(candidate =>
+
+                            <tbody>
+                                <tr >
+                                    <td >{candidate.name}</td>
+                                    <td> {candidate.email}</td>
+                                    <td>{candidate.address}</td>                                    
+                                    <td>{candidate.yearsOfExperience}</td>
+                                    <td>{candidate.birthdate}</td>
+                                    <td>{candidate.education}</td>
+                                    <td>{candidate.occupation}</td>
+                                    <td> {candidate.skills.map(requiredSkills => {
+                                          return <li>{requiredSkills}</li>;
+                                               })}</td>
+                                    <td> {candidate.contactNumbers.map(contact => {
+                                          return <li>{contact}</li>;
+                                               })}</td>
+                                    <td> {candidate.languages.map(language => {
+                                          return <li>{language}</li>;
+                                               })}</td>
+                                    <td> {candidate.courses.map(course => {
+                                          return <li>{course}</li>;
+                                               })}</td>     
+                                    <td> {candidate.interests.map(interest => {
+                                          return <li>{interest}</li>;
+                                               })}</td>                      
+                                    
+                                    <td>
+                                    <button id="btn1" onClick={this.accept.bind(this,candidate._id)}>Accept</button></td>
+
+                                </tr>
+                            </tbody>
+                        )}
+                    </Table>
+
+
+
+
+
+
+
+
+        {/* {this.state.candidates.map(candidate => (
           <li>
              
             <div className="form-group">
@@ -84,7 +147,7 @@ export default class consultancyshowcandidates extends Component {
             />
           </div>
           </li>
-        ))}
+        ))} */}
       </ul>
     );
   }

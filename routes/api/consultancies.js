@@ -935,6 +935,7 @@ router.get(
     }
   }
 );
+
 //View pending approval certificate evaluation tests to take
 router.get(
   "/certificate/evaluationTests/:certificateID",
@@ -1446,6 +1447,30 @@ router.get(
     }
   }
 );
+//View existing report by id
+router.get(
+  "/report/:reportID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Report.findById(req.params.reportID, function(err, foundReport) {
+        if (!err)
+          res.json({
+            msg: "Report information",
+            data: foundReport
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //Update my report
 router.put(
   "/report/:reportID",
@@ -1616,20 +1641,24 @@ router.put(
       const projects = await Project.find({});
       let pendingProjects = [];
       let approvedProjects = [];
+      let count=0
       for (i = 0; i < consultancy.pendingProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             consultancy.pendingProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
-            pendingProjects[i * projects.length + j] = projects[j];
+          ){
+            pendingProjects[count] = projects[j];
+            count+=1}
+      count=0      
       for (i = 0; i < consultancy.approvedProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             consultancy.approvedProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
-            approvedProjects[i * projects.length + j] = projects[j];
+          ){
+            approvedProjects[count] = projects[j];
+            count+=1}
       Consultancy.findByIdAndUpdate(
         req.id,
         {
@@ -1667,20 +1696,24 @@ router.put(
       const certificates = await Certificate.find({});
       let pendingCertificates = [];
       let acquiredCertificates = [];
+      let count=0
       for (i = 0; i < consultancy.pendingCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             consultancy.pendingCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
-            pendingCertificates[i * certificates.length + j] = certificates[j];
+          ){
+            pendingCertificates[count] = certificates[j];
+            count+=1}
+      count=0
       for (i = 0; i < consultancy.acquiredCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             consultancy.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
-            acquiredCertificates[i * certificates.length + j] = certificates[j];
+          ){
+            acquiredCertificates[count] = certificates[j];
+            count+=1}
       Consultancy.findByIdAndUpdate(
         req.id,
         {

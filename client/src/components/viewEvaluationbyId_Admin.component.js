@@ -73,10 +73,10 @@ export default class viewEvaluationbyId_Admin extends Component {
                         //contexteditable: false
                 });
                 window.location.reload();
-                
-            
+               
+           
             });
-        
+       
     };
     editOneEvaluation(id) {
         const cookies = new Cookies();
@@ -100,7 +100,7 @@ export default class viewEvaluationbyId_Admin extends Component {
                         passing: evaluations.passingScore,
                         contexteditable: true
                     });
-                    
+                   
 
                 })
 
@@ -130,7 +130,11 @@ export default class viewEvaluationbyId_Admin extends Component {
                     console.log(res.data.data);
                     window.location.reload();
                
+<<<<<<< HEAD
                 
+=======
+               
+>>>>>>> fd4e5106be08b6a23175a2baeab3d5efd5c2023b
         axios.get('http://localhost:5000/api/admins/certificate/evaluationTests/' + { evaluation }.evaluation, {
             headers: {
                 Authorization: token
@@ -143,7 +147,7 @@ export default class viewEvaluationbyId_Admin extends Component {
             }) })
                 }
     };
-  
+ 
     componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get('token');
@@ -188,7 +192,7 @@ export default class viewEvaluationbyId_Admin extends Component {
                                     <td>{person.totalScore}</td>
                                     <td>{person.passingScore}</td>
                                     <td>
-                                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, person._id)}>Edit</button></td>
+                                    <button id="btn1" onClick={this.editOneEvaluation.bind(this, person._id)}>Edit </button></td>
                                    <td> <button id="btn2" onClick={this.deleteOneEvaluation.bind(this, person._id)}>Delete</button></td>
 
                                 </tr>

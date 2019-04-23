@@ -9,6 +9,60 @@ const Task = require("../../models/Task");
 const Candidate = require("../../models/User").Candidate;
 const Consultancy = require("../../models/User").Consultancy;
 const Partner = require("../../models/User").Partner;
+
+//View all projects
+router.get(
+  "/projects",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Project.find({}, function(err, foundProjects) {
+        if (!err)
+          res.json({
+            msg: "All projects information",
+            data: foundProjects
+          });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
+//View an existing project by its id
+router.get(
+  "/project/:projectID",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    try {
+      Project.findById(req.params.projectID, function(err, foundProject) {
+        if (!err)
+          if (!foundProject)
+            res.status(404).send({
+              error: "This project does not exist"
+            });
+          else
+            res.json({
+              msg: "This project information",
+              data: foundProject
+            });
+        else
+          res.json({
+            error: err.message
+          });
+      });
+    } catch (error) {
+      res.json({
+        error: error.message
+      });
+    }
+  }
+);
 //Create a project by filling only (minimum) description
 router.post(
   "/project",
@@ -51,6 +105,7 @@ router.post(
     }
   }
 );
+
 //View all my pending approval projects from the admin
 router.get(
   "/pendingProjects",
@@ -623,11 +678,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      if (
-        await (Project.findById(req.params.projectID).status ===
-          "RequireCandidate" &&
-          Task.findById(req.params.taskID).status === "RequireCandidate")
-      )
+      const project= await(Project.findById(req.params.projectID))
+      const task= await(Task.findById(req.params.taskID))
+     
+      if (project.status === "processing" && task.status === "RequireCandidate")
+      
         Task.findByIdAndUpdate(
           req.params.taskID,
           {
@@ -863,20 +918,24 @@ router.put(
       const projects = await Project.find({});
       var pendingProjects = [];
       var approvedProjects = [];
+      let count=0
       for (i = 0; i < partner.pendingProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             partner.pendingProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
-            pendingProjects[i * projects.length + j] = projects[j];
+          ){
+            pendingProjects[count] = projects[j];
+            count+=1}
+      count=0      
       for (i = 0; i < partner.approvedProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             partner.approvedProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          )
-            approvedProjects[i * projects.length + j] = projects[j];
+          ){
+            approvedProjects[count] = projects[j];
+            count+=1}
       Partner.findByIdAndUpdate(
         req.id,
         {
