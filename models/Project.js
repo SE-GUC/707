@@ -13,7 +13,7 @@ var projectSchema = new Schema({
   chosenCreditHour: Number,
   creditsPenalty: Number,
   yearsOfExperience: Number,
-  contractSigned: Boolean,
+  contractSigned: { type: Boolean, default: false },
   requiredSkills: [String],
   status: {
     type: String,
