@@ -38,7 +38,9 @@ export default class requestCertificate extends Component {
         axios.post('http://localhost:5000/api/consultancies/certificate', certificate,{ headers: {
             Authorization: token}})
             .then(
-                res => alert("Requested Successfully!"));
+                res => alert("Requested Successfully!")).catch(e =>{
+                    alert(e)
+                });
            
             this.setState({
                 name: ''

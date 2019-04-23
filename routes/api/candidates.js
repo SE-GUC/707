@@ -322,14 +322,14 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const Candidate = await Candidate.find({
+      const candidate = await Candidate.find({
         "approvedTasks._id": req.params.taskID
       });
-      if (!Candidate)
+      if (candidate)
         Task.findByIdAndUpdate(
           req.params.taskID,
           {
-            taskcyle: req.body
+            taskcycle: req.body
           },
           {
             new: true
@@ -757,7 +757,7 @@ router.post(
         function(err) {
           if (!err)
             res.json({
-              msg: "Your have submitted the evaluation test successfully"
+              msg: "You have submitted the evaluation test successfully"
             });
           else
             res.json({
@@ -1092,19 +1092,23 @@ router.put(
       const tasks = await Task.find({});
       let pendingTasks = [];
       let approvedTasks = [];
+      let count = 0
       for (i = 0; i < candidate.pendingTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
-          if (
-            candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()
-          )
-            pendingTasks[i * tasks.length + j] = tasks[j];
+          if (candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()){
+            pendingTasks[count] = tasks[j];
+            count += 1
+          }
+      count = 0
       for (i = 0; i < candidate.approvedTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
           if (
             candidate.approvedTasks[i]._id.toString() ===
             tasks[j]._id.toString()
-          )
-            approvedTasks[i * tasks.length + j] = tasks[j];
+          ){
+            approvedTasks[count] = tasks[j];
+            count += 1
+          }
       Candidate.findByIdAndUpdate(
         req.id,
         {
@@ -1142,20 +1146,24 @@ router.put(
       const certificates = await Certificate.find({});
       let pendingCertificates = [];
       let acquiredCertificates = [];
+      let count = 0
       for (i = 0; i < candidate.pendingCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             candidate.pendingCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
-            pendingCertificates[i * certificates.length + j] = certificates[j];
+          ){
+            pendingCertificates[count] = certificates[j];
+            count+=1}
+      count = 0
       for (i = 0; i < candidate.acquiredCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             candidate.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          )
-            acquiredCertificates[i * certificates.length + j] = certificates[j];
+          ){
+            acquiredCertificates[count] = certificates[j];
+            count+=1}
       Candidate.findByIdAndUpdate(
         req.id,
         {
