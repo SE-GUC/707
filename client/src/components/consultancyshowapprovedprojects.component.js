@@ -18,6 +18,11 @@ export default class consultancyapprovedProjects extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype = cookies.get("usertype");
+    if(usertype !== "consultancy"){
+      alert("Invalid access");
+      window.location.replace("/");
+    }
     axios
       .get("http://localhost:5000/api/consultancies/approvedProjects", {
         headers: {
@@ -79,10 +84,16 @@ export default class consultancyapprovedProjects extends Component {
                                     <td> {project.requiredSkills.map(requiredSkills => {
                                           return <li>{requiredSkills}</li>;
                                                })}</td>
-                                    <td>{project.deadline}</td>           
-                                    <td>
-                                    <button id="btn1" onClick={this.addtask.bind(this, project._id)}>Add Task</button></td>
-                                   <td> <button id="btn2" onClick={this.showtasks.bind(this, project._id)}>Show Tasks</button></td>
+                                    <td>{project.deadline}</td> 
+
+                                    <td> <input type="button" className="btn btn-primary"
+                                            onClick={this.addtask.bind(this, project._id)}
+                                            value = "Add task">
+                                             </input></td>
+                                    <td> <input type="button" className="btn btn-primary"
+                                            onClick={this.showtasks.bind(this, project._id)}
+                                            value = "Show tasks">
+                                             </input></td>    
 
                                 </tr>
                             </tbody>

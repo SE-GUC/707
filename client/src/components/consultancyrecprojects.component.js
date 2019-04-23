@@ -18,6 +18,11 @@ export default class consultancyrecprojects extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype = cookies.get("usertype");
+    if(usertype !== "consultancy"){
+      alert("Invalid access");
+      window.location.replace("/");
+    }
     axios
       .get("http://localhost:5000/api/consultancies/projects", {
         headers: {

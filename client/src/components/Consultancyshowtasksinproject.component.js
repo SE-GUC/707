@@ -14,6 +14,11 @@ export default class showtasksofproject extends Component {
       componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get("token");
+        const usertype = cookies.get("usertype");
+        if(usertype !== "consultancy"){
+          alert("Invalid access");
+          window.location.replace("/");
+        }
         const {project}=this.props.match.params
         axios
           .get("http://localhost:5000/api/consultancies/project/tasks/"+{project}.project, {
@@ -79,9 +84,21 @@ export default class showtasksofproject extends Component {
                                     <td>{String(task.contractSigned)}</td>
                                     
                                     <td>
-                                    <button id="btn1" onClick={this.showcandidates.bind(this,task._id)}>Show applied candidates</button></td>
+                                    <input
+                                        type="submit"
+                                        value="Show candidates"
+                                        className="btn btn-primary"
+                                        onClick={this.showcandidates.bind(this,task._id)}
+                                        /></td>
                                     <td>
-                                    <button id="btn2" onClick={this.showassignedcandidates.bind(this,task._id)}>Show assigned candidate</button></td>
+                                    <input
+                                        type="submit"
+                                        value="Show assigned candidates"
+                                        className="btn btn-primary"
+                                        onClick={this.showassignedcandidates.bind(this,task._id)}
+                                        /></td>
+                                    
+                                   
                                                          
 
 
