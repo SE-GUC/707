@@ -71,6 +71,12 @@ import viewEvaluationbyId_Admin from "./components/viewEvaluationbyId_Admin.comp
 import viewOneEvaluation_Admin from "./components/viewOneEvaluation_Admin.component.js";
 import getallSentEmails from "./components/viewSentMails.component.js";
 import getallRecievedEmails from "./components/viewRecievedMails.component.js";
+import takeSubmitEvals_cons from "./components/takesubmitEval-cons.component";
+import takeSubmitEvals_cand from "./components/takesubmitEvals-cand.component";
+import takeEval from "./components/takeEval.component";
+import takeEvalCons from "./components/takeEvalCons.component";
+import viewProjectsbyid_cons from "./components/viewProjectsbyid-cons.component";
+import viewTaskbyid_cand from "./components/viewTaskbyid-cand.component";
 
 class App extends Component {
   render() {
@@ -170,6 +176,16 @@ class App extends Component {
                 </li> 
                 <li className="navbar-item">
                   <Link to="/viewrecievedemails" className="nav-link">View Recieved Mails</Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/takesubmitEvals-cand" className="nav-link">
+                    Take Evaluations
+                  </Link>
+                </li> 
+                <li className="navbar-item">
+                  <Link to="/viewTaskbyid-cand" className="nav-link">
+                    View Tasks
+                  </Link>
                 </li> 
             </ul>
           </div>
@@ -192,6 +208,9 @@ class App extends Component {
         <Route path= "/createEmail" component={CreateEmail} />
         <Route path= "/viewsentmails" component={getallSentEmails} />
         <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
+        <Route path="/takeEval/:certificate/:evaluation" component={takeEval} />
+        <Route path= "/takesubmitEvals-cand" component={takeSubmitEvals_cand} />
+        <Route path= "/viewTaskbyid-cand" component={viewTaskbyid_cand} />
 
       </div>
     );
@@ -304,6 +323,12 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewrecievedemails" className="nav-link">View Recieved Mails</Link>
                 </li> 
+                <li className="navbar-item">
+                  <Link to="/takesubmitEval-cons" className="nav-link">
+                    Take Evaluations
+                  </Link>
+                </li> 
+                
             </ul>
           </div>
         </nav>
@@ -336,7 +361,9 @@ class App extends Component {
           <Route path="/recommendedprojects" component={consultancyrecommendedprojects} />
           <Route path= "/viewsentmails" component={getallSentEmails} />
           <Route path= "/viewrecievedemails" component={getallRecievedEmails} />
-          
+          <Route path= "/takesubmitEval-cons" component={takeSubmitEvals_cons} />
+        <Route path="/takeEvalCons/:certificate/:evaluation" component={takeEvalCons} />
+        <Route path= "/viewProjectsbyid-cons" component={viewProjectsbyid_cons} />         
 
       </div>
     );

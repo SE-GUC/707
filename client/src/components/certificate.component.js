@@ -90,10 +90,10 @@ export default class getallcertificate extends Component {
 
         const token= cookies.get('token');
         let Eval={
-          evaluationContent:this.state.evaluationContent,
+          content:this.state.evaluationContent,
           totalScore:this.state.evaluationTotalScore,
           passingScore:this.state.evaluationPassingScore,
-          evaluationType:this.state.evaluationType
+          type:this.state.evaluationType
         }
         console.log(Eval)
 
