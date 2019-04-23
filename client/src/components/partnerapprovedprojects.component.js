@@ -40,7 +40,7 @@ export default class partnerapprovedprojects extends Component {
     
   };
   showtasks = id => {
-    window.location.replace("/partnershowtasks/"+id)
+    window.location.replace("/partnershowtaskss/"+id)
     
   };
   getProject(Projectid) {
