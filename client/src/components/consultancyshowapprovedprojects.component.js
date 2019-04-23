@@ -43,6 +43,10 @@ export default class consultancyapprovedProjects extends Component {
     window.location.replace("/consultancyshowtasks/"+id)
     
   };
+  updateprojects = id => {
+    window.location.replace("/consapprovedproject")
+    
+  };
   
   render() {
     return (
@@ -93,7 +97,8 @@ export default class consultancyapprovedProjects extends Component {
                                     <td> <input type="button" className="btn btn-primary"
                                             onClick={this.showtasks.bind(this, project._id)}
                                             value = "Show tasks">
-                                             </input></td>    
+                                             </input></td> 
+                                                
 
                                 </tr>
                             </tbody>
@@ -101,7 +106,10 @@ export default class consultancyapprovedProjects extends Component {
                     </Table>
 
 
-
+                    <td> <input type="button" className="btn btn-primary"
+                                            onClick={this.updateprojects.bind(this)}
+                                            value = "edit project">
+                                             </input></td>
 
 
 
