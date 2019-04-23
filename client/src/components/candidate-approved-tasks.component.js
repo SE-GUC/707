@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { Component } from "react";
+import Table from "react-bootstrap/Table";
 import Cookies from "universal-cookie";
 export default class approvedtasks extends Component {
   constructor(props) {
@@ -11,13 +12,20 @@ export default class approvedtasks extends Component {
       updatedCycle:{description:'',
       status:'',
       percentage:''
-    }
+    },
+    update:false,
+    task:{}
     };
     
   }
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype=cookies.get("usertype")
+    if(usertype !== "candidate"){
+      alert("Invalid Access")
+      window.location.replace("/")
+    }
     axios
       .get(
         "http://localhost:5000/api/candidates/approvedTasks" ,
@@ -65,11 +73,7 @@ export default class approvedtasks extends Component {
  onSubmit(taskID){
    const cookies = new Cookies();
    const token= cookies.get('token');
-  //  const updatedCycle = {
-  //      description: this.state.cycleDescription,
-  //      status: this.state.cycleStatus,
-  //      percentage: this.state.cyclePercentage
-  //  };
+  
    axios.get('http://localhost:5000/api/candidates/project/task/'+ taskID, { headers: {
     Authorization: token}})
     .then(res => {
@@ -92,45 +96,15 @@ export default class approvedtasks extends Component {
   });
 
  }
-  render() {
-    return (
-      <ul>
-        {this.state.tasks.map(task => (
-          <li>
-            <p>
-              Name: {task.name}
-              <br />
-              Description: {task.description}
-              <br />
-              Type: {task.type}
-              <br />
-              Deadline: {task.deadline}
-              <br />
-              Hours: {task.hours}
-              <br />
-              Min Credits/Hr: {task.minCreditsHour}
-              <br />
-              Max Credits/Hr: {task.maxCreditsHour}
-              <br />
-              Chosen Credit Hour: {task.chosenCreditHour}
-              <br />
-              Penalty: {task.creditsPenalty}
-              <br />
-              Years of Experience: {task.yearsOfExperience}
-              <br />
-              Contract Signed: {task.contractSigned}
-              <br />
-              Candidate Role: {task.candidateRole}
-              <br />
-              Required Skills:{" "}
-              {task.requiredSkills.map(requiredSkills => (
-                <li>{requiredSkills}</li>
-              ))}
-              <br />
-              Status: {task.status} 
-              <br />
-              Life Cycle:{" "}
-              {task.taskcycle.map(cycle => (
+update(task){
+  this.setState({update:true,task:task})
+}
+ render(){
+   if(this.state.update===true)
+   return(
+               <ul>
+                  <p>Task Life Cycle</p>
+              {this.state.task.taskcycle.map(cycle => (
                 <p>
                 
                 <div className="form-group"> 
@@ -178,19 +152,88 @@ export default class approvedtasks extends Component {
                         onChange={(e) =>this.onChangePercentage(cycle,e)}
                         />
                 </div>
-                <input type="submit" value="Update Cycle" className="btn btn-primary" onClick={this.onSubmit.bind(this,task._id)}/> 
+                <input type="submit" value="Update Cycle" className="btn btn-primary" onClick={this.onSubmit.bind(this,this.state.task._id)}/> 
 
                 </p>
               ))}
+              </ul>
+   );
+   else
+    return (
+      <ul>
+        <Table responsive striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th>Task Name</th>
+              <th>Task Description</th>
+              <th>Years of Experience</th>
+              <th>Hours</th>
+              <th>Minimum Credit Hours</th>
+              <th>Maximum Credit Hours</th>
+              <th>Chosen Credit Hours</th>
+              <th>Credits Penalty</th>
+              <th>Task Type</th>
+              <th>Signed Contract</th>
+              <th>Required Skills</th>
+              <th>Task Deadline</th>
+              <th>Status</th>
+              <th>Candidate Role</th>
+              <th>Task Cycle</th>
+              <th>Update Task Cycle</th>
+            </tr>
+          </thead>
+          {this.state.tasks.map(task => (
+            <tbody>
+              <tr>
+                <td>{task.name}</td>
+                <td> {task.description}</td>
+                <td>{task.yearsOfExperience}</td>
+                <td>{task.hours}</td>
+                <td>{task.minCreditsHour}</td>
+                <td>{task.maxCreditsHour}</td>
+                <td>{task.chosenCreditHour}</td>
+                <td>{task.creditsPenalty}</td>
+                <td>{task.type}</td>
+                <td>{String(task.contractSigned)}</td>
+                <td>
+                  {" "}
+                  {task.requiredSkills.map(requiredSkills => (
+                    <li>{requiredSkills}</li>
+                  ))}
+                </td>
+                <td>{task.deadline}</td>
+                <td>{task.status}</td>
+                <td>{task.candidateRole}</td>
+                <td>
+                  {" "}
+                  {task.taskcycle.map(cycle => (
+                    <p>
+                      Description: {cycle.description}
+                      <br />
+                      Status: {cycle.status}
+                      <br />
+                      Percentage: {cycle.percentage}
+                    </p>
+                  ))}
+                </td>
 
-              <br />
-             
-              <br />
-              
-            </p>
-          </li>
-        ))}
+                <td>
+                  {" "}
+                  <button
+                    id="btn2"
+                    className="btn btn-primary"
+                    onClick={this.update.bind(this, task)}
+                  >
+                    Update
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </Table>
       </ul>
     );
-  }
+   
+ }
+  
 } 

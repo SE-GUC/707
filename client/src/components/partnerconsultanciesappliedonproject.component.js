@@ -14,6 +14,11 @@ export default class partnershowcons extends Component {
       componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get("token");
+        const usertype = cookies.get("usertype");
+        if(usertype !== "partner"){
+        alert("Invalid access");
+        window.location.replace("/");
+        }
         const {project}=this.props.match.params
         axios
           .get("http://localhost:5000/api/partners/consultancy/pendingProjects/"+{project}.project, {
@@ -84,7 +89,12 @@ export default class partnershowcons extends Component {
                                                })}</td>                      
                                     
                                     <td>
-                                    <button id="btn1" onClick={this.accept.bind(this,consultancy._id)}>Accept</button></td>
+                                    <input
+                                     type="submit"
+                                    value="Accept"
+                                    className="btn btn-primary"
+                                     onClick={this.accept.bind(this,consultancy._id)}
+                                      /></td>
 
                                 </tr>
                             </tbody>

@@ -14,6 +14,11 @@ export default class showtasksofproject extends Component {
       componentDidMount() {
         const cookies = new Cookies();
         const token = cookies.get("token");
+        const usertype = cookies.get("usertype");
+        if(usertype !== "consultancy"){
+          alert("Invalid access");
+          window.location.replace("/");
+        }
         const {project}=this.props.match.params
         axios
           .get("http://localhost:5000/api/consultancies/project/tasks/"+{project}.project, {
@@ -29,10 +34,14 @@ export default class showtasksofproject extends Component {
       
       showcandidates = id => {
         const {project}=this.props.match.params
-        window.location.replace("/conshowcan/"+{project}.project+"/"+id)
+        window.location.replace("/conshowcandidate/"+{project}.project+"/"+id)
         
       };
-      
+      showassignedcandidates = id => {
+        const {project}=this.props.match.params
+        window.location.replace("/conshowassignedcandidate/"+{project}.project+"/"+id)
+        
+      };      
       render() {
         return (
           <ul>
@@ -52,6 +61,7 @@ export default class showtasksofproject extends Component {
                                 <th>Candidate Role</th>
                                 <th>Contract Signed</th>
                                 <th>Applied Candidates</th>
+                                <th>Assigned Candidate</th>
                             </tr>
                         </thead>
                         {this.state.tasks.map(task =>
@@ -74,7 +84,23 @@ export default class showtasksofproject extends Component {
                                     <td>{String(task.contractSigned)}</td>
                                     
                                     <td>
-                                    <button id="btn1" onClick={this.showcandidates.bind(this,task._id)}>Show applied candidates</button></td>
+                                    <input
+                                        type="submit"
+                                        value="Show candidates"
+                                        className="btn btn-primary"
+                                        onClick={this.showcandidates.bind(this,task._id)}
+                                        /></td>
+                                    <td>
+                                    <input
+                                        type="submit"
+                                        value="Show assigned candidates"
+                                        className="btn btn-primary"
+                                        onClick={this.showassignedcandidates.bind(this,task._id)}
+                                        /></td>
+                                    
+                                   
+                                                         
+
 
                                 </tr>
                             </tbody>

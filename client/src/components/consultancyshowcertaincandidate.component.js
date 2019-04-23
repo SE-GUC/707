@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Cookies from "universal-cookie";
 import Table from 'react-bootstrap/Table';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-export default class partnerassignedcandidate extends Component {
+export default class consultancyassignedcandidate extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,13 +17,13 @@ export default class partnerassignedcandidate extends Component {
         const cookies = new Cookies();
         const token = cookies.get("token");
         const usertype = cookies.get("usertype");
-        if(usertype !== "partner"){
-        alert("Invalid access");
-        window.location.replace("/");
+        if(usertype !== "consultancy"){
+          alert("Invalid access");
+          window.location.replace("/");
         }
         const {task}=this.props.match.params
         axios
-          .get("http://localhost:5000/api/partners/candidate/approvedTasks/"+{task}.task, {
+          .get("http://localhost:5000/api/consultancies/candidate/approvedTasks/"+{task}.task, {
             headers: {
               Authorization: token
             }
