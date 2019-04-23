@@ -295,6 +295,7 @@ rerender2(token,id) {
         .then(res => {
 
           const partner = res.data.data;
+          console.log(res);
           this.setState({partners:[partner]})
           console.log(partner);
           this.rerender6(token,email);

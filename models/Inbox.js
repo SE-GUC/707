@@ -14,9 +14,10 @@ var inboxSchema = new Schema({
           "Inquiry",
           "Issue",
           "Negotiation",
+          "Contact US",
           "Other"
         ],
-        default: "Other"
+        default: "Contact US"
       },
       receiverEmail: mongoose.SchemaTypes.Email
     }
