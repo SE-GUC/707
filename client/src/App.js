@@ -26,7 +26,7 @@ import viewAllAnnouncements_Admin from "./components/viewAllAnnouncements_Admin.
 import deleteAnnouncements from "./components/deleteAnnouncements.component.js";
 import deleteResearches from "./components/deleteResearches.component.js";
 import viewAllAnnouncements_Consultant from "./components/viewAllAnnouncements_Consultant.component.js";
-import getAnnouncementbyID_Admin from "./components/getAnnouncementbyID_Admin.component.js";
+// import getAnnouncementbyID_Admin from "./components/getAnnouncementbyID_Admin.component.js";
 import updateAnnouncement from "./components/updateAnnouncement.component.js";
 import getAnnouncementbyID_Partner from "./components/getAnnouncementbyID_Partner.component.js";
 import getAnnouncementbyID_Candidate from "./components/getAnnouncementbyID_Candidate.component.js";
@@ -155,14 +155,10 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewCandidatereccertificate" className="nav-link">view all candidate recommended Certificates</Link>
                 </li>
-                <li className="navbar-item">
-                  <Link to="/viewAllAnnouncements_Candidate" className="nav-link">
-                    View Announcements
-                  </Link>
-                </li>
+               
                 <li className="navbar-item">
                   <Link to="/getAnnouncementbyID_Candidate" className="nav-link">
-                    get Announcement by ID
+                    View Announcements
                   </Link>
                 </li>
                 <li className="navbar-item">
@@ -410,9 +406,7 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/viewrecievedemails" className="nav-link">View Recieved Mails</Link>
                 </li> 
-                <li className="navbar-item">
-                  <Link to="/getProjectbyID_Partner" className="nav-link">my Projects</Link>
-                </li> 
+                
             </ul>
           </div>
         </nav>
@@ -529,7 +523,7 @@ class App extends Component {
         <Route path="/createAnnouncement" component={createAnnouncement} />
         <Route path="/viewAllAnnouncements_Admin" component={viewAllAnnouncements_Admin} />
         <Route path="/deleteAnnouncements" component={deleteAnnouncements} />
-        <Route path="/getAnnouncementbyID_Admin" component={getAnnouncementbyID_Admin} />
+        {/* <Route path="/getAnnouncementbyID_Admin" component={getAnnouncementbyID_Admin} /> */}
         <Route path="/updateAnnouncement" component={updateAnnouncement} />
         <Route path="/getResearchbyID_Admin" component={getResearchbyID_Admin} />
         <Route path="/getProjectbyID_Admin" component={getProjectbyID_Admin} />

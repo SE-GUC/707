@@ -5,6 +5,7 @@ import { BrowserRouter as Router, NavLink } from "react-router-dom";
 import Cookies from "universal-cookie";
 import PartnerTasks from "./admin-tasks.component.js";
 import AddTask from "./add-task.component.js";
+import Table from 'react-bootstrap/Table';
 
 export default class projects extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class projects extends Component {
     this.state = {
       pendingProjects: [],
       editable: false,
+      flag: false,
       project: {},
       name: '',
       description: '',
@@ -64,6 +66,11 @@ export default class projects extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
+    const usertype = cookies.get("usertype");
+        if(usertype !== "partner"){
+            alert("Invalid access");
+            window.location.replace("/");
+        }
     axios
       .get("http://localhost:5000/api/partners/pendingProjects", {
         headers: {
@@ -72,20 +79,39 @@ export default class projects extends Component {
       })
       .then(res => {
         const pendingProjects = res.data.data;
-        console.log(pendingProjects);
         let filteredProjects = res.data.data.filter(project => project != null)
         console.log(filteredProjects);
 
         this.setState({ pendingProjects: filteredProjects,
-        editable:false });
+        editable:false 
+      });
       });
   }
+  getmethod(Projectid) {
+    const cookies = new Cookies();
+    const token= cookies.get('token');
 
+    axios.get('http://localhost:5000/api/partners/project/'+ Projectid, { headers: {
+
+        Authorization: token}
+
+      })
+
+      .then(res => {
+        const projects = res.data.data;
+        this.setState({pendingProjects:[projects],
+          flag: true
+        })
+        console.log(projects);
+        this.rerender2(token,Projectid);
+
+      })
+
+}
   editProject(project){
     const cookies = new Cookies();
     const token = cookies.get('token');
-    console.log(this.state.editable);
-    console.log(project);
+  
     
     if (!this.state.editable) {
 
@@ -113,7 +139,6 @@ export default class projects extends Component {
         
     }
     else {
-      console.log('ana fl else !!!!!!!!!!!!!!!!')
       console.log(this.state);
       let updatedProject = {
         name: this.state.name,
@@ -197,29 +222,7 @@ export default class projects extends Component {
         }).catch(error=>{ alert('Project cannot be deleted!')});
     window.location.reload();
     })}
-      getmethod(Projectid) {
-
-        const cookies = new Cookies();
-    
-        const token= cookies.get('token');
-    
-        console.log(token)
-    
-        axios.get('http://localhost:5000/api/partners/project/'+ Projectid, { headers: {
-    
-            Authorization: token}
-    
-          })
-    
-          .then(res => {
-            const projects = res.data.data;
-            this.setState({pendingProjects:[projects]})
-            console.log(projects);
-            this.rerender2(token,Projectid);
-    
-          })
-    
-    }
+      
     
 rerender2(token,Projectid) {
   axios.get('http://localhost:5000/api/partners/project/'+Projectid, { headers: {
@@ -267,78 +270,161 @@ rerender2(token,Projectid) {
      }
   
   render() {
-    if (!this.state.editable)
-      return (
-        <ul>
-          {console.log(this.state)}
-          {this.state.pendingProjects.map(project => (
-            <p>
+    if (!this.state.editable && !this.state.flag){
+      return ( <ul>
+        <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Project Description</th>
+                                {/* <th>Project Type</th>
+                                <th>Project Deadline</th>
+                                <th>Project Hours</th>
+                                <th>Project Min Credits/Hr</th>
+                                <th>Project Max Xredits/Hr</th>
+                                <th>Project Chosen Credit Hr</th>
+                                <th>Project Penalty</th>
+                                <th>Project Years of experience</th>
+                                <th>Project Contract signed</th>
+                                <th>Project Required skills</th>
+                                <th>Project status</th> */}
 
-              <li> Name:{project.name}</li>
-              <li>Description: {project.description}</li>
-              <li> Type: {project.type}</li>
-              <br />
-              <li>Deadline: {project.deadline}</li>
-              <br />
-              <li>Hours: {project.hours}</li>
-              <br />
-              <li>Min Credits/Hr: {project.minCreditsHour}</li>
-              <br />
-              <li>Max Credits/Hr: {project.maxCreditsHour}</li>
-              <br />
-              <li>Chosen Credit Hour: {project.chosenCreditHour}</li>
-              <br />
-              <li>Penalty: {project.creditsPenalty}</li>
-              <br />
-              <li>Years of Experience: {project.yearsOfExperience}</li>
-              <br />
-              <li>Contract Signed: {project.contractSigned}</li>
-              <br />
-              <li>Required Skills:
-                {project.requiredSkills.map(requiredSkills => (
-                  <li>{requiredSkills}</li>
-                ))}</li>
-              <br />
-              <li>Status: {project.status} <br /></li>
-              <li>Life Cycle:
-                {project.projectcycle.map(cycle => (
-                  <li>
-                    Description: {cycle.description}
-                    <br />
-                    Status: {cycle.status}
-                    Percentage: {cycle.percentage}
-                  </li>
-                 ) )}
-                <br />
-              
-                <div className="form-group">
-                        <input type="submit" value="Add Task" className="btn btn-primary" onClick={this.addTask.bind(this,project._id)}/>
-                    </div>
-                    <div className="form-group">
-                        <input type="submit" value="Get Project" className="btn btn-primary" onClick={this.getmethod.bind(this,project._id)}/>
-                    </div>
-                    <div className="form-group">
-                        <input type="submit" value="Delete" className="btn btn-primary" onClick={this.delete.bind(this,project._id)}/>
-                    </div>
-                    <div className="form-group">
-                        <input type="submit" value="Show Tasks" className="btn btn-primary" onClick={this.showtasks.bind(this,project._id)}/>
-                    </div>
+                                <th>Show Tasks</th>
+                                <th>Add Task</th>
+                                <th>Get Project</th>
+                                <th>Edit Project</th>
+                                <th>Delete</th>
 
+                            </tr>
+                        </thead>
+                        {this.state.pendingProjects.map(project =>
+
+                            <tbody>
+                                <tr >
+                                    <td >{project.name}</td>
+                                    <td> {project.description}</td>         
+                                    <td><input
+                                        type="submit"
+                                        value="Show Tasks"
+                                        className="btn btn-primary" 
+                                        onClick={this.showtasks.bind(this,project._id)}
+                                        /></td>
+                                    <td>
+                                    <input
+                                      type="submit"
+                                      value="AddTask"
+                                      className="btn btn-primary"
+                                      onClick={this.addTask.bind(this,project._id)}
+                                      /></td>
+                                   <td> <input
+                                        type="submit"
+                                        value="Get Project"
+                                        className="btn btn-primary"
+                                        onClick={this.getmethod.bind(this,project._id)}
+                                        /></td>
+                                        <td> <input
+                                        type="submit"
+                                        value="Edit Project"
+                                        className="btn btn-primary"
+                                        onClick={this.editProject.bind(this,project)}
+                                        /></td>
+                                   <td><input
+                                      type="submit"
+                                       value="Delete"
+                                      className="btn btn-primary"
+                                       onClick={this.delete.bind(this,project._id)}
+                                        /></td>
+                                </tr>
+                            </tbody>
+                        )}
+                    </Table>
+      </ul>
+      )
+                        }
+                        if(this.state.flag){
+                          return ( <ul>
+                            <Table striped bordered hover variant="dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Project Name</th>
+                                                    <th>Project Description</th>
+                                                    <th>Project Type</th>
+                                                    <th>Project Deadline</th>
+                                                    <th>Project Hours</th>
+                                                    <th>Project Min Credits/Hr</th>
+                                                    <th>Project Max Xredits/Hr</th>
+                                                    <th>Project Chosen Credit Hr</th>
+                                                    <th>Project Penalty</th>
+                                                    <th>Project Years of experience</th>
+                                                    <th>Project Contract signed</th>
+                                                    <th>Project Required skills</th>
+                                                    <th>Project status</th>
                     
-                <br />
-                
-             
-            </li>
+                                                    <th>Show Tasks</th>
+                                                    <th>Add Task</th>
+                                                    <th>Get Project</th>
+                                                    <th>Edit Project</th>
+                                                    <th>Delete</th>
+                    
+                                                </tr>
+                                            </thead>
+                                            {this.state.pendingProjects.map(project =>
+                    
+                                                <tbody>
+                                                    <tr >
+                                                        <td >{project.name}</td>
+                                                        <td> {project.description}</td>
+                                                        <td> {project.type}</td>
+                                                        <td> {project.deadline}</td>
+                                                        <td> {project.hours}</td>
+                                                        <td> {project.minreditsHour}</td>
+                                                        <td> {project.maxCreditsHour}</td>
+                                                        <td> {project.chosenCreditHour}</td>
+                                                        <td> {project.creditsPenalty}</td>
+                                                        <td> {project.yearsOfExperience}</td>
+                                                        <td> {project.contractsSigned}</td>
+                                                        <td> {project.requiredSkills}</td>
+                                                        <td> {project.status}</td>
 
-              <button id="btn1" onClick={ this.editProject.bind(this,project)}>Edit Project</button>
-              <br />
-              <br />
 
-            </p>
-          ))}
-        </ul>
-
-      );
+                                                        <td><input
+                                                            type="submit"
+                                                            value="Show Tasks"
+                                                            className="btn btn-primary" 
+                                                            onClick={this.showtasks.bind(this,project._id)}
+                                                            /></td>
+                                                        <td>
+                                                        <input
+                                                          type="submit"
+                                                          value="AddTask"
+                                                          className="btn btn-primary"
+                                                          onClick={this.addTask.bind(this,project._id)}
+                                                          /></td>
+                                                       <td> <input
+                                                            type="submit"
+                                                            value="Get Project"
+                                                            className="btn btn-primary"
+                                                            onClick={this.getmethod.bind(this,project._id)}
+                                                            /></td>
+                                                            <td> <input
+                                                            type="submit"
+                                                            value="Edit Project"
+                                                            className="btn btn-primary"
+                                                            onClick={this.editProject.bind(this,project)}
+                                                            /></td>
+                                                       <td><input
+                                                          type="submit"
+                                                           value="Delete"
+                                                          className="btn btn-primary"
+                                                           onClick={this.delete.bind(this,project._id)}
+                                                            /></td>
+                                                    </tr>
+                                                </tbody>
+                                            )}
+                                        </Table>
+                          </ul>
+                          )}
+                      
     else
       return (
         <p>
