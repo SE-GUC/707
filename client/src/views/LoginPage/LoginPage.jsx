@@ -75,7 +75,7 @@ class LoginPage extends React.Component {
           window.location.replace("/profile-page");
         }
       })
-      .catch(alert("Invalid email or password, this user is not found"));
+      .catch(e => alert("Invalid email or password, this user is not found"));
   }
   render() {
     const { classes, ...rest } = this.props;

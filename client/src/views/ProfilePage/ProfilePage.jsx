@@ -28,10 +28,7 @@ import SectionAdminInformation from "./Sections/SectionAdminInformation.jsx";
 import SectionCandidateInformation from "./Sections/SectionCandidateInformation.jsx";
 import SectionConsultancyInformation from "./Sections/SectionConsultancyInformation.jsx";
 import SectionPartnerInformation from "./Sections/SectionPartnerInformation.jsx";
-import SectionAdminWorkflow from "./Sections/SectionAdminWorkflow.jsx";
-import SectionCandidateWorkflow from "./Sections/SectionCandidateWorkflow.jsx";
-import SectionConsultancyWorkflow from "./Sections/SectionConsultancyWorkflow.jsx";
-import SectionPartnerWorkflow from "./Sections/SectionPartnerWorkflow.jsx";
+import SectionWorkflow from "./Sections/SectionWorkflow.jsx";
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
 class ProfilePage extends React.Component {
@@ -207,15 +204,7 @@ class ProfilePage extends React.Component {
               ) : (
                 <SectionAdminInformation />
               )}
-              {usertype === "candidate" ? (
-                <SectionCandidateWorkflow />
-              ) : usertype === "consultancy" ? (
-                <SectionConsultancyWorkflow />
-              ) : usertype === "partner" ? (
-                <SectionPartnerWorkflow />
-              ) : (
-                <SectionAdminWorkflow />
-              )}
+                <SectionWorkflow />
             </div>
           </div>
         </div>

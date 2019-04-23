@@ -75,7 +75,9 @@ class LoginPage extends React.Component {
       alert("Please fill-in all fields");
     axios
       .post(
-        "http://localhost:5000/api/profiles/" + this.state.type + "/register",
+        "http://localhost:5000/api/profiles/" +
+          this.state.type +
+          "/register",
         {
           name: this.state.name,
           email: this.state.email,
@@ -101,7 +103,7 @@ class LoginPage extends React.Component {
             });
         }
       })
-      .catch(alert("Email is already used"));
+      .catch(e => alert("Email is already used"));
   }
   render() {
     const { classes, ...rest } = this.props;
