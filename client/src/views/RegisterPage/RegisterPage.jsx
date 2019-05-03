@@ -71,13 +71,13 @@ class LoginPage extends React.Component {
       this.state.email === "" ||
       this.state.password === "" ||
       this.state.type === ""
-    )
+    ) {
       alert("Please fill-in all fields");
+      return;
+    }
     axios
       .post(
-        "http://localhost:5000/api/profiles/" +
-          this.state.type +
-          "/register",
+        "http://localhost:5000/api/profiles/" + this.state.type + "/register",
         {
           name: this.state.name,
           email: this.state.email,

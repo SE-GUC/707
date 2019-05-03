@@ -94,9 +94,16 @@ class SectionConsultancyInformation extends React.Component {
       );
   }
   onUpdate = () => {
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
+    if (!window.confirm("ARE YOU SURE?")) return;
+    let updated = {};
+    if (!(this.state.name === ""))
+      updated = { ...updated, name: this.state.name };
+    if (!(this.state.email === ""))
+      updated = { ...updated, email: this.state.email };
+    if (!(this.state.password === ""))
+      updated = { ...updated, password: this.state.password };
+    updated = {
+      ...updated,
       address: this.state.address,
       contractSigned: this.state.contractSigned,
       contactNumbers: this.state.contactNumbers,
@@ -105,19 +112,6 @@ class SectionConsultancyInformation extends React.Component {
       profession: this.state.profession,
       yearsOfExperience: this.state.yearsOfExperience
     };
-    if (!this.state.password === "")
-      updated = {
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password,
-        address: this.state.address,
-        contractSigned: this.state.contractSigned,
-        contactNumbers: this.state.contactNumbers,
-        interests: this.state.interests,
-        establishmentDate: this.state.establishmentDate,
-        profession: this.state.profession,
-        yearsOfExperience: this.state.yearsOfExperience
-      };
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
@@ -146,6 +140,7 @@ class SectionConsultancyInformation extends React.Component {
     alert("Your profile information are updated successuflly");
   };
   onDelete = () => {
+    if (!window.confirm("ARE YOU SURE?")) return;
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios

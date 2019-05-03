@@ -102,9 +102,16 @@ class SectionCandidateInformation extends React.Component {
       );
   }
   onUpdate = () => {
-    var updated = {
-      name: this.state.name,
-      email: this.state.email,
+    if (!window.confirm("ARE YOU SURE?")) return;
+    let updated = {};
+    if (!(this.state.name === ""))
+      updated = { ...updated, name: this.state.name };
+    if (!(this.state.email === ""))
+      updated = { ...updated, email: this.state.email };
+    if (!(this.state.password === ""))
+      updated = { ...updated, password: this.state.password };
+    updated = {
+      ...updated,
       address: this.state.address,
       occupation: this.state.occupation,
       contractSigned: this.state.contractSigned,
@@ -116,22 +123,6 @@ class SectionCandidateInformation extends React.Component {
       languages: this.state.languages,
       courses: this.state.courses
     };
-    if (!this.state.password === "")
-      updated = {
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password,
-        address: this.state.address,
-        occupation: this.state.occupation,
-        contractSigned: this.state.contractSigned,
-        contactNumbers: this.state.contactNumbers,
-        interests: this.state.interests,
-        yearsOfExperience: this.state.yearsOfExperience,
-        birthdate: this.state.birthdate,
-        education: this.state.education,
-        languages: this.state.languages,
-        courses: this.state.courses
-      };
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
@@ -163,6 +154,7 @@ class SectionCandidateInformation extends React.Component {
     alert("Your profile information are updated successuflly");
   };
   onDelete = () => {
+    if (!window.confirm("ARE YOU SURE?")) return;
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios

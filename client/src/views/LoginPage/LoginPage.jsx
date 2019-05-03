@@ -56,8 +56,10 @@ class LoginPage extends React.Component {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
   onSubmit() {
-    if (this.state.email === "" || this.state.password === "")
+    if (this.state.email === "" || this.state.password === "") {
       alert("Please fill-in both fields");
+      return;
+    }
     const cookies = new Cookies();
     axios
       .post("http://localhost:5000/api/login", {

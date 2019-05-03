@@ -28,6 +28,14 @@ class SectionContact extends React.Component {
     this.setState({ [prop]: event.target.value });
   };
   onSubmit() {
+    if (
+      this.state.subject === "" ||
+      this.state.email === "" ||
+      this.state.content === ""
+    ) {
+      alert("Please fill-in all fields");
+      return;
+    }
     axios
       .post("http://localhost:5000/api/emails/contactUS", {
         subject: this.state.subject,
@@ -72,7 +80,7 @@ class SectionContact extends React.Component {
                 <GridItem xs={12} sm={12} md={6}>
                   <FormControl className={classes.form} fullWidth={true}>
                     <InputLabel>
-                      Your email (in case your are not logged in)...
+                      Your email...
                     </InputLabel>
                     <Input
                       id="email"

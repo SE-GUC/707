@@ -56,6 +56,10 @@ class SectionPartner extends React.Component {
     this.setState({ [prop]: event.target.value.split(",") });
   };
   onSubmit() {
+    if (this.state.name === "" || this.state.description === "") {
+      alert("Please fill-in name and description fields");
+      return;
+    }
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
