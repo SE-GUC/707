@@ -1,10 +1,7 @@
-
 import axios from "axios";
 import React, { Component } from "react";
-import Table from 'react-bootstrap/Table';
+import Table from "react-bootstrap/Table";
 import Cookies from "universal-cookie";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
 export default class consultancyapprovedProjects extends Component {
   constructor(props) {
     super(props);
@@ -12,14 +9,12 @@ export default class consultancyapprovedProjects extends Component {
       projects: []
     };
   }
-  
-  
 
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
     const usertype = cookies.get("usertype");
-    if(usertype !== "consultancy"){
+    if (usertype !== "consultancy") {
       alert("Invalid access");
       window.location.replace("/");
     }
@@ -36,86 +31,90 @@ export default class consultancyapprovedProjects extends Component {
   }
 
   addtask = id => {
-    window.location.replace("/consultancyaddtask/"+id)
-    
+    window.location.replace("/consultancyaddtask/" + id);
   };
   showtasks = id => {
-    window.location.replace("/consultancyshowtasks/"+id)
-    
+    window.location.replace("/consultancyshowtasks/" + id);
   };
   updateprojects = id => {
-    window.location.replace("/consapprovedproject")
-    
+    window.location.replace("/consapprovedproject");
   };
-  
+
   render() {
     return (
       <ul>
-                           
-                    <Table striped bordered hover variant="dark">
-                        <thead>
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Project Description</th>
-                                <th>Required Years of Experience</th>
-                                <th>Hours</th>
-                                <th>Minimum Credit Hours</th>
-                                <th>Maximum Credit Hours</th>
-                                <th>Chosen Credit Hours</th>
-                                <th>Credits Penalty</th>
-                                <th>Project type</th>
-                                <th>Signed Contract</th>
-                                <th>Required Skills</th>
-                                <th>Project deadline</th>
-                                <th>Add task</th>
-                                <th>Show tasks</th>
-                            </tr>
-                        </thead>
-                        {this.state.projects.map(project =>
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th>Project Name</th>
+              <th>Project Description</th>
+              <th>Required Years of Experience</th>
+              <th>Hours</th>
+              <th>Minimum Credit Hours</th>
+              <th>Maximum Credit Hours</th>
+              <th>Chosen Credit Hours</th>
+              <th>Credits Penalty</th>
+              <th>Project type</th>
+              <th>Signed Contract</th>
+              <th>Required Skills</th>
+              <th>Project deadline</th>
+              <th>Add task</th>
+              <th>Show tasks</th>
+            </tr>
+          </thead>
+          {this.state.projects.map(project => (
+            <tbody>
+              <tr>
+                <td>{project.name}</td>
+                <td> {project.description}</td>
+                <td>{project.yearsOfExperience}</td>
+                <td>{project.hours}</td>
+                <td>{project.minCreditsHour}</td>
+                <td>{project.maxCreditsHour}</td>
+                <td>{project.chosenCreditHour}</td>
+                <td>{project.creditsPenalty}</td>
+                <td>{project.type}</td>
+                <td>{String(project.contractSigned)}</td>
+                <td>
+                  {" "}
+                  {project.requiredSkills.map(requiredSkills => {
+                    return <li>{requiredSkills}</li>;
+                  })}
+                </td>
+                <td>{project.deadline}</td>
 
-                            <tbody>
-                                <tr >
-                                    <td >{project.name}</td>
-                                    <td> {project.description}</td>
-                                    <td>{project.yearsOfExperience}</td>
-                                    <td>{project.hours}</td>
-                                    <td>{project.minCreditsHour}</td>
-                                    <td>{project.maxCreditsHour}</td>
-                                    <td>{project.chosenCreditHour}</td>
-                                    <td>{project.creditsPenalty}</td>
-                                    <td>{project.type}</td>
-                                    <td>{String(project.contractSigned)}</td>
-                                    <td> {project.requiredSkills.map(requiredSkills => {
-                                          return <li>{requiredSkills}</li>;
-                                               })}</td>
-                                    <td>{project.deadline}</td> 
+                <td>
+                  {" "}
+                  <input
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.addtask.bind(this, project._id)}
+                    value="Add task"
+                  />
+                </td>
+                <td>
+                  {" "}
+                  <input
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.showtasks.bind(this, project._id)}
+                    value="Show tasks"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </Table>
 
-                                    <td> <input type="button" className="btn btn-primary"
-                                            onClick={this.addtask.bind(this, project._id)}
-                                            value = "Add task">
-                                             </input></td>
-                                    <td> <input type="button" className="btn btn-primary"
-                                            onClick={this.showtasks.bind(this, project._id)}
-                                            value = "Show tasks">
-                                             </input></td> 
-                                                
-
-                                </tr>
-                            </tbody>
-                        )}
-                    </Table>
-
-
-                    <td> <input type="button" className="btn btn-primary"
-                                            onClick={this.updateprojects.bind(this)}
-                                            value = "edit project">
-                                             </input></td>
-
-
-
-
-
-
+        <td>
+          {" "}
+          <input
+            type="button"
+            className="btn btn-primary"
+            onClick={this.updateprojects.bind(this)}
+            value="edit project"
+          />
+        </td>
 
         {/* {this.state.projects.map(project => (
           <li>

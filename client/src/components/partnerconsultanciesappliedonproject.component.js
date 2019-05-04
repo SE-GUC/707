@@ -1,107 +1,122 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
-import Table from 'react-bootstrap/Table';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import Table from "react-bootstrap/Table";
 export default class partnershowcons extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            consultancies: []
-        };
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      consultancies: []
+    };
+  }
 
-      componentDidMount() {
-        const cookies = new Cookies();
-        const token = cookies.get("token");
-        const usertype = cookies.get("usertype");
-        if(usertype !== "partner"){
-        alert("Invalid access");
-        window.location.replace("/");
-        }
-        const {project}=this.props.match.params
-        axios
-          .get("http://localhost:5000/api/partners/consultancy/pendingProjects/"+{project}.project, {
-            headers: {
-              Authorization: token
-            }
-          })
-          .then(res => {
-            const consultancies = res.data.data;
-            this.setState({ consultancies });
-          });
-      }
-
-      accept = id => { 
-        const cookies = new Cookies();
-        const token = cookies.get("token");
-        const {project}=this.props.match.params
-        axios
-        .post("http://localhost:5000/api/partners/consultancy/pendingProjects/"+{project}.project+"/"+id,{}, {
+  componentDidMount() {
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const usertype = cookies.get("usertype");
+    if (usertype !== "partner") {
+      alert("Invalid access");
+      window.location.replace("/");
+    }
+    const { project } = this.props.match.params;
+    axios
+      .get(
+        "http://localhost:5000/api/partners/consultancy/pendingProjects/" +
+          { project }.project,
+        {
           headers: {
             Authorization: token
           }
-        }).then(res => {
-            alert("You accepted a consultancy");
-          })
-       
-    };
-      
-      render() {
-        return (
-          <ul>
+        }
+      )
+      .then(res => {
+        const consultancies = res.data.data;
+        this.setState({ consultancies });
+      });
+  }
 
+  accept = id => {
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const { project } = this.props.match.params;
+    axios
+      .post(
+        "http://localhost:5000/api/partners/consultancy/pendingProjects/" +
+          { project }.project +
+          "/" +
+          id,
+        {},
+        {
+          headers: {
+            Authorization: token
+          }
+        }
+      )
+      .then(res => {
+        alert("You accepted a consultancy");
+      });
+  };
 
+  render() {
+    return (
+      <ul>
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Years of experience</th>
+              <th>Establishment Date</th>
+              <th>Profession</th>
+              <th>Skills</th>
+              <th>Contact numbers</th>
+              <th>Interests</th>
+              <th>Accept</th>
+            </tr>
+          </thead>
+          {this.state.consultancies.map(consultancy => (
+            <tbody>
+              <tr>
+                <td>{consultancy.name}</td>
+                <td> {consultancy.email}</td>
+                <td>{consultancy.address}</td>
+                <td>{consultancy.yearsOfExperience}</td>
+                <td>{consultancy.establishmentDate}</td>
+                <td>{consultancy.profession}</td>
+                <td>
+                  {" "}
+                  {consultancy.skills.map(requiredSkills => {
+                    return <li>{requiredSkills}</li>;
+                  })}
+                </td>
+                <td>
+                  {" "}
+                  {consultancy.contactNumbers.map(contact => {
+                    return <li>{contact}</li>;
+                  })}
+                </td>
+                <td>
+                  {" "}
+                  {consultancy.interests.map(interest => {
+                    return <li>{interest}</li>;
+                  })}
+                </td>
 
-<Table striped bordered hover variant="dark">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Years of experience</th>
-                                <th>Establishment Date</th>
-                                <th>Profession</th>
-                                <th>Skills</th>
-                                <th>Contact numbers</th>
-                                <th>Interests</th>
-                                <th>Accept</th>
-                            </tr>
-                        </thead>
-                        {this.state.consultancies.map(consultancy =>
+                <td>
+                  <input
+                    type="submit"
+                    value="Accept"
+                    className="btn btn-primary"
+                    onClick={this.accept.bind(this, consultancy._id)}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </Table>
 
-                            <tbody>
-                                <tr >
-                                    <td >{consultancy.name}</td>
-                                    <td> {consultancy.email}</td>
-                                    <td>{consultancy.address}</td>                                    
-                                    <td>{consultancy.yearsOfExperience}</td>
-                                    <td>{consultancy.establishmentDate}</td>
-                                    <td>{consultancy.profession}</td>
-                                    <td> {consultancy.skills.map(requiredSkills => {
-                                          return <li>{requiredSkills}</li>;
-                                               })}</td>
-                                    <td> {consultancy.contactNumbers.map(contact => {
-                                          return <li>{contact}</li>;
-                                               })}</td>  
-                                    <td> {consultancy.interests.map(interest => {
-                                          return <li>{interest}</li>;
-                                               })}</td>                      
-                                    
-                                    <td>
-                                    <input
-                                     type="submit"
-                                    value="Accept"
-                                    className="btn btn-primary"
-                                     onClick={this.accept.bind(this,consultancy._id)}
-                                      /></td>
-
-                                </tr>
-                            </tbody>
-                        )}
-                    </Table>
-
-            {/* {this.state.consultancies.map(consultancy => (
+        {/* {this.state.consultancies.map(consultancy => (
               <li>
                <div className="form-group">
             <label>Name: {consultancy.name}</label>
@@ -140,9 +155,7 @@ export default class partnershowcons extends Component {
             <br />
           </div> */}
 
-
-
-                {/* <div className="form-group">
+        {/* <div className="form-group">
             <label>Task Name: {project.name}</label><br />
           </div>
           <div className="form-group">
@@ -180,10 +193,10 @@ export default class partnershowcons extends Component {
           <div className="form-group">
             <label>Contract Signed: {String(project.contractSigned)}</label>
           </div> */}
-          {/* <div key={project._id}>
+        {/* <div key={project._id}>
           <Link to={`consshowcandidate/${project._id}`}>Show candidates applied on this task</Link>
           </div> */}
-          {/* <div className="form-group">
+        {/* <div className="form-group">
             <input
               type="submit"
               value="Accept"
@@ -193,9 +206,7 @@ export default class partnershowcons extends Component {
           </div>
               </li>
             ))} */}
-          </ul>
-        );
-      }
-
-
+      </ul>
+    );
+  }
 }

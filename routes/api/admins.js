@@ -858,7 +858,7 @@ router.get(
       Candidate.find({}, function(err, foundCandidates) {
         if (!err) {
           let candidates = [];
-          let count=0;
+          let count = 0;
           for (i = 0; i < foundCandidates.length; i++)
             for (j = 0; j < foundCandidates[i].pendingCertificates.length; j++)
               if (
@@ -876,13 +876,13 @@ router.get(
                     foundCandidates[i].pendingCertificates[j].evaluationTests[
                       k
                     ]._id.toString() === req.params.evaluationID.toString()
-                  ){
+                  ) {
                     candidates[count] =
                       foundCandidates[i].pendingCertificates[j].evaluationTests[
                         k
                       ].answer;
-                      count+=1
-                    }
+                    count += 1;
+                  }
           res.json({
             msg:
               "These are the candidates applying for the requested certificate and the requested evaluation",
@@ -909,9 +909,13 @@ router.get(
       Consultancy.find({}, function(err, foundConsultancies) {
         if (!err) {
           let consultancies = [];
-          let count=0;
+          let count = 0;
           for (i = 0; i < foundConsultancies.length; i++)
-            for (j = 0; j < foundConsultancies[i].pendingCertificates.length; j++)
+            for (
+              j = 0;
+              j < foundConsultancies[i].pendingCertificates.length;
+              j++
+            )
               if (
                 foundConsultancies[i].pendingCertificates[j]._id.toString() ===
                 req.params.certificateID.toString()
@@ -924,15 +928,16 @@ router.get(
                   k++
                 )
                   if (
-                    foundConsultancies[i].pendingCertificates[j].evaluationTests[
-                      k
-                    ]._id.toString() === req.params.evaluationID.toString()
+                    foundConsultancies[i].pendingCertificates[
+                      j
+                    ].evaluationTests[k]._id.toString() ===
+                    req.params.evaluationID.toString()
                   )
                     consultancies[count] =
-                    foundConsultancies[i].pendingCertificates[j].evaluationTests[
-                        k
-                      ].answer;
-                      count+=1
+                      foundConsultancies[i].pendingCertificates[
+                        j
+                      ].evaluationTests[k].answer;
+          count += 1;
           res.json({
             msg:
               "These are the candidates applying for the requested certificate and the requested evaluation",
@@ -1401,22 +1406,19 @@ router.get(
     try {
       Report.findById(req.params.reportID, function(err, foundReport) {
         if (!err)
-        return(
-          res.json({
+          return res.json({
             msg: "Report information",
             data: foundReport
-          }));
+          });
         else
-        return(
-          res.json({
+          return res.json({
             error: err.message
-          }));
+          });
       });
     } catch (error) {
-      return(
-      res.json({
+      return res.json({
         error: error.message
-      }));
+      });
     }
   }
 );

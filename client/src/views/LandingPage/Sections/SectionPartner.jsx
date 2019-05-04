@@ -35,7 +35,7 @@ class SectionPartner extends React.Component {
     const cookies = new Cookies();
     const token = cookies.get("token");
     const usertype = cookies.get("usertype");
-    if (token !== "null") {
+    if (token !== "undefined") {
       if (usertype !== "partner") {
         alert("Only partners are allowed to submit new projects!");
         window.location.replace("/");

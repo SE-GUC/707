@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 import axios from "axios";
 export default class createReport extends Component {
   constructor(props) {
@@ -9,7 +9,7 @@ export default class createReport extends Component {
     this.onChangeContent = this.onChangeContent.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
-        temp:"",
+      temp: "",
       title: "",
       interests: [],
       content: ""
@@ -32,8 +32,8 @@ export default class createReport extends Component {
     });
   }
   onSubmit(e) {
-    const cookies= new Cookies();
-         const token= cookies.get('token');
+    const cookies = new Cookies();
+    const token = cookies.get("token");
     e.preventDefault();
     console.log(`Form submitted:`);
     console.log(`Title: ${this.state.title}`);
@@ -41,20 +41,21 @@ export default class createReport extends Component {
     console.log(`Content: ${this.state.content}`);
     const announc = {
       title: this.state.title,
-      interests: this.state.temp.split(','),
+      interests: this.state.temp.split(","),
       Content: this.state.content
       //todo_completed: this.state.todo_completed
     };
     console.log(announc);
-    axios.post(
-        "http://localhost:5000/api/consultancies/report",announc,{  headers: { Authorization: token}}
-      )
+    axios
+      .post("http://localhost:5000/api/consultancies/report", announc, {
+        headers: { Authorization: token }
+      })
       .then(res => console.log(res.data));
     this.setState({
       title: "",
       interests: [],
       Content: "",
-      temp:""
+      temp: ""
     });
   }
   render() {
@@ -89,7 +90,7 @@ export default class createReport extends Component {
               onChange={this.onChangeContent}
             />
           </div>
-          
+
           <div className="form-group">
             <input
               type="submit"

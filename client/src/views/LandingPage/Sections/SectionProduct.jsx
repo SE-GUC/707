@@ -21,8 +21,8 @@ class SectionProduct extends React.Component {
               New way of free-lancing exprience!
             </h2>
             <h5 className={classes.description}>
-              This is the paragraph where we can write more details about
-              our website.
+              This is the paragraph where we can write more details about our
+              website.
             </h5>
           </GridItem>
         </GridContainer>

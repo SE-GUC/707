@@ -79,9 +79,7 @@ class SectionContact extends React.Component {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <FormControl className={classes.form} fullWidth={true}>
-                    <InputLabel>
-                      Your email...
-                    </InputLabel>
+                    <InputLabel>Your email...</InputLabel>
                     <Input
                       id="email"
                       type="email"

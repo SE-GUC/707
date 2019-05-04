@@ -204,7 +204,7 @@ class ProfilePage extends React.Component {
               ) : (
                 <SectionAdminInformation />
               )}
-                <SectionWorkflow />
+              <SectionWorkflow />
             </div>
           </div>
         </div>

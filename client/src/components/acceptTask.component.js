@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
-const axios = require("axios");
+import axios from "axios";
 export default class getconsultancy extends Component {
   constructor(props) {
     super(props);

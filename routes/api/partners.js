@@ -572,8 +572,7 @@ router.post(
                   },
                   {
                     $pull: {
-                      pendingProjects: {_id: req.params.projectID}
-
+                      pendingProjects: { _id: req.params.projectID }
                     },
                     $push: {
                       approvedProjects: foundProject
@@ -678,11 +677,10 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
-      const project= await(Project.findById(req.params.projectID))
-      const task= await(Task.findById(req.params.taskID))
-     
+      const project = await Project.findById(req.params.projectID);
+      const task = await Task.findById(req.params.taskID);
+
       if (project.status === "processing" && task.status === "RequireCandidate")
-      
         Task.findByIdAndUpdate(
           req.params.taskID,
           {
@@ -918,24 +916,26 @@ router.put(
       const projects = await Project.find({});
       var pendingProjects = [];
       var approvedProjects = [];
-      let count=0
+      let count = 0;
       for (i = 0; i < partner.pendingProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             partner.pendingProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          ){
+          ) {
             pendingProjects[count] = projects[j];
-            count+=1}
-      count=0      
+            count += 1;
+          }
+      count = 0;
       for (i = 0; i < partner.approvedProjects.length; i++)
         for (j = 0; j < projects.length; j++)
           if (
             partner.approvedProjects[i]._id.toString() ===
             projects[j]._id.toString()
-          ){
+          ) {
             approvedProjects[count] = projects[j];
-            count+=1}
+            count += 1;
+          }
       Partner.findByIdAndUpdate(
         req.id,
         {

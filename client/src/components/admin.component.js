@@ -51,13 +51,14 @@ export default class getadmin extends Component {
       );
   }
   updateinfo = () => {
+    let updated;
     if (this.state.password === "") {
-      var updated = {
+      updated = {
         name: this.state.name,
         email: this.state.email
       };
     } else {
-      var updated = {
+      updated = {
         name: this.state.name,
         email: this.state.email,
         password: this.state.password

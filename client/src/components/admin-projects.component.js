@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, NavLink } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Cookies from "universal-cookie";
 export default class projects extends Component {
@@ -16,10 +14,10 @@ export default class projects extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const usertype=cookies.get("usertype")
-    if(usertype !== "admin"){
-      alert("Invalid Access")
-      window.location.replace("/")
+    const usertype = cookies.get("usertype");
+    if (usertype !== "admin") {
+      alert("Invalid Access");
+      window.location.replace("/");
     }
     axios
       .get("http://localhost:5000/api/admins/projects", {
@@ -42,7 +40,6 @@ export default class projects extends Component {
         }
       })
       .then(res => {
-        const deletedProject = res.data.data;
         this.rerender(token);
       })
       .catch(e => {
@@ -197,7 +194,6 @@ export default class projects extends Component {
           </Table>
         </ul>
       );
-  
     else
       return (
         <ul>

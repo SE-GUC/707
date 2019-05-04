@@ -40,36 +40,33 @@ export default class getProjectbyID_Admin extends Component {
       });
   }
   onSubmit2(id) {
-
     const cookies = new Cookies();
 
-    const token= cookies.get('token');
+    const token = cookies.get("token");
 
-    console.log(token)
+    console.log(token);
 
-    axios.get('http://localhost:5000/api/admins/project/'+ id, { headers: {
-
-        Authorization: token}
-
+    axios
+      .get("http://localhost:5000/api/admins/project/" + id, {
+        headers: {
+          Authorization: token
+        }
       })
 
       .then(res => {
-
         const researches = res.data.data;
-        this.setState({projects:[researches]})
+        this.setState({ projects: [researches] });
         console.log(researches);
-        this.rerender2(token,id);
-
+        this.rerender2(token, id);
+      });
+  }
+  rerender2(token, id) {
+    axios
+      .get("http://localhost:5000/api/admins/project/" + id, {
+        headers: {
+          Authorization: token
+        }
       })
-
-}
-rerender2(token,id) {
-    axios.get('http://localhost:5000/api/admins/project/'+id, { headers: {
-
-        Authorization: token}
-
-      })
-
 
       .then(res => {
         const researches = [res.data.data];
@@ -77,11 +74,9 @@ rerender2(token,id) {
         this.setState({ researches });
 
         console.log(researches);
-
-      })
-
+      });
   }
-  
+
   viewTasks(projectID) {
     ReactDOM.render(
       <AdminTasks projectID={projectID} />,

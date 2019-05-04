@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import ReactDOM from "react-dom";
-import App from "../App.js";
-
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 export default class Loginuser extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +34,7 @@ export default class Loginuser extends Component {
     axios
       .post("http://localhost:5000/api/login", user)
       .then(res => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           this.setState({ redirect: true });
           cookies.set("token", res.data.data.token);
           if (res.data.data.user.usertype !== undefined)

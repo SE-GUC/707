@@ -13,59 +13,58 @@ export default class tasks extends Component {
   componentDidMount() {
     const cookies = new Cookies();
     const token = cookies.get("token");
-    const usertype= cookies.get("usertype");
-    if(usertype !== "candidate"){
-      alert("Invalid Access")
-      window.location.replace("/")
+    const usertype = cookies.get("usertype");
+    if (usertype !== "candidate") {
+      alert("Invalid Access");
+      window.location.replace("/");
     }
     axios
-      .get(
-        "http://localhost:5000/api/candidates/tasks" ,
-        {
-          headers: {
-            Authorization: token
-          }
+      .get("http://localhost:5000/api/candidates/tasks", {
+        headers: {
+          Authorization: token
         }
-      )
+      })
       .then(res => {
-          axios.get( "http://localhost:5000/api/candidates/pendingTasks",
-          {
+        axios
+          .get("http://localhost:5000/api/candidates/pendingTasks", {
             headers: {
               Authorization: token
             }
-          }).then(res1=>{
+          })
+          .then(res1 => {
             const tasks = res.data.data;
             const pendingTasks = res1.data.data;
-            const result = this.manageTasks(tasks,pendingTasks)
-            this.setState({ tasks: result });      
-          }).catch(e =>{
-            alert(e)
-        });
-        
-      }).catch(e =>{
-        alert(e)
-    });
-  }
-  manageTasks(tasks, pendingTasks){
-      const result=[]
-      tasks.forEach(element => {
-        element["buttonId"] = "notpending"
-          pendingTasks.forEach(pt => {
-              if(pt._id == element._id){
-                element["buttonId"] = "pending";
-                
-              }
+            const result = this.manageTasks(tasks, pendingTasks);
+            this.setState({ tasks: result });
           })
-          result.push(element)
+          .catch(e => {
+            alert(e);
+          });
+      })
+      .catch(e => {
+        alert(e);
       });
-        return result
+  }
+  manageTasks(tasks, pendingTasks) {
+    const result = [];
+    tasks.forEach(element => {
+      element["buttonId"] = "notpending";
+      pendingTasks.forEach(pt => {
+        if (pt._id === element._id) {
+          element["buttonId"] = "pending";
+        }
+      });
+      result.push(element);
+    });
+    return result;
   }
   onSubmitApply(id) {
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
       .post(
-        "http://localhost:5000/api/candidates/task/" + id,{},
+        "http://localhost:5000/api/candidates/task/" + id,
+        {},
         {
           headers: {
             Authorization: token
@@ -73,32 +72,29 @@ export default class tasks extends Component {
         }
       )
       .then(res => {
-          alert("Applied Successfully!")
-          window.location.reload()
-      }).catch(e =>{
-        alert(e)
-    });
+        alert("Applied Successfully!");
+        window.location.reload();
+      })
+      .catch(e => {
+        alert(e);
+      });
   }
   onSubmitDisapply(id) {
     const cookies = new Cookies();
     const token = cookies.get("token");
     axios
-      .delete(
-        "http://localhost:5000/api/candidates/task/" + id,
-        {
-          headers: {
-            Authorization: token
-          }
+      .delete("http://localhost:5000/api/candidates/task/" + id, {
+        headers: {
+          Authorization: token
         }
-      )
+      })
       .then(res => {
-          alert("Disapplied Successfully!")
-          window.location.reload()
-
+        alert("Disapplied Successfully!");
+        window.location.reload();
       });
   }
- 
-  render(){
+
+  render() {
     return (
       <ul>
         <Table responsive striped bordered hover variant="dark">
@@ -143,19 +139,19 @@ export default class tasks extends Component {
                 <td>{task.deadline}</td>
                 <td>{task.status}</td>
                 <td>{task.candidateRole}</td>
-                
 
                 <td>
                   {" "}
                   <input
-                type="button"
-                className="btn btn-primary"
-                onClick={task.buttonId === "pending"? this.onSubmitDisapply.bind(this, task._id) : 
-                this.onSubmitApply.bind(this, task._id)}
-                value = {task.buttonId === "pending"? "Disapply" : 
-                "Apply"}
-              >
-              </input>
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={
+                      task.buttonId === "pending"
+                        ? this.onSubmitDisapply.bind(this, task._id)
+                        : this.onSubmitApply.bind(this, task._id)
+                    }
+                    value={task.buttonId === "pending" ? "Disapply" : "Apply"}
+                  />
                 </td>
               </tr>
             </tbody>
@@ -199,14 +195,14 @@ export default class tasks extends Component {
   //               <li>{requiredSkills}</li>
   //             ))}
   //             <br />
-             
+
   //             <br />
   //             <input
   //               type="button"
   //               className="btn btn-primary"
-  //               onClick={task.buttonId === "pending"? this.onSubmitDisapply.bind(this, task._id) : 
+  //               onClick={task.buttonId === "pending"? this.onSubmitDisapply.bind(this, task._id) :
   //               this.onSubmitApply.bind(this, task._id)}
-  //               value = {task.buttonId === "pending"? "Disapply" : 
+  //               value = {task.buttonId === "pending"? "Disapply" :
   //               "Apply"}
   //             >
   //             </input>

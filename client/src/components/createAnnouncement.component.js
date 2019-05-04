@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 import axios from "axios";
 export default class createAnnouncement extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ export default class createAnnouncement extends Component {
     this.state = {
       title: "",
       type: "",
-      Content:""
+      Content: ""
       //   todo_completed: false
     };
   }
@@ -31,8 +31,8 @@ export default class createAnnouncement extends Component {
     });
   }
   onSubmit(e) {
-    const cookies= new Cookies();
-         const token= cookies.get('token');
+    const cookies = new Cookies();
+    const token = cookies.get("token");
     e.preventDefault();
     console.log(`Content: ${this.state.Content}`);
     const announc = {
@@ -42,9 +42,10 @@ export default class createAnnouncement extends Component {
       //todo_completed: this.state.todo_completed
     };
     console.log(announc);
-    axios.post(
-        "http://localhost:5000/api/admins/announcement",announc,{  headers: { Authorization: token}}
-      )
+    axios
+      .post("http://localhost:5000/api/admins/announcement", announc, {
+        headers: { Authorization: token }
+      })
       .then(res => alert("Created Successfully!"));
 
     this.setState({
@@ -85,7 +86,7 @@ export default class createAnnouncement extends Component {
               onChange={this.onChangeContent}
             />
           </div>
-          
+
           <div className="form-group">
             <input
               type="submit"

@@ -44,9 +44,10 @@ export default class tasks extends Component {
       )
       .then(res => {
         this.rerender(token);
-      }).catch(e =>{
-        alert(e)
-    });
+      })
+      .catch(e => {
+        alert(e);
+      });
   }
   rerender(token) {
     axios
@@ -62,14 +63,15 @@ export default class tasks extends Component {
       .then(res => {
         const tasks = res.data.data;
         this.setState({ tasks });
-      }).catch(e =>{
-        alert(e)
-    });
+      })
+      .catch(e => {
+        alert(e);
+      });
   }
 
-  render(){
-return(
-  <ul>
+  render() {
+    return (
+      <ul>
         <Table responsive striped bordered hover variant="dark">
           <thead>
             <tr>
@@ -126,7 +128,6 @@ return(
                   ))}
                 </td>
 
-               
                 <td>
                   {" "}
                   <button
@@ -142,72 +143,71 @@ return(
           ))}
         </Table>
       </ul>
-);
-
+    );
   }
-//   render() {
-//     if(!(this.state.tasks === []))
-//     return (
-//       <ul>
-//         {this.state.tasks.map(task => (
-//           <li>
-//             <p>
-//               Name: {task.name}
-//               <br />
-//               Description: {task.description}
-//               <br />
-//               Type: {task.type}
-//               <br />
-//               Deadline: {task.deadline}
-//               <br />
-//               Hours: {task.hours}
-//               <br />
-//               Min Credits/Hr: {task.minCreditsHour}
-//               <br />
-//               Max Credits/Hr: {task.maxCreditsHour}
-//               <br />
-//               Chosen Credit Hour: {task.chosenCreditHour}
-//               <br />
-//               Penalty: {task.creditsPenalty}
-//               <br />
-//               Years of Experience: {task.yearsOfExperience}
-//               <br />
-//               Contract Signed: {task.contractSigned}
-//               <br />
-//               Candidate Role: {task.candidateRole}
-//               <br />
-//               Required Skills:{" "}
-//               {task.requiredSkills.map(requiredSkills => (
-//                 <li>{requiredSkills}</li>
-//               ))}
-//               <br />
-//               Status: {task.status} <br />
-//               Life Cycle:{" "}
-//               {task.taskcycle.map(cycle => (
-//                 <li>
-//                   Description: {cycle.description}
-//                   <br />
-//                   Status: {cycle.status}
-//                   <br />
-//                   Percentage: {cycle.percentage}
-//                 </li>
-//               ))}
-//               <br />
-//               <button
-//                 type="button"
-//                 className="btn btn-danger"
-//                 onClick={this.onSubmit.bind(this, task._id)}
-//               >
-//                 Delete
-//               </button>
-//             </p>
-//           </li>
-//         ))}
-//       </ul>
-//     )
-//     else
-//       return(
-//       <p>NO TASKS FOR THIS PROJECT</p>
-//      )
-//   }
+  //   render() {
+  //     if(!(this.state.tasks === []))
+  //     return (
+  //       <ul>
+  //         {this.state.tasks.map(task => (
+  //           <li>
+  //             <p>
+  //               Name: {task.name}
+  //               <br />
+  //               Description: {task.description}
+  //               <br />
+  //               Type: {task.type}
+  //               <br />
+  //               Deadline: {task.deadline}
+  //               <br />
+  //               Hours: {task.hours}
+  //               <br />
+  //               Min Credits/Hr: {task.minCreditsHour}
+  //               <br />
+  //               Max Credits/Hr: {task.maxCreditsHour}
+  //               <br />
+  //               Chosen Credit Hour: {task.chosenCreditHour}
+  //               <br />
+  //               Penalty: {task.creditsPenalty}
+  //               <br />
+  //               Years of Experience: {task.yearsOfExperience}
+  //               <br />
+  //               Contract Signed: {task.contractSigned}
+  //               <br />
+  //               Candidate Role: {task.candidateRole}
+  //               <br />
+  //               Required Skills:{" "}
+  //               {task.requiredSkills.map(requiredSkills => (
+  //                 <li>{requiredSkills}</li>
+  //               ))}
+  //               <br />
+  //               Status: {task.status} <br />
+  //               Life Cycle:{" "}
+  //               {task.taskcycle.map(cycle => (
+  //                 <li>
+  //                   Description: {cycle.description}
+  //                   <br />
+  //                   Status: {cycle.status}
+  //                   <br />
+  //                   Percentage: {cycle.percentage}
+  //                 </li>
+  //               ))}
+  //               <br />
+  //               <button
+  //                 type="button"
+  //                 className="btn btn-danger"
+  //                 onClick={this.onSubmit.bind(this, task._id)}
+  //               >
+  //                 Delete
+  //               </button>
+  //             </p>
+  //           </li>
+  //         ))}
+  //       </ul>
+  //     )
+  //     else
+  //       return(
+  //       <p>NO TASKS FOR THIS PROJECT</p>
+  //      )
+  //   }
 }

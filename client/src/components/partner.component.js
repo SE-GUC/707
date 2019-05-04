@@ -103,8 +103,9 @@ export default class getpartner extends Component {
     });
   };
   updateinfo = () => {
+    let updated;
     if (this.state.password === "") {
-      var updated = {
+      updated = {
         name: this.state.name,
         email: this.state.email,
         address: this.state.address,
@@ -112,11 +113,10 @@ export default class getpartner extends Component {
         occupation: this.state.occupation,
         contractSigned: this.state.contractSigned,
         contactNumbers: this.state.contactNumbers,
-        interests: this.state.interests,
-        contactNumbers: this.state.contactNumbers
+        interests: this.state.interests
       };
     } else {
-      var updated = {
+      updated = {
         name: this.state.name,
         email: this.state.email,
         address: this.state.address,
@@ -125,7 +125,6 @@ export default class getpartner extends Component {
         contractSigned: this.state.contractSigned,
         contactNumbers: this.state.contactNumbers,
         interests: this.state.interests,
-        contactNumbers: this.state.contactNumbers,
         password: this.state.password
       };
     }

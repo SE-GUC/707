@@ -62,7 +62,6 @@ export default class createProject extends Component {
   }
 
   render() {
-    
     return (
       <div style={{ marginTop: 10 }}>
         <h3>Create Project</h3>

@@ -16,7 +16,7 @@ function HeaderLinks({ ...props }) {
   const { classes } = props;
   const cookies = new Cookies();
   const token = cookies.get("token");
-  if (token === "null")
+  if (token === undefined || token === "undefined")
     return (
       <List className={classes.list}>
         <ListItem className={classes.listItem}>
@@ -73,8 +73,8 @@ function HeaderLinks({ ...props }) {
               className={classes.navLink}
               onClick={() => {
                 const cookies = new Cookies();
-                cookies.set("token", null);
-                cookies.set("usertype", null);
+                cookies.set("token", undefined);
+                cookies.set("usertype", undefined);
                 alert("You have successfully logged out!");
                 window.location.replace("/");
               }}

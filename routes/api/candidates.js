@@ -1092,22 +1092,24 @@ router.put(
       const tasks = await Task.find({});
       let pendingTasks = [];
       let approvedTasks = [];
-      let count = 0
+      let count = 0;
       for (i = 0; i < candidate.pendingTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
-          if (candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()){
+          if (
+            candidate.pendingTasks[i]._id.toString() === tasks[j]._id.toString()
+          ) {
             pendingTasks[count] = tasks[j];
-            count += 1
+            count += 1;
           }
-      count = 0
+      count = 0;
       for (i = 0; i < candidate.approvedTasks.length; i++)
         for (j = 0; j < tasks.length; j++)
           if (
             candidate.approvedTasks[i]._id.toString() ===
             tasks[j]._id.toString()
-          ){
+          ) {
             approvedTasks[count] = tasks[j];
-            count += 1
+            count += 1;
           }
       Candidate.findByIdAndUpdate(
         req.id,
@@ -1146,24 +1148,26 @@ router.put(
       const certificates = await Certificate.find({});
       let pendingCertificates = [];
       let acquiredCertificates = [];
-      let count = 0
+      let count = 0;
       for (i = 0; i < candidate.pendingCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             candidate.pendingCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          ){
+          ) {
             pendingCertificates[count] = certificates[j];
-            count+=1}
-      count = 0
+            count += 1;
+          }
+      count = 0;
       for (i = 0; i < candidate.acquiredCertificates.length; i++)
         for (j = 0; j < certificates.length; j++)
           if (
             candidate.acquiredCertificates[i]._id.toString() ===
             certificates[j]._id.toString()
-          ){
+          ) {
             acquiredCertificates[count] = certificates[j];
-            count+=1}
+            count += 1;
+          }
       Candidate.findByIdAndUpdate(
         req.id,
         {

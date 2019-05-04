@@ -2,176 +2,183 @@ import axios from "axios";
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
 export default class addtaskinproject extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          name: "",
-          description:"",
-          type:"",
-          deadline:"",
-          hours:"",
-          minCreditsHour: "",
-          maxCreditsHour: "",
-          creditsPenalty: "",
-          yearsOfExperience: "",
-          candidateRole: "",
-          contractSigned: "",
-          requiredSkills: ""
-        };
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      description: "",
+      type: "",
+      deadline: "",
+      hours: "",
+      minCreditsHour: "",
+      maxCreditsHour: "",
+      creditsPenalty: "",
+      yearsOfExperience: "",
+      candidateRole: "",
+      contractSigned: "",
+      requiredSkills: ""
+    };
+  }
 
-      namechanged = e => {
-          this.setState({
-            name: e.target.value
-          });
+  namechanged = e => {
+    this.setState({
+      name: e.target.value
+    });
+  };
+
+  descriptionchanged = e => {
+    this.setState({
+      description: e.target.value
+    });
+  };
+
+  typechanged = e => {
+    this.setState({
+      type: e.target.value
+    });
+  };
+
+  deadlinechanged = e => {
+    this.setState({
+      deadline: e.target.value
+    });
+  };
+
+  hourschanged = e => {
+    this.setState({
+      hours: e.target.value
+    });
+  };
+  minCreditsHourchanged = e => {
+    this.setState({
+      minCreditsHour: e.target.value
+    });
+  };
+  maxCreditsHourchanged = e => {
+    this.setState({
+      maxCreditsHour: e.target.value
+    });
+  };
+  creditsPenaltychanged = e => {
+    this.setState({
+      creditsPenalty: e.target.value
+    });
+  };
+  yearsOfExperiencechanged = e => {
+    this.setState({
+      yearsOfExperience: e.target.value
+    });
+  };
+  candidateRolechanged = e => {
+    this.setState({
+      candidateRole: e.target.value
+    });
+  };
+  contractSignedchanged = e => {
+    this.setState({
+      contractSigned: e.target.value
+    });
+  };
+  creditsPenaltychanged = e => {
+    this.setState({
+      creditsPenalty: e.target.value
+    });
+  };
+
+  requiredSkillschanged = e => {
+    var requiredSkill = e.target.value.split(",");
+    this.setState({
+      requiredSkills: requiredSkill
+    });
+  };
+
+  addtask = e => {
+    e.preventDefault();
+    const cookies = new Cookies();
+    const token = cookies.get("token");
+    const { project } = this.props.match.params;
+    let task;
+    if (this.state.requiredSkills === "") {
+      task = {
+        name: this.state.name,
+        description: this.state.description,
+        type: this.state.type,
+        deadline: this.state.deadline,
+        hours: this.state.hours,
+        minCreditsHour: this.state.minCreditsHour,
+        maxCreditsHour: this.state.maxCreditsHour,
+        creditsPenalty: this.state.creditsPenalty,
+        yearsOfExperience: this.state.yearsOfExperience,
+        candidateRole: this.state.candidateRole,
+        contractSigned: Boolean(this.state.contractSigned)
       };
-
-      descriptionchanged = e => {
-        this.setState({
-            description: e.target.value
-        });
-    };
-
-    typechanged = e => {
-        this.setState({
-            type: e.target.value
-        });
-    };
-
-    deadlinechanged = e => {
-        this.setState({
-            deadline: e.target.value
-        });
-    };
-
-    hourschanged = e => {
-        this.setState({
-            hours: e.target.value
-        });
-    };
-    minCreditsHourchanged = e => {
-        this.setState({
-            minCreditsHour: e.target.value
-        });
-    };
-    maxCreditsHourchanged = e => {
-        this.setState({
-            maxCreditsHour: e.target.value
-        });
-    };
-    creditsPenaltychanged = e => {
-        this.setState({
-            creditsPenalty: e.target.value
-        });
-    };
-    yearsOfExperiencechanged = e => {
-        this.setState({
-            yearsOfExperience: e.target.value
-        });
-    };
-    candidateRolechanged = e => {
-        this.setState({
-            candidateRole: e.target.value
-        });
-    };
-    contractSignedchanged = e => {
-        this.setState({
-            contractSigned: e.target.value
-        });
-    };
-    creditsPenaltychanged = e => {
-        this.setState({
-            creditsPenalty: e.target.value
-        });
-    };
-
-    requiredSkillschanged = e => {
-        var requiredSkill = e.target.value.split(",");
-        this.setState({
-            requiredSkills: requiredSkill
-        });
+    } else {
+      task = {
+        name: this.state.name,
+        description: this.state.description,
+        type: this.state.type,
+        deadline: this.state.deadline,
+        hours: this.state.hours,
+        minCreditsHour: this.state.minCreditsHour,
+        maxCreditsHour: this.state.maxCreditsHour,
+        creditsPenalty: this.state.creditsPenalty,
+        yearsOfExperience: this.state.yearsOfExperience,
+        candidateRole: this.state.candidateRole,
+        contractSigned: Boolean(this.state.contractSigned),
+        requiredSkills: this.state.requiredSkills
       };
-
-      addtask = (e) => {
-          e.preventDefault();
-        const cookies = new Cookies();
-        const token = cookies.get("token");
-        const {project}=this.props.match.params
-        if(this.state.requiredSkills===""){
-          var task={
-            name:this.state.name,
-            description:this.state.description,
-          type:this.state.type,
-          deadline:this.state.deadline,
-          hours:this.state.hours,
-          minCreditsHour: this.state.minCreditsHour,
-          maxCreditsHour: this.state.maxCreditsHour,
-          creditsPenalty: this.state.creditsPenalty,
-          yearsOfExperience: this.state.yearsOfExperience,
-          candidateRole: this.state.candidateRole,
-          contractSigned: Boolean(this.state.contractSigned),
-        }
-      }
-        else{
-        var task={
-            name:this.state.name,
-            description:this.state.description,
-          type:this.state.type,
-          deadline:this.state.deadline,
-          hours:this.state.hours,
-          minCreditsHour: this.state.minCreditsHour,
-          maxCreditsHour: this.state.maxCreditsHour,
-          creditsPenalty: this.state.creditsPenalty,
-          yearsOfExperience: this.state.yearsOfExperience,
-          candidateRole: this.state.candidateRole,
-          contractSigned: Boolean(this.state.contractSigned),
-          requiredSkills: this.state.requiredSkills
-        }
-      }
-        axios
-          .post("http://localhost:5000/api/consultancies/project/tasks/"+{project}.project,task,{
-            headers: {
-              Authorization: token
-            }
-          })
-          .then(alert("Task is added")
-        );
-        this.setState({
-            name: "",
-          description:"",
-          type:"",
-          deadline:"",
-          hours:"",
-          minCreditsHour: "",
-          maxCreditsHour: "",
-          creditsPenalty: "",
-          yearsOfExperience: "",
-          candidateRole: "",
-          contractSigned: "",
-          requiredSkills: ""
-        })
-        axios
-        .put("http://localhost:5000/api/consultancies/update/projects",{},{
+    }
+    axios
+      .post(
+        "http://localhost:5000/api/consultancies/project/tasks/" +
+          { project }.project,
+        task,
+        {
           headers: {
             Authorization: token
           }
-        })
-
-      };
+        }
+      )
+      .then(alert("Task is added"));
+    this.setState({
+      name: "",
+      description: "",
+      type: "",
+      deadline: "",
+      hours: "",
+      minCreditsHour: "",
+      maxCreditsHour: "",
+      creditsPenalty: "",
+      yearsOfExperience: "",
+      candidateRole: "",
+      contractSigned: "",
+      requiredSkills: ""
+    });
+    axios.put(
+      "http://localhost:5000/api/consultancies/update/projects",
+      {},
+      {
+        headers: {
+          Authorization: token
+        }
+      }
+    );
+  };
 
   render() {
-    {const cookies = new Cookies();
+    {
+      const cookies = new Cookies();
       const usertype = cookies.get("usertype");
-      if(usertype !== "consultancy"){
-      alert("Invalid access");
-      window.location.replace("/");
-    }}
+      if (usertype !== "consultancy") {
+        alert("Invalid access");
+        window.location.replace("/");
+      }
+    }
     return (
-      
       <div style={{ marginTop: 10 }}>
         <h3>Insert Task Info</h3>
         <form onSubmit={this.onSubmit}>
-        <div className="form-group">
+          <div className="form-group">
             <label>Name: </label>
             <input
               type="text"
@@ -287,9 +294,6 @@ export default class addtaskinproject extends Component {
               onClick={this.addtask}
             />
           </div>
-        
-        
-        
         </form>
       </div>
     );

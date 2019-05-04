@@ -106,28 +106,27 @@ export default class getconsultancy extends Component {
     });
   };
   updateinfo = () => {
+    let updated;
     if (this.state.password === "") {
-      var updated = {
+      updated = {
         name: this.state.name,
         email: this.state.email,
         address: this.state.address,
         contractSigned: this.state.contractSigned,
         contactNumbers: this.state.contactNumbers,
         interests: this.state.interests,
-        contactNumbers: this.state.contactNumbers,
         establishmentDate: this.state.establishmentDate,
         profession: this.state.profession,
         yearsOfExperience: this.state.yearsOfExperience
       };
     } else {
-      var updated = {
+      updated = {
         name: this.state.name,
         email: this.state.email,
         address: this.state.address,
         contractSigned: this.state.contractSigned,
         contactNumbers: this.state.contactNumbers,
         interests: this.state.interests,
-        contactNumbers: this.state.contactNumbers,
         establishmentDate: this.state.establishmentDate,
         profession: this.state.profession,
         yearsOfExperience: this.state.yearsOfExperience,

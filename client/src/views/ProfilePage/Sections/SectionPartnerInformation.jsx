@@ -156,8 +156,8 @@ class SectionPartnerInformation extends React.Component {
           contractSigned: ""
         })
       );
-    cookies.set("token", null);
-    cookies.set("usertype", null);
+    cookies.set("token", undefined);
+    cookies.set("usertype", undefined);
     window.location.replace("/");
     alert("WE ARE SORRY TO HEAR YOU GO!");
   };
